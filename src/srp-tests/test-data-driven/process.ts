@@ -1,4 +1,5 @@
 import { createVerifierAndSalt, SRPClientSession, SRPParameters, SRPRoutines, SRPServerSession } from 'tssrp6a';
+import { steps } from './steps-data';
 
 // BigInt.prototype.toJSON = function() {
 //     const s = this.toString();
@@ -11,11 +12,13 @@ import { createVerifierAndSalt, SRPClientSession, SRPParameters, SRPRoutines, SR
 //     return this.toString();
 //   };
 
-window.PUPPETEER_PROMISE = new Promise(async resolve => {
+export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
 
-    const sq = document.getElementById("sequence-inner");
+    const sq = document.getElementById("sequence-inner")!;
 
-    window.TEST_PASSED = null;
+    let TEST_PASSED = null;
+
+    const resultsAcc: Record<string, any> = {};
 
     for (const step of steps) {
         if (step.end) {
@@ -23,9 +26,11 @@ window.PUPPETEER_PROMISE = new Promise(async resolve => {
             div.className = `code code-${step.end}`;
             div.innerHTML = step.code;
             sq.appendChild(div);
+
             if (!step.fakecode) {
                 try {
                     let result = await eval(`(async () => { ${step.code}\n; return ${step.return}; })()`);
+
                     let str = JSON.stringify(result, null, "  ");
                     if (typeof str === "string") {
                         const valueDiv = document.createElement("div");
@@ -33,14 +38,15 @@ window.PUPPETEER_PROMISE = new Promise(async resolve => {
                         valueDiv.innerText += `> ${step.return}: ` + str;
                         div.appendChild(valueDiv);
                     }
-                    if (result !== undefined) {
-                        window[step.return] = result;
+                    
+                    if (result && step.return) {
+                        resultsAcc[step.return] = result;
                     }
-                } catch (e) {
-                    div.innerText += `\n> ${e.toString()}`;
+                } catch (error) {
+                    div.innerText += `\n> ${(error as Error).toString()}`;
                     div.className += " code-error";
-                    console.error(e);
-                    window.TEST_PASSED = false;
+                    console.error(error);
+                    TEST_PASSED = false;
                 }
             }
         } else if (step.request || step.reply) {
@@ -55,6 +61,7 @@ window.PUPPETEER_PROMISE = new Promise(async resolve => {
             sq.appendChild(div);
         }
     }
-    resolve(window.TEST_PASSED);
+
+    resolve(TEST_PASSED);
 });
 
