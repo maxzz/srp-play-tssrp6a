@@ -12,6 +12,11 @@ import { steps } from './steps-data';
 //     return this.toString();
 //   };
 
+export type ProcessItem = {
+    className: string;
+    text: string;
+}
+
 export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
 
     const sequenceElm = document.getElementById("sequence-inner")!;
@@ -24,7 +29,7 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
         if (step.end) {
             const stepDivElm = document.createElement("div");
             stepDivElm.className = `code code-${step.end}`;
-            stepDivElm.innerHTML = step.code;
+            stepDivElm.innerHTML = step.code || '';
             sequenceElm.appendChild(stepDivElm);
 
             if (!step.fakecode) {
@@ -52,7 +57,7 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
         } else if (step.request || step.reply) {
             const div = document.createElement("div");
             div.className = `comms-${step.request ? "right" : "left"}`;
-            div.innerText = `${step.request || step.reply}(${step.send.join(", ")})`;
+            div.innerText = `${step.request || step.reply}(${(step.send || []).join(", ")})`;
             sequenceElm.appendChild(div);
         } else if (step.break) {
             const div = document.createElement("div");
@@ -64,4 +69,3 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
 
     resolve(TEST_PASSED);
 });
-

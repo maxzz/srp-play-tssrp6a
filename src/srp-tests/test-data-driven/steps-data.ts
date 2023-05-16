@@ -1,4 +1,15 @@
-export const steps = [
+type Step = {
+    break?: string;
+    end?: string;
+    code?: string;
+    fakecode?: boolean;
+    return?: string;
+    request?: string;
+    send?: string[];
+    reply?: string;
+}
+
+export const steps: Step[] = [
     {
       break: "Registration phase",
     },
