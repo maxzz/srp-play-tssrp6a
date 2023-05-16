@@ -16,6 +16,21 @@ export type ProcessItem = {
     className: string;
     text: string;
     items?: ProcessItem;
+};
+
+function* allSteps() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+export async function runStepsTest() {
+
+    for (const res of allSteps()) {
+        console.log('res', res);    
+    }
+    
+    return [];
 }
 
 export async function runSteps() {
@@ -28,6 +43,8 @@ export async function runSteps() {
 
     const resultsAcc: Record<string, any> = {};
 
+    const context = {};
+
     for (const step of steps) {
         if (step.end) {
 
@@ -39,6 +56,7 @@ export async function runSteps() {
             // sequenceElm.appendChild(stepDivElm);
             if (!step.fakecode) {
                 try {
+
                     let result = await eval(`(async () => { ${step.code}\n; return ${step.return}; })()`);
 
                     let str = JSON.stringify(result, null, 4);

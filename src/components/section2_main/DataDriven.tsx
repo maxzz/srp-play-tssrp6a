@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { buttonClasses } from '.';
-import { ProcessItem, runSteps } from '../../srp-tests';
+import { ProcessItem, runSteps, runStepsTest } from '../../srp-tests';
 
 export function DataDriven() {
     const [steps, setSteps] = useState<ProcessItem[]>([]);
     async function run() {
-        const results = await runSteps();
+        const results = await runStepsTest();
         setSteps(results);
+
+        // const results = await runSteps();
+        // setSteps(results);
     }
     return (
         <div className="p-4 text-sm space-y-4">
