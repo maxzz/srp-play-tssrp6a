@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { buttonClasses } from '.';
-import { ProcessItem, runSteps, runStepsTest } from '../../srp-tests';
+import { buttonClasses } from '..';
+import { ProcessItem, runSteps, runStepsTest } from './test-data-driven';
 
 export function DataDriven() {
     const [steps, setSteps] = useState<ProcessItem[]>([]);
