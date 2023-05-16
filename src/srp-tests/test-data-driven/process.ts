@@ -18,11 +18,11 @@ export type ProcessItem = {
     items?: ProcessItem;
 }
 
-export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
+export const PUPPETEER_PROMISE = new Promise<ProcessItem[] | boolean>(async (resolve) => {
 
     const sequenceElm = document.getElementById("sequence-inner")!;
 
-    let TEST_PASSED = null;
+    let TEST_PASSED: ProcessItem[] | boolean = [];
 
     const processItems: ProcessItem[] = [];
 
@@ -42,7 +42,7 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
                 try {
                     let result = await eval(`(async () => { ${step.code}\n; return ${step.return}; })()`);
 
-                    let str = JSON.stringify(result, null, "  ");
+                    let str = JSON.stringify(result, null, 4);
                     if (typeof str === "string") {
 
                         processItems.push({className: 'codevalue', text: `> ${step.return}: ` + str});
