@@ -21,7 +21,7 @@ export const steps: Step[] = [
       SRPClientSession,
       SRPParameters,
       SRPRoutines
-    } from "../dist/esm/index.js";`,
+    } from "tssrp6a";`,
       fakecode: true,
     },
     {

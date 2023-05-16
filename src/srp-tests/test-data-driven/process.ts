@@ -22,7 +22,7 @@ export async function runSteps() {
 
     const sequenceElm = document.getElementById("sequence-inner")!;
 
-    let rv: ProcessItem[] | boolean = [];
+    let rv: ProcessItem[] = [];
 
     const processItems: ProcessItem[] = [];
 
@@ -61,7 +61,8 @@ export async function runSteps() {
                     // stepDivElm.innerText += `\n> ${(error as Error).toString()}`;
                     // stepDivElm.className += " code-error";
                     console.error(error);
-                    rv = false;
+                    // rv = [];
+                    return [];
                 }
             }
         } else if (step.request || step.reply) {
