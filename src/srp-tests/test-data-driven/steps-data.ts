@@ -60,10 +60,12 @@ export const steps: Step[] = [
     `const v = saltAndVerifier.v;`,
       return: `v`
     },
+    //-------------------------
     {
       request: "signup",
       send: ["username", "s", "v"]
     },
+    //-------------------------
     {
       end: "server",
       code:
@@ -75,13 +77,14 @@ export const steps: Step[] = [
     {
       break: "Login phase",
     },
-    
+    //-------------------------
     {
       end: "browser",
       code:
     `const client = new SRPClientSession(new SRPRoutines(new SRPParameters()));`,
       return: `client`
     },
+    //-------------------------
     {
       end: "server",
       code:
@@ -89,25 +92,29 @@ export const steps: Step[] = [
       SRPParameters,
       SRPRoutines,
       SRPServerSession
-    } from "../dist/esm/index.js";`,
+    } from "tssrp6a";`,
       fakecode: true,
     },
+    //-------------------------
     {
       end: "browser",
       code:
     `const step1 = await client.step1(username, "passw0rd");`,
       return: `step1`
     },
+    //-------------------------
     {
       request: "challenge",
       send: ["username"]
     },
+    //-------------------------
     {
       end: "server",
       code:
     `const server = new SRPServerSession(new SRPRoutines(new SRPParameters()));`,
       return: `server`
     },
+    //-------------------------
     {
       end: "server",
       code:
@@ -128,10 +135,12 @@ export const steps: Step[] = [
     `const B = serverStep1.B;`,
       return: `B`
     },
+    //-------------------------
     {
       reply: "challenge",
       send: ["s", "B"]
     },
+    //-------------------------
     {
       end: "browser",
       code:
@@ -150,11 +159,12 @@ export const steps: Step[] = [
     `const M1 = step2.M1;`,
       return: `M1`
     },
-    
+    //-------------------------
     {
       request: "proof",
       send: ["A", "M1"]
     },
+    //-------------------------
     {
       end: "server",
       code:
@@ -162,10 +172,12 @@ export const steps: Step[] = [
     // client has logged in without sending password`,
       return: `M2`
     },
+    //-------------------------
     {
       reply: "proof",
       send: ["M2"],
     },
+    //-------------------------
     {
       end: "browser",
       code:
@@ -174,6 +186,7 @@ export const steps: Step[] = [
     // client has verified server`,
       return: `step3`
     },
+    //-------------------------
     {
       break: "Browser has logged in without sending password",
     },
