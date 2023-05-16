@@ -1,9 +1,12 @@
 type Step = {
-    break?: string;
-    end?: string;
-    code?: string;
+    phase?: string;
+
+    runAt?: 'browser' | 'server';
+
     fakecode?: boolean;
-    return?: string;
+    code?: string;
+    returnVars?: string;
+    
     request?: string;
     send?: string[];
     reply?: string;
@@ -12,38 +15,38 @@ type Step = {
 export const steps: Step[] = [
     //============================================
     {
-      break: "Registration phase",
+      phase: "Registration phase",
     },
     //============================================
     {
-      end: "browser",
+      runAt: "browser",
       code: `import {createVerifierAndSalt, SRPClientSession, SRPParameters, SRPRoutines} from "tssrp6a";`,
       fakecode: true,
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `const parameters = new SRPParameters(); const routines = new SRPRoutines(parameters);`,
-      return: 'routines',
+      returnVars: 'routines',
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `const username = "hello@world.org";`,
-      return: `username`
+      returnVars: `username`
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `let password = "passw0rd"; const saltAndVerifier = await createVerifierAndSalt(routines, username, password);`,
-      return: `saltAndVerifier`
+      returnVars: `saltAndVerifier`
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `const s = saltAndVerifier.s;`,
-      return: `s`
+      returnVars: `s`
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `const v = saltAndVerifier.v;`,
-      return: `v`
+      returnVars: `v`
     },
 
     //============================================
@@ -54,32 +57,32 @@ export const steps: Step[] = [
     //============================================
 
     {
-      end: "server",
+      runAt: "server",
       code: `/* save by id (username): salt (s), verifier (v) */ const db = {[username]: [s, v]};`,
-      return: 'db'
+      returnVars: 'db'
     },
 
     //============================================
     {
-      break: "Login phase",
+      phase: "Login phase",
     },
     //============================================
     {
-      end: "browser",
+      runAt: "browser",
       code: `const client = new SRPClientSession(new SRPRoutines(new SRPParameters()));`,
-      return: `client`
+      returnVars: `client`
     },
     //-------------------------
     {
-      end: "server",
+      runAt: "server",
       code: `import {SRPParameters, SRPRoutines, SRPServerSession} from "tssrp6a";`,
       fakecode: true,
     },
     //-------------------------
     {
-      end: "browser",
+      runAt: "browser",
       code: `const step1 = await client.step1(username, "passw0rd");`,
-      return: `step1`
+      returnVars: `step1`
     },
 
     //============================================
@@ -89,25 +92,25 @@ export const steps: Step[] = [
     },
     //============================================
     {
-      end: "server",
+      runAt: "server",
       code: `const server = new SRPServerSession(new SRPRoutines(new SRPParameters()));`,
-      return: `server`
+      returnVars: `server`
     },
     //-------------------------
     {
-      end: "server",
+      runAt: "server",
       code: `const [s, v] = db[username]; const serverStep1 = await server.step1(username, s, v);`,
-      return: `serverStep1`
+      returnVars: `serverStep1`
     },
     {
-      end: "server",
+      runAt: "server",
       code: `const s = serverStep1.s;`,
-      return: `s`
+      returnVars: `s`
     },
     {
-      end: "server",
+      runAt: "server",
       code: `const B = serverStep1.B;`,
-      return: `B`
+      returnVars: `B`
     },
     //-------------------------
     {
@@ -116,19 +119,19 @@ export const steps: Step[] = [
     },
     //-------------------------
     {
-      end: "browser",
+      runAt: "browser",
       code: `const step2 = await step1.step2(s, B);`,
-      return: `step2`
+      returnVars: `step2`
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `const A = step2.A;`,
-      return: `A`
+      returnVars: `A`
     },
     {
-      end: "browser",
+      runAt: "browser",
       code: `const M1 = step2.M1;`,
-      return: `M1`
+      returnVars: `M1`
     },
     //-------------------------
     {
@@ -137,9 +140,9 @@ export const steps: Step[] = [
     },
     //-------------------------
     {
-      end: "server",
+      runAt: "server",
       code: `const M2 = await serverStep1.step2(A, M1); /* client has logged in without sending password */`,
-      return: `M2`
+      returnVars: `M2`
     },
     //-------------------------
     {
@@ -148,12 +151,12 @@ export const steps: Step[] = [
     },
     //-------------------------
     {
-      end: "browser",
+      runAt: "browser",
       code: `const step3 = await step2.step3(M2); window.TEST_PASSED = window.TEST_PASSED === null ? true : window.TEST_PASSED; /* client has verified server */`,
-      return: `step3`
+      returnVars: `step3`
     },
     //-------------------------
     {
-      break: "Browser has logged in without sending password",
+      phase: "Browser has logged in without sending password",
     },
 ];

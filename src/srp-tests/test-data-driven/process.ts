@@ -29,7 +29,7 @@ export async function runStepsTest() {
     for (const res of allSteps()) {
         console.log('res', res);    
     }
-    
+
     return [];
 }
 
@@ -46,9 +46,9 @@ export async function runSteps() {
     const context = {};
 
     for (const step of steps) {
-        if (step.end) {
+        if (step.runAt) {
 
-            processItems.push({ className: `code code-${step.end}`, text: step.code || '' });
+            processItems.push({ className: `code code-${step.runAt}`, text: step.code || '' });
 
             // const stepDivElm = document.createElement("div");
             // stepDivElm.className = `code code-${step.end}`;
@@ -57,12 +57,12 @@ export async function runSteps() {
             if (!step.fakecode) {
                 try {
 
-                    let result = await eval(`(async () => { ${step.code}\n; return ${step.return}; })()`);
+                    let result = await eval(`(async () => { ${step.code}\n; return ${step.returnVars}; })()`);
 
                     let str = JSON.stringify(result, null, 4);
                     if (typeof str === "string") {
 
-                        processItems.push({ className: 'codevalue', text: `> ${step.return}: ` + str });
+                        processItems.push({ className: 'codevalue', text: `> ${step.returnVars}: ` + str });
 
                         // const valueDiv = document.createElement("div");
                         // valueDiv.className = "codevalue";
@@ -70,8 +70,8 @@ export async function runSteps() {
                         // stepDivElm.appendChild(valueDiv);
                     }
 
-                    if (result && step.return) {
-                        resultsAcc[step.return] = result;
+                    if (result && step.returnVars) {
+                        resultsAcc[step.returnVars] = result;
                     }
                 } catch (error) {
                     processItems.push({ className: 'code-error', text: `\n> ${(error as Error).toString()}` });
@@ -90,8 +90,8 @@ export async function runSteps() {
             // div.className = `comms-${step.request ? "right" : "left"}`;
             // div.innerText = `${step.request || step.reply}(${(step.send || []).join(", ")})`;
             // sequenceElm.appendChild(div);
-        } else if (step.break) {
-            processItems.push({ className: 'break', text: `${step.break}` });
+        } else if (step.phase) {
+            processItems.push({ className: 'break', text: `${step.phase}` });
 
             // const div = document.createElement("div");
             // div.className = "break";
