@@ -14,7 +14,7 @@ import { steps } from './steps-data';
 
 export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
 
-    const sq = document.getElementById("sequence-inner")!;
+    const sequenceElm = document.getElementById("sequence-inner")!;
 
     let TEST_PASSED = null;
 
@@ -22,10 +22,10 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
 
     for (const step of steps) {
         if (step.end) {
-            const div = document.createElement("div");
-            div.className = `code code-${step.end}`;
-            div.innerHTML = step.code;
-            sq.appendChild(div);
+            const stepDivElm = document.createElement("div");
+            stepDivElm.className = `code code-${step.end}`;
+            stepDivElm.innerHTML = step.code;
+            sequenceElm.appendChild(stepDivElm);
 
             if (!step.fakecode) {
                 try {
@@ -36,15 +36,15 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
                         const valueDiv = document.createElement("div");
                         valueDiv.className = "codevalue";
                         valueDiv.innerText += `> ${step.return}: ` + str;
-                        div.appendChild(valueDiv);
+                        stepDivElm.appendChild(valueDiv);
                     }
                     
                     if (result && step.return) {
                         resultsAcc[step.return] = result;
                     }
                 } catch (error) {
-                    div.innerText += `\n> ${(error as Error).toString()}`;
-                    div.className += " code-error";
+                    stepDivElm.innerText += `\n> ${(error as Error).toString()}`;
+                    stepDivElm.className += " code-error";
                     console.error(error);
                     TEST_PASSED = false;
                 }
@@ -53,12 +53,12 @@ export const PUPPETEER_PROMISE = new Promise(async (resolve) => {
             const div = document.createElement("div");
             div.className = `comms-${step.request ? "right" : "left"}`;
             div.innerText = `${step.request || step.reply}(${step.send.join(", ")})`;
-            sq.appendChild(div);
+            sequenceElm.appendChild(div);
         } else if (step.break) {
             const div = document.createElement("div");
             div.className = "break";
             div.innerText = `${step.break}`;
-            sq.appendChild(div);
+            sequenceElm.appendChild(div);
         }
     }
 
