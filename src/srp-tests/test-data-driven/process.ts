@@ -18,11 +18,11 @@ export type ProcessItem = {
     items?: ProcessItem;
 }
 
-export const PUPPETEER_PROMISE = new Promise<ProcessItem[] | boolean>(async (resolve) => {
+export async function runSteps() {
 
     const sequenceElm = document.getElementById("sequence-inner")!;
 
-    let TEST_PASSED: ProcessItem[] | boolean = [];
+    let rv: ProcessItem[] | boolean = [];
 
     const processItems: ProcessItem[] = [];
 
@@ -31,13 +31,12 @@ export const PUPPETEER_PROMISE = new Promise<ProcessItem[] | boolean>(async (res
     for (const step of steps) {
         if (step.end) {
 
-            processItems.push({className: `code code-${step.end}`, text: step.code || ''});
+            processItems.push({ className: `code code-${step.end}`, text: step.code || '' });
 
             // const stepDivElm = document.createElement("div");
             // stepDivElm.className = `code code-${step.end}`;
             // stepDivElm.innerHTML = step.code || '';
             // sequenceElm.appendChild(stepDivElm);
-
             if (!step.fakecode) {
                 try {
                     let result = await eval(`(async () => { ${step.code}\n; return ${step.return}; })()`);
@@ -45,36 +44,35 @@ export const PUPPETEER_PROMISE = new Promise<ProcessItem[] | boolean>(async (res
                     let str = JSON.stringify(result, null, 4);
                     if (typeof str === "string") {
 
-                        processItems.push({className: 'codevalue', text: `> ${step.return}: ` + str});
+                        processItems.push({ className: 'codevalue', text: `> ${step.return}: ` + str });
 
                         // const valueDiv = document.createElement("div");
                         // valueDiv.className = "codevalue";
                         // valueDiv.innerText += `> ${step.return}: ` + str;
                         // stepDivElm.appendChild(valueDiv);
                     }
-                    
+
                     if (result && step.return) {
                         resultsAcc[step.return] = result;
                     }
                 } catch (error) {
-                    processItems.push({className: 'code-error', text: `\n> ${(error as Error).toString()}`});
+                    processItems.push({ className: 'code-error', text: `\n> ${(error as Error).toString()}` });
 
                     // stepDivElm.innerText += `\n> ${(error as Error).toString()}`;
                     // stepDivElm.className += " code-error";
-
                     console.error(error);
-                    TEST_PASSED = false;
+                    rv = false;
                 }
             }
         } else if (step.request || step.reply) {
-            processItems.push({className: `comms-${step.request ? "right" : "left"}`, text: `${step.request || step.reply}(${(step.send || []).join(", ")})`});
+            processItems.push({ className: `comms-${step.request ? "right" : "left"}`, text: `${step.request || step.reply}(${(step.send || []).join(", ")})` });
 
             // const div = document.createElement("div");
             // div.className = `comms-${step.request ? "right" : "left"}`;
             // div.innerText = `${step.request || step.reply}(${(step.send || []).join(", ")})`;
             // sequenceElm.appendChild(div);
         } else if (step.break) {
-            processItems.push({className: 'break', text: `${step.break}`});
+            processItems.push({ className: 'break', text: `${step.break}` });
 
             // const div = document.createElement("div");
             // div.className = "break";
@@ -83,5 +81,5 @@ export const PUPPETEER_PROMISE = new Promise<ProcessItem[] | boolean>(async (res
         }
     }
 
-    resolve(TEST_PASSED);
-});
+    return rv;
+}
