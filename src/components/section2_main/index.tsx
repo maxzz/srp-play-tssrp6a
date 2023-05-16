@@ -1,16 +1,20 @@
 import { testAuthenticationSession } from "../../srp-tests";
 import { DataDriven } from "./DataDriven";
 
+export const buttonClasses = "px-3 py-1.5 bg-slate-100 border-state-300 border rounded shadow";
+
 export function Section2_Main() {
     return (
-        <div className="">
-            <div className="p-4 text-slate-800">
-                <button className="px-3 py-1.5 bg-slate-100 border-state-300 border rounded shadow" onClick={async () => { testAuthenticationSession(); }}>
+        <div className="text-sm text-slate-800 divide-y divide-solid divide-slate-300">
+            <div className="p-4">
+                <button className={buttonClasses} onClick={async () => { testAuthenticationSession(); }}>
                     Start
                 </button>
             </div>
 
             <DataDriven />
+
+            <div className=""></div>
         </div>
     );
 }
