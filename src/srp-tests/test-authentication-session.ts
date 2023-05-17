@@ -32,10 +32,10 @@ export async function testAuthenticationSession() {
     const srp6aClient_step2 = await srp6aClient.step2(salt, server.B);
 
     // servers checks client prove M1 and sends server prove M2 to client
-    const M2 = await server.step2(srp6aClient_step2.A, srp6aClient_step2.M1);
+    const serverM2 = await server.step2(srp6aClient_step2.A, srp6aClient_step2.M1);
 
     // client ensures server identity
-    await srp6aClient_step2.step3(M2);
+    await srp6aClient_step2.step3(serverM2);
 
     //
     const clientSharedKey = srp6aClient_step2.S;
@@ -44,5 +44,6 @@ export async function testAuthenticationSession() {
     const serverSharedKey = await server.sessionKey(srp6aClient_step2.A);
 
     console.log(`2: user:${testUsername}, password:${testPassword}, \nsalt: ${salt}`);
-    console.log({clientSharedKey, clientM1, serverSharedKey, M2});
+    console.log({clientM1, serverM2});
+    console.log({clientSharedKey, serverSharedKey});
 }
