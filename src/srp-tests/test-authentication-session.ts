@@ -37,5 +37,12 @@ export async function testAuthenticationSession() {
     // client ensures server identity
     await srp6aClient_step2.step3(M2);
 
+    //
+    const clientSharedKey = srp6aClient_step2.S;
+    const clientM1 = srp6aClient_step2.M1;
+
+    const serverSharedKey = await server.sessionKey(srp6aClient_step2.A);
+
     console.log(`2: user:${testUsername}, password:${testPassword}, \nsalt: ${salt}`);
+    console.log({clientSharedKey, clientM1, serverSharedKey, M2});
 }
