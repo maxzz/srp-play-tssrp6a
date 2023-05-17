@@ -12,7 +12,7 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' 
     const snap = useSnapshot(item, { sync: true });
     return (
         <input
-            className={classNames("px-2 py-1 w-full text-primary-800 bg-primary-50 dark:text-primary-300 dark:bg-primary-700 rounded-sm col-span-full @[300px]:col-span-1", inputFocusClasses)}
+            className={classNames("px-2 py-1 w-full text-primary-800 bg-primary-50 dark:text-primary-300 dark:bg-primary-700 rounded-sm", inputFocusClasses)}
             name={name}
             {...turnOffAutoComplete}
             {...rest}
@@ -22,7 +22,7 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' 
     );
 }
 
-const gridRowClasses = "grid grid-cols-2 @[300px]:grid-cols-[1.5rem_1fr_minmax(auto,130px)_20px] gap-0.5 items-center select-none @[300px]:gap-1";
+const gridRowClasses = "grid grid-cols-2 gap-0.5 items-center select-none";
 
 type MenuState = {
 
@@ -42,7 +42,7 @@ export function GridRows() {
     const items = clientUsersDb;
     const snap = useSnapshot(items);
     return (
-        <div className="@container pl-2 pr-[10px] pb-1 text-xs grid gap-y-1">
+        <div className="grid gap-y-1">
             {/* <TableHeader /> */}
 
             {snap.map((item, idx) => {
@@ -62,7 +62,7 @@ export function ClientServerSeparate() {
     async function run() {
     }
     return (
-        <div className="p-4 text-sm space-y-4">
+        <div className="max-w-[64ch] p-4 text-sm space-y-4">
             <button className={buttonClasses} onClick={async () => { run(); }}>
                 Start
             </button>

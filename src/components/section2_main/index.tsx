@@ -1,18 +1,21 @@
 import { testClientServerTogrther } from "../../srp-tests";
 import { ClientServerSeparate } from "./test-client-server-separate";
 
-export const buttonClasses = "px-3 py-1.5 bg-slate-100 border-state-300 border rounded shadow";
+export const buttonClasses = "px-3 py-1.5 bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-500 border rounded shadow";
 
 export function Section2_Main() {
     return (
-        <div className="text-sm text-slate-800 divide-y divide-solid divide-slate-300">
+        <div className="text-sm text-primary-800 dark:text-primary-300 divide-y divide-dotted divide-primary-300">
+
             <div className="p-4">
                 <button className={buttonClasses} onClick={async () => { testClientServerTogrther(); }}>
                     Start
                 </button>
             </div>
 
-            <ClientServerSeparate/>
+            <div className="">
+                <ClientServerSeparate />
+            </div>
 
             <div className=""></div>
         </div>

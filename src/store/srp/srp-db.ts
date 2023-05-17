@@ -12,14 +12,26 @@ export type ClientUser = {
 
 const initialClientUsersDb: ClientUser[] = [
     {
-        name: 'max',
-        password: 'pass',
+        name: 'Max',
+        password: 'Password',
 
         uuid: uuid.asRelativeNumber(),
     },
     {
-        name: 'max jr.',
-        password: 'pass jr.',
+        name: 'Tetyana',
+        password: 'Password Tetyana',
+
+        uuid: uuid.asRelativeNumber(),
+    },
+    {
+        name: 'Max Jr.',
+        password: 'Password Max Jr.',
+
+        uuid: uuid.asRelativeNumber(),
+    },
+    {
+        name: 'Thomas',
+        password: 'Password Thomas',
 
         uuid: uuid.asRelativeNumber(),
     },
