@@ -1,15 +1,6 @@
-import { SRPRoutines, createVerifierAndSalt, SRPClientSession, SRPServerSession, SRPParameters } from "tssrp6a";
-import { generateRandomString, stringToArrayBuffer } from "tssrp6a/dist/utils";
-
-const testParameters = new SRPParameters();
-
-class SRP6aRoutines extends SRPRoutines {
-    public computeIdentityHash(I: string, P: string): Promise<ArrayBuffer> {
-        return this.hash(stringToArrayBuffer(`${I}:${P}`));
-    }
-}
-
-const srp6aRoutines = new SRP6aRoutines(testParameters);
+import { createVerifierAndSalt, SRPClientSession, SRPServerSession } from "tssrp6a";
+import { generateRandomString } from "tssrp6a/dist/utils";
+import { srp6aRoutines } from "../store";
 
 export async function testClientServerTogrther() {
     const testUsername = generateRandomString(10);
