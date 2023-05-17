@@ -1,5 +1,4 @@
 import { testAuthenticationSession } from "../../srp-tests";
-//import { DataDriven } from "./DataDriven";
 
 export const buttonClasses = "px-3 py-1.5 bg-slate-100 border-state-300 border rounded shadow";
 
@@ -11,8 +10,6 @@ export function Section2_Main() {
                     Start
                 </button>
             </div>
-
-            {/* <DataDriven /> */}
 
             <div className=""></div>
         </div>
