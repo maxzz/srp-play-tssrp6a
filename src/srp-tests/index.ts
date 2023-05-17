@@ -1,1 +1,1 @@
-export * from './test-authentication-session';
+export * from './test-client-server-togrther';
