@@ -11,7 +11,7 @@ class SRP6aRoutines extends SRPRoutines {
 
 const srp6aRoutines = new SRP6aRoutines(testParameters);
 
-export async function testAuthenticationSession() {
+export async function testClientServerTogrther() {
     const testUsername = generateRandomString(10);
     const testPassword = generateRandomString(15);
 
