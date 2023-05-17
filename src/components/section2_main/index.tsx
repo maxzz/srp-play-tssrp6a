@@ -1,4 +1,5 @@
 import { testClientServerTogrther } from "../../srp-tests";
+import { ClientServerSeparate } from "./test-client-server-separate";
 
 export const buttonClasses = "px-3 py-1.5 bg-slate-100 border-state-300 border rounded shadow";
 
@@ -10,6 +11,8 @@ export function Section2_Main() {
                     Start
                 </button>
             </div>
+
+            <ClientServerSeparate/>
 
             <div className=""></div>
         </div>
