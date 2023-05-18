@@ -1,4 +1,3 @@
-import { proxy } from "valtio";
 import { uuid } from "../../utils";
 
 // Client
@@ -10,7 +9,7 @@ export type ClientUser = {
     uuid: number; // local data for React UI only
 };
 
-const initialClientUsersDb: ClientUser[] = [
+export const initialClientUsersDb = (): ClientUser[] => [
     {
         name: 'Max',
         password: 'Password',
@@ -37,7 +36,7 @@ const initialClientUsersDb: ClientUser[] = [
     },
 ];
 
-export const clientUsersDb = proxy(initialClientUsersDb);
+//export const clientUsersDb = proxy(initialClientUsersDb);
 
 // Server
 
@@ -46,4 +45,4 @@ export type ServerUser = {
     verifier: bigint;
 };
 
-export const serverUsersDb = proxy<ServerUser[]>([]);
+//export const serverUsersDb = proxy<ServerUser[]>([]);

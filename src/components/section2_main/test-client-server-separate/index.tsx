@@ -1,10 +1,13 @@
 import { Fragment, InputHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
 import { buttonClasses } from "..";
-import { ClientUser, clientUsersDb } from "@/store";
+import { ClientUser, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 
-export const inputClasses = "px-2 py-1.5 w-full text-primary-800 dark:text-primary-300 bg-primary-100 dark:bg-primary-700 rounded";
+export const inputClasses = [
+    "px-2 py-1.5 w-full rounded",
+    "text-primary-800 dark:text-primary-300 bg-primary-100 dark:bg-primary-700",
+].join(' ');
 export const inputFocusClasses = "focus:ring-primary-600 dark:focus:ring-primary-400 focus:ring-offset-primary-200 dark:focus:ring-offset-primary-800 focus:ring-1 focus:ring-offset-1 focus:outline-none";
 export const dlgBottomButtonClasses = "hover:bg-primary-300 dark:hover:bg-primary-700 border-primary-500 active:scale-[.97] border rounded select-none disabled:opacity-25";
 
@@ -12,7 +15,7 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' 
     const snap = useSnapshot(item, { sync: true });
     return (
         <input
-            className={classNames("px-2 py-1 w-full text-primary-800 bg-primary-50 dark:text-primary-300 dark:bg-primary-700 rounded-sm", inputFocusClasses)}
+            className={classNames(inputClasses, inputFocusClasses)}
             name={name}
             {...turnOffAutoComplete}
             {...rest}
@@ -22,7 +25,7 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' 
     );
 }
 
-const gridRowClasses = "grid grid-cols-2 gap-0.5 items-center select-none";
+const gridRowClasses = "grid grid-cols-2 gap-x-1 items-center select-none";
 
 type MenuState = {
 
@@ -39,7 +42,7 @@ function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuStat
 }
 
 export function GridRows() {
-    const items = clientUsersDb;
+    const items = appUi.dataState.client.db;
     const snap = useSnapshot(items);
     return (
         <div className="grid gap-y-1">

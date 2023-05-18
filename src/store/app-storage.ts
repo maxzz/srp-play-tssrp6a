@@ -1,7 +1,7 @@
 import { proxy, subscribe } from 'valtio';
 import { setUiInitialState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
-import { ClientUser, ServerUser } from '.';
+import { ClientUser, ServerUser, initialClientUsersDb } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
 const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
@@ -32,7 +32,7 @@ const initialAppUi: AppUi = {
     },
     dataState: {
         client: {
-            db: [],
+            db: initialClientUsersDb(),
         },
         server: {
             db: [],
