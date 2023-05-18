@@ -1,6 +1,6 @@
 import { createVerifierAndSalt, SRPClientSession, SRPServerSession } from "tssrp6a";
 import { generateRandomString } from "tssrp6a/dist/utils";
-import { srp6aRoutines } from "../store";
+import { srp6aRoutines } from "@/store";
 
 export async function testClientServerTogrther() {
     const testUsername = generateRandomString(10);

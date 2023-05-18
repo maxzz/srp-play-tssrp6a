@@ -1,4 +1,4 @@
-import { testClientServerTogrther } from "../../srp-tests";
+import { testClientServerTogrther } from "./test-client-server-togrther";
 import { ClientServerSeparate } from "./test-client-server-separate";
 
 export const buttonClasses = "px-3 py-1.5 bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-500 border rounded shadow";
