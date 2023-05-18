@@ -1,8 +1,9 @@
-import { Fragment, InputHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
-import { buttonClasses } from "..";
 import { ClientUser, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
+import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
+import { buttonClasses } from "..";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -11,7 +12,7 @@ export const inputClasses = [
 export const inputFocusClasses = "focus:ring-primary-600 dark:focus:ring-primary-400 focus:ring-offset-primary-200 dark:focus:ring-offset-primary-800 focus:ring-1 focus:ring-offset-1 focus:outline-none";
 export const dlgBottomButtonClasses = "hover:bg-primary-300 dark:hover:bg-primary-700 border-primary-500 active:scale-[.97] border rounded select-none disabled:opacity-25";
 
-function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' | 'password' } & InputHTMLAttributes<HTMLInputElement>) {
+function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' | 'password'; } & InputHTMLAttributes<HTMLInputElement>) {
     const snap = useSnapshot(item, { sync: true });
     return (
         <input
@@ -25,18 +26,37 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' 
     );
 }
 
-const gridRowClasses = "grid grid-cols-2 gap-x-1 items-center select-none";
-
 type MenuState = {
 
+};
+
+const rowButtonClasses = [
+    "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97]",
+].join(' ');
+
+function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
+    return (
+        <button className={classNames("px-3 py-[7px] text-xs", rowButtonClasses, inputFocusClasses, className)} {...rest} />
+    );
 }
+
+function RowPopupMenu({ menuState }: { menuState: MenuState; }) {
+    return (
+        <div className="">
+            <RowButton>Login</RowButton>
+        </div>
+    );
+}
+
+const gridRowClasses = "grid grid-cols-[auto,1fr,1fr,auto] gap-x-1 items-center select-none";
 
 function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuState: MenuState; }) {
     return (
         <div className={gridRowClasses}>
+            <IconLoggedOut className="w-6 h-6 text-primary-500 stroke-1" />
             <RowItemInput item={item} name="name" />
             <RowItemInput item={item} name="password" />
-            {/* <RowPopupMenu menuState={menuState} /> */}
+            <RowPopupMenu menuState={menuState} />
         </div>
     );
 }
@@ -70,6 +90,7 @@ export function ClientServerSeparate() {
                 Start
             </button>
 
+            <div className="">Clients</div>
             <GridRows />
 
             {/* {steps.map((step) => (

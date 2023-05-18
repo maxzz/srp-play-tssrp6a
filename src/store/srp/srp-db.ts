@@ -5,6 +5,7 @@ export type ClientUser = {
     password: string;
 
     uuid: number; // local data for React UI only. initialized afted merge with localStorage data.
+    logged?: boolean;
 };
 
 export const initialClientUsersDb = (): ClientUser[] => [
