@@ -1,12 +1,10 @@
-import { uuid } from "../../utils";
-
 // Client
 
 export type ClientUser = {
     name: string;
     password: string;
 
-    uuid: number; // local data for React UI only
+    uuid: number; // local data for React UI only. initialized afted merge with localStorage data.
 };
 
 export const initialClientUsersDb = (): ClientUser[] => [
@@ -14,25 +12,25 @@ export const initialClientUsersDb = (): ClientUser[] => [
         name: 'Max',
         password: 'Password',
 
-        uuid: uuid.asRelativeNumber(),
+        uuid: 0,
     },
     {
         name: 'Tetyana',
         password: 'Password Tetyana',
 
-        uuid: uuid.asRelativeNumber(),
+        uuid: 0,
     },
     {
         name: 'Max Jr.',
         password: 'Password Max Jr.',
 
-        uuid: uuid.asRelativeNumber(),
+        uuid: 0,
     },
     {
         name: 'Thomas',
         password: 'Password Thomas',
 
-        uuid: uuid.asRelativeNumber(),
+        uuid: 0,
     },
 ];
 

@@ -1,6 +1,6 @@
 import { proxy, subscribe } from 'valtio';
 import { setUiInitialState } from './app-initial-state';
-import { mergeDefaultAndLoaded } from '../utils';
+import { mergeDefaultAndLoaded, uuid } from '../utils';
 import { ClientUser, ServerUser, initialClientUsersDb } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
@@ -65,7 +65,10 @@ function loadUiInitialState(): AppUi {
         }
     }
 
-    return mergeDefaultAndLoaded(storeState, initialAppUi);
+    const ready = mergeDefaultAndLoaded(storeState, initialAppUi);
+    ready.dataState.client.db.forEach((item) => item.uuid = uuid.asRelativeNumber());
+    
+    return ready;
 }
 
 subscribe(appUi.uiState, () => {
