@@ -53,7 +53,7 @@ const gridRowClasses = "grid grid-cols-[auto,1fr,1fr,auto] gap-x-1 items-center 
 function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuState: MenuState; }) {
     return (
         <div className={gridRowClasses}>
-            <IconLoggedOut className="w-6 h-6 text-primary-500 stroke-1" />
+            <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
             <RowItemInput item={item} name="name" />
             <RowItemInput item={item} name="password" />
             <RowPopupMenu menuState={menuState} />
