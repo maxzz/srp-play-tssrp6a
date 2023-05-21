@@ -1,13 +1,17 @@
-import { buttonClasses } from '@/components/section2_main';
-import { workerAtom } from '@/store';
+import { useEffect, useMemo } from 'react';
 import { useAtom } from 'jotai';
-import React, { useEffect, useMemo } from 'react';
+import { workerAtom } from '@/store';
+import { buttonClasses } from '@/components/section2_main';
+
+function createWorker() {
+    return new Worker(new URL('./web-worker-body.ts', import.meta.url));
+}
 
 export function WebWorkerClient() {
     const [worker, setWorker] = useAtom(workerAtom);
 
     useEffect(() => {
-        const w = new Worker(new URL('./web-worker-body.ts', import.meta.url));
+        const w = createWorker();
 
         w.postMessage('client: client started');
 
@@ -29,7 +33,7 @@ export function WebWorkerClient() {
                 prev.terminate();
                 return null;
             } else {
-                const w = new Worker(new URL('./web-worker-body.ts', import.meta.url));
+                const w = createWorker();
 
                 w.postMessage('client2: client started');
 
@@ -44,7 +48,7 @@ export function WebWorkerClient() {
 
     return (
         <div>
-            <button className={buttonClasses} onClick={onWorkerClick}>{worker ? 'Stop worker' : 'Start worker'}</button>
+            <button className={buttonClasses} onClick={onWorkerClick}>{worker ? 'Stop' : 'Start'}</button>
         </div>
     );
 }
