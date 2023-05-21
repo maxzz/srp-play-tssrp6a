@@ -1,17 +1,24 @@
+import { workerAtom } from '@/store';
+import { useAtom } from 'jotai';
 import React, { useEffect, useMemo } from 'react';
 
 export function WebWorkerClient() {
+    const [worker, setWorker] = useAtom(workerAtom);
+
     useEffect(() => {
-        const worker = new Worker(new URL('./web-worker-body.ts', import.meta.url));
+        const w = new Worker(new URL('./web-worker-body.ts', import.meta.url));
 
-        worker.postMessage('client: client started');
+        w.postMessage('client: client started');
 
-        worker.onmessage = (e: MessageEvent<string>) => {
+        w.onmessage = (e: MessageEvent<string>) => {
             console.log('client: message from worker', e);
         };
 
+        setWorker(w);
+
         return () => {
-            worker.terminate();
+            w.terminate();
+            setWorker(null);
         }
     }, []);
 
