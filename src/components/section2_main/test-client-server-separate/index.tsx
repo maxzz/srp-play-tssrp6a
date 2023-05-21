@@ -4,6 +4,7 @@ import { ClientUser, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
+import { WebWorkerClient } from "@/web-worker/WebWorkerClient";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -92,6 +93,11 @@ export function ClientServerSeparate() {
 
             <div className="">Clients</div>
             <GridRows />
+
+            <div className="">
+                <div className="">Worker</div>
+                <WebWorkerClient />
+            </div>
 
             {/* {steps.map((step) => (
                 <div className={`${step.className}`}>{step.text}</div>
