@@ -1,5 +1,5 @@
 self.onmessage = (e: MessageEvent<string>) => {
-    console.log('ee', e);
+    console.log('worker: message from client', e);
 
-    self.postMessage('from web-worker')
-}
+    self.postMessage('worker: to client');
+};
