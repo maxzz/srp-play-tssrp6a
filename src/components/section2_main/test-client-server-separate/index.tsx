@@ -4,7 +4,6 @@ import { ClientUser, appUi, workerAtom } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
-import { WebWorkerClient } from "@/web-worker/WebWorkerClient";
 import { useAtomValue } from "jotai";
 
 export const inputClasses = [
@@ -85,6 +84,7 @@ export function GridRows() {
 
 function WorkerHandlers() {
     const worker = useAtomValue(workerAtom);
+
     useEffect(() => {
         const handleMessages = (e: MessageEvent<string>) => {
             console.log('client: message from worker', e);
@@ -94,15 +94,13 @@ function WorkerHandlers() {
             worker.postMessage('client: client started');
 
             worker.addEventListener('message', handleMessages);
-        } else {
-            //???
         }
-    
-      return () => {
-        worker?.removeEventListener('message', handleMessages);
-      }
-    }, [worker])
-    
+        
+        return () => {
+            worker?.removeEventListener('message', handleMessages);
+        };
+    }, [worker]);
+
     return null;
 }
 
@@ -120,7 +118,7 @@ export function ClientServerSeparate() {
 
             <div className="">
                 <div className="">Worker</div>
-                <WebWorkerClient />
+                <WorkerHandlers />
             </div>
 
             {/* {steps.map((step) => (
