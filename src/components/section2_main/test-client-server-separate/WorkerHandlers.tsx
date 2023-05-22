@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useAtomValue } from "jotai";
-import { workerAtom } from "@/store";
+import { useAtomValue, useSetAtom } from "jotai";
+import { doCallWorkerStartLoginAtom, workerAtom } from "@/store";
 import { buttonClasses } from "..";
 
 export function WorkerHandlers() {
@@ -26,10 +26,10 @@ export function WorkerHandlers() {
 }
 
 export function WorkerLogin() {
-    const worker = useAtomValue(workerAtom);
+    const doCallWorkerStartLogin = useSetAtom(doCallWorkerStartLoginAtom);
     
     function onWorkerClick() {
-        worker.postMessage('any');
+        doCallWorkerStartLogin('aa');
     }
     
     return (
