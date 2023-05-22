@@ -11,15 +11,7 @@ export function WebWorkerClient() {
 
     useEffect(() => {
         const worker = createWorker();
-
-        worker.postMessage('client: client started');
-
-        worker.onmessage = (e: MessageEvent<string>) => {
-            console.log('client: message from worker', e);
-        };
-
         setWorker(worker);
-
         return () => {
             worker.terminate();
             setWorker(null);

@@ -1,10 +1,11 @@
-import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes, useEffect } from "react";
 import { useSnapshot } from "valtio";
-import { ClientUser, appUi } from "@/store";
+import { ClientUser, appUi, workerAtom } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
 import { WebWorkerClient } from "@/web-worker/WebWorkerClient";
+import { useAtomValue } from "jotai";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -80,6 +81,29 @@ export function GridRows() {
             })}
         </div>
     );
+}
+
+function WorkerHandlers() {
+    const worker = useAtomValue(workerAtom);
+    useEffect(() => {
+        const handleMessages = (e: MessageEvent<string>) => {
+            console.log('client: message from worker', e);
+        };
+
+        if (worker) {
+            worker.postMessage('client: client started');
+
+            worker.addEventListener('message', handleMessages);
+        } else {
+            //???
+        }
+    
+      return () => {
+        worker?.removeEventListener('message', handleMessages);
+      }
+    }, [worker])
+    
+    return null;
 }
 
 export function ClientServerSeparate() {
