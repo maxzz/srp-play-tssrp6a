@@ -1,10 +1,9 @@
-import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes, useEffect } from "react";
+import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
-import { ClientUser, appUi, workerAtom } from "@/store";
+import { ClientUser, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
-import { useAtomValue } from "jotai";
 import { WorkerHandlers, WorkerLogin } from "./WorkerHandlers";
 
 export const inputClasses = [
@@ -95,8 +94,8 @@ export function ClientServerSeparate() {
             <div className="">Clients</div>
             <GridRows />
 
-            <div className="">
-                <div className="">Worker</div>
+            <div className="pt-4">
+                <div className="mb-2">Worker</div>
                 <WorkerHandlers />
                 <WorkerLogin />
             </div>
