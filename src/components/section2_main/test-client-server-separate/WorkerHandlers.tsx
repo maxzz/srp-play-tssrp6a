@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { doCallWorkerStartLoginAtom, workerAtom } from "@/store";
+import { doCallWorkerAtom, workerAtom } from "@/store";
 import { buttonClasses } from "..";
 
 export function WorkerHandlers() {
@@ -12,7 +12,7 @@ export function WorkerHandlers() {
         };
 
         if (worker) {
-            worker.postMessage('client: client started');
+            //worker.postMessage('client: client started');
 
             worker.addEventListener('message', handleMessages);
         }
@@ -26,10 +26,10 @@ export function WorkerHandlers() {
 }
 
 export function WorkerLogin() {
-    const doCallWorkerStartLogin = useSetAtom(doCallWorkerStartLoginAtom);
+    const doCallWorkerStartLogin = useSetAtom(doCallWorkerAtom);
     
     function onWorkerClick() {
-        doCallWorkerStartLogin('aa');
+        doCallWorkerStartLogin({type: 'call-login', username: 'max', password: 'now'});
     }
     
     return (
