@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
 import { ClientUser, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
-import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
+import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
 import { WebServer } from "./WebServer";
 
@@ -82,6 +82,14 @@ export function GridRows() {
     );
 }
 
+function AddRowButton() {
+    return (
+        <button className={classNames("px-1.5", buttonClasses)}>
+            <IconAdd className="w-3 h-3" />
+        </button>
+    );
+}
+
 export function ClientServerSeparate() {
     async function run() {
     }
@@ -91,7 +99,7 @@ export function ClientServerSeparate() {
                 Start
             </button>
 
-            <div className="">Clients</div>
+            <div className="flex items-center space-x-2"><span>Clients</span> <AddRowButton /></div>
             <GridRows />
 
             <WebServer className="pt-4" />
