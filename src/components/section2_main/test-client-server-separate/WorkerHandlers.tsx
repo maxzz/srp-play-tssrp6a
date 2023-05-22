@@ -26,10 +26,10 @@ export function WorkerHandlers() {
 }
 
 export function WorkerLogin() {
-    const doCallWorkerStartLogin = useSetAtom(doCallWorkerAtom);
+    const doCallWorker = useSetAtom(doCallWorkerAtom);
     
     function onWorkerClick() {
-        doCallWorkerStartLogin({type: 'call-login', username: 'max', password: 'now'});
+        doCallWorker({type: 'call-login', username: 'max', password: 'now'});
     }
     
     return (
