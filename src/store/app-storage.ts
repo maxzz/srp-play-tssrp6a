@@ -66,6 +66,7 @@ function loadUiInitialState(): AppUi {
     }
 
     const ready = mergeDefaultAndLoaded(storeState, initialAppUi);
+    
     ready.dataState.client.db.forEach((item) => {
         item.uuid = uuid.asRelativeNumber();
         item.logged = false;

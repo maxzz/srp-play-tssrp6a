@@ -5,6 +5,7 @@ import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
 import { useAtomValue } from "jotai";
+import { WorkerHandlers, WorkerLogin } from "./WorkerHandlers";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -82,28 +83,6 @@ export function GridRows() {
     );
 }
 
-function WorkerHandlers() {
-    const worker = useAtomValue(workerAtom);
-
-    useEffect(() => {
-        const handleMessages = (e: MessageEvent<string>) => {
-            console.log('client: message from worker', e);
-        };
-
-        if (worker) {
-            worker.postMessage('client: client started');
-
-            worker.addEventListener('message', handleMessages);
-        }
-        
-        return () => {
-            worker?.removeEventListener('message', handleMessages);
-        };
-    }, [worker]);
-
-    return null;
-}
-
 export function ClientServerSeparate() {
     async function run() {
     }
@@ -119,6 +98,7 @@ export function ClientServerSeparate() {
             <div className="">
                 <div className="">Worker</div>
                 <WorkerHandlers />
+                <WorkerLogin />
             </div>
 
             {/* {steps.map((step) => (
