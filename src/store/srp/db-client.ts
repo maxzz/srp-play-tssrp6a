@@ -3,7 +3,7 @@ import { uuid } from "@/utils";
 // Client
 
 export type UserCreds = {
-    name: string;
+    username: string;
     password: string;
 };
 
@@ -16,25 +16,25 @@ export type ClientUser = UserCreds & UserState;
 
 export const initialClientUsersDb = (): ClientUser[] => [
     {
-        name: 'Max',
+        username: 'Max',
         password: 'Password',
 
         uuid: 0,
     },
     {
-        name: 'Tetyana',
+        username: 'Tetyana',
         password: 'Password Tetyana',
 
         uuid: 0,
     },
     {
-        name: 'Max Jr.',
+        username: 'Max Jr.',
         password: 'Password Max Jr.',
 
         uuid: 0,
     },
     {
-        name: 'Thomas',
+        username: 'Thomas',
         password: 'Password Thomas',
 
         uuid: 0,
@@ -48,9 +48,9 @@ export function initUiid(clients: ClientUser[]) {
     });
 }
 
-export function createNewLoginRow(name: string, password: string): ClientUser {
+export function createNewLoginRow({ username, password }: UserCreds): ClientUser {
     return {
-        name,
+        username,
         password,
         uuid: uuid.asRelativeNumber(),
     };
