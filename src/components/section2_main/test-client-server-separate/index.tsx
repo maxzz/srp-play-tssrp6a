@@ -84,7 +84,7 @@ export function GridRows() {
 
 function AddRowButton() {
     return (
-        <button className={classNames("px-1.5", buttonClasses)}>
+        <button className={classNames("px-1.5 py-1", buttonClasses)}>
             <IconAdd className="w-3 h-3" />
         </button>
     );

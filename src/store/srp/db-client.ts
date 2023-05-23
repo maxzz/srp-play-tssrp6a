@@ -1,3 +1,5 @@
+import { uuid } from "@/utils";
+
 // Client
 
 export type ClientUser = {
@@ -35,13 +37,19 @@ export const initialClientUsersDb = (): ClientUser[] => [
     },
 ];
 
+export function initUiid(clients: ClientUser[]) {
+    clients.forEach((item) => {
+        item.uuid = uuid.asRelativeNumber();
+        item.logged = false;
+    });
+}
+
+export function createNewLoginRow(name: string, password: string): ClientUser {
+    return {
+        name,
+        password,
+        uuid: uuid.asRelativeNumber(),
+    };
+}
+
 //export const clientUsersDb = proxy(initialClientUsersDb);
-
-// Server
-
-export type ServerUser = {
-    salt: bigint;
-    verifier: bigint;
-};
-
-//export const serverUsersDb = proxy<ServerUser[]>([]);

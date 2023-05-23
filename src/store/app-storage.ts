@@ -1,7 +1,7 @@
 import { proxy, subscribe } from 'valtio';
 import { setUiInitialState } from './app-initial-state';
-import { mergeDefaultAndLoaded, uuid } from '../utils';
-import { ClientUser, ServerUser, initialClientUsersDb } from './srp';
+import { mergeDefaultAndLoaded } from '../utils';
+import { ClientUser, ServerUser, initUiid, initialClientUsersDb } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
 const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
@@ -66,11 +66,8 @@ function loadUiInitialState(): AppUi {
     }
 
     const ready = mergeDefaultAndLoaded(storeState, initialAppUi);
-    
-    ready.dataState.client.db.forEach((item) => {
-        item.uuid = uuid.asRelativeNumber();
-        item.logged = false;
-    });
+
+    initUiid(ready.dataState.client.db);
 
     return ready;
 }
