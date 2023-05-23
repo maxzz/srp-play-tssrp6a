@@ -17,13 +17,13 @@ export type ClientUser = UserCreds & UserState;
 export const initialClientUsersDb = (): ClientUser[] => [
     {
         username: 'Foo',
-        password: 'Password',
+        password: 'Password Foo',
 
         uuid: 0,
     },
     {
         username: 'Bar',
-        password: 'Password Tetyana',
+        password: 'Password Bar',
 
         uuid: 0,
     },

@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
-import { ClientUser, appUi } from "@/store";
+import { ClientUser, UserCreds, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
@@ -13,7 +13,7 @@ export const inputClasses = [
 export const inputFocusClasses = "focus:ring-primary-600 dark:focus:ring-primary-400 focus:ring-offset-primary-200 dark:focus:ring-offset-primary-800 focus:ring-1 focus:ring-offset-1 focus:outline-none";
 export const dlgBottomButtonClasses = "hover:bg-primary-300 dark:hover:bg-primary-700 border-primary-500 active:scale-[.97] border rounded select-none disabled:opacity-25";
 
-function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: 'name' | 'password'; } & InputHTMLAttributes<HTMLInputElement>) {
+function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: keyof UserCreds; } & InputHTMLAttributes<HTMLInputElement>) {
     const snap = useSnapshot(item, { sync: true });
     return (
         <input
@@ -55,7 +55,7 @@ function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuStat
     return (
         <div className={gridRowClasses}>
             <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
-            <RowItemInput item={item} name="name" />
+            <RowItemInput item={item} name="username" />
             <RowItemInput item={item} name="password" />
             <RowPopupMenu menuState={menuState} />
         </div>
