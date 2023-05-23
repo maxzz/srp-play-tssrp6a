@@ -5,4 +5,6 @@ export type ServerUser = {
     verifier: bigint;
 };
 
-//export const serverUsersDb = proxy<ServerUser[]>([]);
+export type ServerUsers = {
+    [username: string]: ServerUser;
+};

@@ -1,7 +1,5 @@
 import { uuid } from "@/utils";
 
-// Client
-
 export type UserCreds = {
     username: string;
     password: string;
@@ -44,4 +42,3 @@ export function createNewLoginRow({ username, password }: UserCreds): ClientUser
     };
 }
 
-//export const clientUsersDb = proxy(initialClientUsersDb);
