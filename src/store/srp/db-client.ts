@@ -16,32 +16,20 @@ export type ClientUser = UserCreds & UserState;
 
 export const initialClientUsersDb = (): ClientUser[] => [
     {
-        username: 'Max',
+        username: 'Foo',
         password: 'Password',
 
         uuid: 0,
     },
     {
-        username: 'Tetyana',
+        username: 'Bar',
         password: 'Password Tetyana',
-
-        uuid: 0,
-    },
-    {
-        username: 'Max Jr.',
-        password: 'Password Max Jr.',
-
-        uuid: 0,
-    },
-    {
-        username: 'Thomas',
-        password: 'Password Thomas',
 
         uuid: 0,
     },
 ];
 
-export function initUiid(clients: ClientUser[]) {
+export function initUserState(clients: ClientUser[]) {
     clients.forEach((item) => {
         item.uuid = uuid.asRelativeNumber();
         item.logged = false;
