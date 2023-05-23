@@ -2,13 +2,17 @@ import { uuid } from "@/utils";
 
 // Client
 
-export type ClientUser = {
+export type UserCreds = {
     name: string;
     password: string;
+};
 
+export type UserState = {
     uuid: number; // local data for React UI only. initialized afted merge with localStorage data.
     logged?: boolean;
 };
+
+export type ClientUser = UserCreds & UserState;
 
 export const initialClientUsersDb = (): ClientUser[] => [
     {
