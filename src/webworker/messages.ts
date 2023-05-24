@@ -1,12 +1,19 @@
 export namespace C2W { // Client to Worker
 
-    export type CallTypes = 'signin' | 'step2';
+    export type CallTypes = 'signup' | 'signin' | 'step2';
 
     export type CallType = {
         type: CallTypes;
     };
 
     export type Step2 = CallType;
+
+    export type MsgSignUp = {
+        type: 'signup',
+        username: string;
+        salt: string;
+        verifier: string;
+    };
 
     export type MsgSignIn = {
         type: 'signin',
@@ -15,5 +22,5 @@ export namespace C2W { // Client to Worker
         verifier: string;
     };
 
-    export type ClientMessages = MsgSignIn;
+    export type ClientMessages = MsgSignUp | MsgSignIn;
 }

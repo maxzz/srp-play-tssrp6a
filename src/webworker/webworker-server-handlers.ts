@@ -9,12 +9,24 @@ export function onServerMessages({ data }: MessageEvent<C2W.ClientMessages>) {
 
     // self.postMessage('worker: to client');
     switch (data.type) {
+        case 'signup': {
+            const { username, salt: saltStr, verifier: verifierStr, } = data;
+            serverDb.set(username, {
+                salt: BigInt(saltStr),
+                verifier: BigInt(verifierStr),
+            });
+            break;
+        }
         case 'signin': {
             const { username, salt: saltStr, verifier: verifierStr, } = data;
             serverDb.set(username, {
                 salt: BigInt(saltStr),
                 verifier: BigInt(verifierStr),
             });
+            break;
+        }
+        default: {
+            throw new Error('not implemented yet');
         }
     }
 }
