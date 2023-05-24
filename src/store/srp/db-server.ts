@@ -1,3 +1,5 @@
+import { proxyMap } from 'valtio/utils';
+
 // In memory
 
 export type ServerUser = {
@@ -35,7 +37,7 @@ export function serializeServerUsers(serverUsers: ServerUsersMap): ServerUsersIn
 }
 
 export function deserializeServerUsers(serverUsers: ServerUsersInStore): ServerUsersMap {
-    return new Map([...Object.entries(serverUsers)].map(([k, v]) => [k, deserializeServerUser(v)] as const));
+    return proxyMap([...Object.entries(serverUsers)].map(([k, v]) => [k, deserializeServerUser(v)] as const));
 }
 
 // Initialize in InStore format

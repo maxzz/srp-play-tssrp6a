@@ -1,4 +1,4 @@
-export function mergeDefaultAndLoaded<T extends Record<string, unknown>>({ defaults, loaded }: { defaults: T; loaded: T | undefined | null; }): T {
+export function mergeDefaultAndLoaded<T extends Record<string, unknown>>({ defaults, loaded }: { defaults: T; loaded: any | undefined | null; }): T {
     if (!loaded) {
         return defaults;
     }
