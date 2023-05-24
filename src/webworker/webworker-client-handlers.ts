@@ -27,8 +27,21 @@ export const doSignUpAtom = atom(
 
         appUi.dataState.server.db.set(msg.username, { salt, verifier });
 
-        const worker = get(workerAtom);
-        worker.postMessage(msg);
+        get(workerAtom).postMessage(msg);
+    }
+);
+
+export const doSignOutAtom = atom(
+    null,
+    async (get, set, value: {username: string}) => {
+        appUi.dataState.server.db.delete(value.username);
+
+        const msg: C2W.MsgSignOut = {
+            type: 'signout',
+            username: value.username,
+        }
+
+        get(workerAtom).postMessage(msg);
     }
 );
 
@@ -44,7 +57,6 @@ export const doSignInAtom = atom(
             verifier: verifier.toString(),
         };
 
-        const worker = get(workerAtom);
-        worker.postMessage(msg);
+        get(workerAtom).postMessage(msg);
     }
 );

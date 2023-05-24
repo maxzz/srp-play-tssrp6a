@@ -17,6 +17,11 @@ export function onServerMessages({ data }: MessageEvent<C2W.ClientMessages>) {
             });
             break;
         }
+        case 'signout': {
+            const { username } = data;
+            serverDb.delete(username);
+            break;
+        }
         case 'signin': {
             const { username, salt: saltStr, verifier: verifierStr, } = data;
             serverDb.set(username, {

@@ -15,6 +15,11 @@ export namespace C2W { // Client to Worker
         verifier: string;
     };
 
+    export type MsgSignOut = {
+        type: 'signout',
+        username: string;
+    };
+
     export type MsgSignIn = {
         type: 'signin',
         username: string;
@@ -22,5 +27,5 @@ export namespace C2W { // Client to Worker
         verifier: string;
     };
 
-    export type ClientMessages = MsgSignUp | MsgSignIn;
+    export type ClientMessages = MsgSignUp | MsgSignOut | MsgSignIn;
 }

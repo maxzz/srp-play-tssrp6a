@@ -1,10 +1,11 @@
 import { ButtonHTMLAttributes, Fragment, InputHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
-import { ClientUser, UserCreds, appUi } from "@/store";
+import { ClientUser, UserCreds, appUi, doSignOutAtom, doSignUpAtom } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
 import { WebServer } from "./WebServer";
+import { useSetAtom } from "jotai";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -41,10 +42,32 @@ function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElemen
     );
 }
 
-function RowPopupMenu({ menuState }: { menuState: MenuState; }) {
+function RowButtonSignUp({ item, ...rest }: {item: ClientUser} & ButtonHTMLAttributes<HTMLButtonElement>) {
+    const snap = useSnapshot(item);
+    const serverDb = useSnapshot(appUi.dataState.server.db);
+    
+    const doSignUp = useSetAtom(doSignUpAtom);
+    const doSignOut = useSetAtom(doSignOutAtom);
+
+    const isSignedIn = !!serverDb.get(snap.username);
+
+    function onSignUpClick() {
+        doSignUp({ username: snap.username, password: snap.password });
+    }
+
+    function onSignOutClick() {
+        doSignOut({ username: snap.username });
+    }
+
+    return (
+        <RowButton onClick={isSignedIn ? onSignOutClick: onSignUpClick} {...rest}>{isSignedIn ? 'Sign out': 'Sign up'}</RowButton>
+    );
+}
+
+function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState: MenuState; }) {
     return (
         <div className="ml-2 space-x-0.5">
-            <RowButton>Sign up</RowButton>
+            <RowButtonSignUp item={item} />
             {/* <RowButton>Log in</RowButton> */}
             <RowButton>Log out</RowButton>
         </div>
@@ -59,7 +82,7 @@ function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuStat
             <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
             <RowItemInput item={item} name="username" />
             <RowItemInput item={item} name="password" />
-            <RowPopupMenu menuState={menuState} />
+            <RowPopupMenu item={item} menuState={menuState} />
         </div>
     );
 }
