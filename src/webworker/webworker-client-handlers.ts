@@ -1,23 +1,9 @@
 import { atom } from "jotai";
-import { UserCreds } from "../store";
+import { UserCreds, srp6aRoutines } from "../store";
+import { createVerifierAndSalt } from "tssrp6a";
+import { C2W } from "./messages";
 
 export const workerAtom = atom(new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' }));
-
-export namespace C2W { // Client to Worker
-
-    export type CallTypes = 'signin' | 'step2';
-
-    export type CallType = {
-        type: CallTypes;
-    };
-
-    export type Step2 = CallType;
-
-    export type MsgSignIn = {
-        type: 'signin',
-    } & UserCreds;
-
-}
 
 // export const doCallWorkerAtom = atom(
 //     null,
@@ -29,13 +15,16 @@ export namespace C2W { // Client to Worker
 
 export const doSigninAtom = atom(
     null,
-    (get, set, value: UserCreds) => {
+    async (get, set, value: UserCreds) => {
         const worker = get(workerAtom);
+
+        const { s: salt, v: verifier } = await createVerifierAndSalt(srp6aRoutines, value.username, value.password);
 
         const msg: C2W.MsgSignIn = {
             type: 'signin',
             username: value.username,
-            password: value.password,
+            salt: salt.toString(),
+            verifier: verifier.toString(),
         };
 
         worker.postMessage(msg);

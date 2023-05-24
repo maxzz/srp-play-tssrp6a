@@ -82,7 +82,7 @@ function loadUiInitialState(): AppUi {
                 db: readyStorageData.client.db,
             },
             server: {
-                db: deserializeServerUsers(readyStorageData.server.db)
+                db: proxyMap(deserializeServerUsers(readyStorageData.server.db))
             },
         }
     }
