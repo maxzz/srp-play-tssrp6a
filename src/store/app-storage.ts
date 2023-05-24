@@ -85,11 +85,21 @@ subscribe(appUi.uiState, () => {
 subscribe(appUi.dataState, () => {
     console.log('store data', appUi.dataState);
 
-    const toStore = { ...snapshot(appUi.dataState) };
-    const entries = toStore.server.db.entries();
-    toStore.server.db = Object.fromEntries([...entries].map(([k,v]) => [k,v])) as any;
+    const snap = snapshot(appUi.dataState);
 
-    localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: appUi.dataState }));
+    const toStore2 = {
+        client: snap.client,
+        server: {
+            db: Object.fromEntries([...snap.server.db].map(([k,v]) => [k,v])) as any
+        }
+    }
+
+    // const toStore = { ...snapshot(appUi.dataState) };
+    // const entries = toStore.server.db.entries();
+    // toStore.server.db = Object.fromEntries([...entries].map(([k,v]) => [k,v])) as any;
+
+    localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: toStore2 }));
+    // localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: appUi.dataState }));
 });
 
 appUi.dataState.server.db.set("Bar", {
