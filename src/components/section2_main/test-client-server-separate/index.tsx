@@ -6,6 +6,7 @@ import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { buttonClasses } from "..";
 import { WebServer } from "./WebServer";
 import { useSetAtom } from "jotai";
+import { MenuState, RowPopupMenu } from "./RowButtons";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -25,52 +26,6 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: keyof U
             value={snap[name]}
             onChange={(e) => { item[name] = e.target.value; }}
         />
-    );
-}
-
-type MenuState = {
-
-};
-
-const rowButtonClasses = [
-    "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97]",
-].join(' ');
-
-function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
-    return (
-        <button className={classNames("px-3 py-[7px] min-w-[70px] text-xs", rowButtonClasses, inputFocusClasses, className)} {...rest} />
-    );
-}
-
-function RowButtonSignUp({ item, ...rest }: { item: ClientUser; } & ButtonHTMLAttributes<HTMLButtonElement>) {
-    const snap = useSnapshot(item);
-    const serverDb = useSnapshot(appUi.dataState.server.db);
-
-    const doSignUp = useSetAtom(doSignUpAtom);
-    const doSignOut = useSetAtom(doSignOutAtom);
-
-    const isSignedIn = !!serverDb.get(snap.username);
-
-    function onSignUpClick() {
-        doSignUp({ username: snap.username, password: snap.password });
-    }
-
-    function onSignOutClick() {
-        doSignOut({ username: snap.username });
-    }
-
-    return (
-        <RowButton onClick={isSignedIn ? onSignOutClick : onSignUpClick} {...rest}>{isSignedIn ? 'Sign out' : 'Sign up'}</RowButton>
-    );
-}
-
-function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState: MenuState; }) {
-    return (
-        <div className="ml-2 space-x-0.5">
-            <RowButtonSignUp item={item} />
-            {/* <RowButton>Log in</RowButton> */}
-            <RowButton>Log out</RowButton>
-        </div>
     );
 }
 
