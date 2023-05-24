@@ -1,6 +1,6 @@
 import { proxyMap } from "valtio/utils";
 import { C2W } from "./messages";
-import { ServerUser } from "@/store/srp/db-server";
+import { ServerUser, deserializeServerUser } from "@/store/srp/db-server";
 
 const serverDb = proxyMap<string, ServerUser>();
 
@@ -9,6 +9,11 @@ export function onServerMessages({ data }: MessageEvent<C2W.ClientMessages>) {
 
     // self.postMessage('worker: to client');
     switch (data.type) {
+        case 'syncdb': {
+            const { db } = data;
+            [...Object.entries(db)].forEach(([k, v]) => serverDb.set(k, deserializeServerUser(v)));
+            break;
+        }
         case 'signup': {
             const { username, salt: saltStr, verifier: verifierStr, } = data;
             serverDb.set(username, {

@@ -1,9 +1,10 @@
 import { atom } from "jotai";
-import { UserCreds, appUi, srp6aRoutines } from "../store";
+import { ServerUsersInStore, UserCreds, appUi, srp6aRoutines } from "../store";
 import { createVerifierAndSalt } from "tssrp6a";
 import { C2W } from "./messages";
 
-export const workerAtom = atom(new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' }));
+const worker = new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' });
+export const workerAtom = atom(worker);
 
 // export const doCallWorkerAtom = atom(
 //     null,
@@ -12,6 +13,14 @@ export const workerAtom = atom(new Worker(new URL('../webworker/index.ts', impor
 //         worker.postMessage(value);
 //     }
 // );
+
+export function syncDb(db: ServerUsersInStore) {
+    const msg: C2W.MsgSyncClientToServerDb = {
+        type: 'syncdb',
+        db,
+    }
+    worker.postMessage(msg);
+}
 
 export const doSignUpAtom = atom(
     null,

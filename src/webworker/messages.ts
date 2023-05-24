@@ -1,3 +1,5 @@
+import { ServerUsersInStore } from "@/store/srp/db-server";
+
 export namespace C2W { // Client to Worker
 
     export type CallTypes = 'signup' | 'signin' | 'step2';
@@ -7,6 +9,11 @@ export namespace C2W { // Client to Worker
     };
 
     export type Step2 = CallType;
+
+    export type MsgSyncClientToServerDb = {
+        type: 'syncdb',
+        db: ServerUsersInStore;
+    };
 
     export type MsgSignUp = {
         type: 'signup',
@@ -27,5 +34,5 @@ export namespace C2W { // Client to Worker
         verifier: string;
     };
 
-    export type ClientMessages = MsgSignUp | MsgSignOut | MsgSignIn;
+    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgSignIn;
 }

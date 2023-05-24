@@ -3,6 +3,7 @@ import { proxyMap } from 'valtio/utils';
 import { setUiInitialState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
 import { ClientUser, ServerUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, deserializeServerUsers, serializeServerUsers } from './srp';
+import { syncDb } from '.';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
 const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
@@ -74,6 +75,8 @@ function loadUiInitialState(): AppUi {
     const readyStorageData = mergeDefaultAndLoaded({ defaults: initialAppUi.dataState, loaded: storageData });
 
     initUserState(readyStorageData.client.db);
+
+    syncDb(readyStorageData.server.db);
 
     const ready: AppUi = {
         uiState: readyUiState,

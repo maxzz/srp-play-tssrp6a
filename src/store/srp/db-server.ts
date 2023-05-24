@@ -17,11 +17,11 @@ export type ServerUsersInStore = {
 
 // Serialize / Deserialize
 
-function serializeServerUser(serverUser: ServerUser): ServerUserInStore {
+export function serializeServerUser(serverUser: ServerUser): ServerUserInStore {
     return Object.fromEntries(Object.entries(serverUser).map(([k, v]) => [k, typeof v === 'bigint' ? v.toString() : v])) as ServerUserInStore;
 }
 
-function deserializeServerUser(obj: ServerUserInStore): ServerUser {
+export function deserializeServerUser(obj: ServerUserInStore): ServerUser {
     const isBigInt = (k: string) => k === 'salt' || k === 'verifier';
     return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, isBigInt(k) ? BigInt(v as string) : v])) as ServerUser;
 }
