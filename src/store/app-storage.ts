@@ -85,6 +85,9 @@ subscribe(appUi.uiState, () => {
 subscribe(appUi.dataState, () => {
     console.log('store data', appUi.dataState);
 
+    const toStore = { ...appUi.dataState };
+    toStore.server.db = Object.fromEntries(toStore.server.db.entries()) as any;
+
     localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: appUi.dataState }));
 });
 
