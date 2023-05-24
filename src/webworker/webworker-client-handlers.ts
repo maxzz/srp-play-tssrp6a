@@ -1,6 +1,7 @@
 import { atom } from "jotai";
+import { UserCreds } from "../store";
 
-export const workerAtom = atom(new Worker(new URL('../web-worker/index.ts', import.meta.url), { type: 'module' }));
+export const workerAtom = atom(new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' }));
 
 export namespace C2W { // Client to Worker
 
@@ -27,3 +28,21 @@ export const doCallWorkerAtom = atom(
         worker.postMessage(value);
     }
 );
+
+type MsgSignIn = {
+    type: 'signin',
+} & UserCreds;
+
+export const signinAtom = atom(
+    null,
+    (get, set, value: UserCreds) => {
+        const worker = get(workerAtom);
+        
+        const msg: MsgSignIn = {
+            type: 'signin',
+            username: value.username,
+            password: value.password,
+        }
+        worker.postMessage(msg);
+    }
+)
