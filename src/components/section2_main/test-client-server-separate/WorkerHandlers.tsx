@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { ButtonHTMLAttributes, useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { doSigninAtom, workerAtom } from "@/store";
+import { doSignInAtom, doSignUpAtom, workerAtom } from "@/store";
 import { buttonClasses } from "..";
+//import { RowButton } from ".";
 
 export function WorkerHandlers() {
     const worker = useAtomValue(workerAtom);
@@ -25,14 +26,26 @@ export function WorkerHandlers() {
     return null;
 }
 
-export function WorkerLogin() {
-    const doCallWorker = useSetAtom(doSigninAtom);
+// export function WorkerSignUp({ ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
+//     const doCallWorker = useSetAtom(doSignUpAtom);
 
-    function onWorkerClick() {
-        doCallWorker({ username: 'max', password: 'now' });
-    }
+//     function onWorkerClick() {
+//         doCallWorker({ username: 'max', password: 'now' });
+//     }
 
-    return (
-        <button className={buttonClasses} onClick={onWorkerClick}>Login</button>
-    );
-}
+//     return (
+//         <RowButton onClick={onWorkerClick} {...rest}>SignUp</RowButton>
+//     );
+// }
+
+// export function WorkerLogin({ ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
+//     const doCallWorker = useSetAtom(doSignInAtom);
+
+//     function onWorkerClick() {
+//         doCallWorker({ username: 'max', password: 'now' });
+//     }
+
+//     return (
+//         <button className={buttonClasses} onClick={onWorkerClick} {...rest}>Login</button>
+//     );
+// }

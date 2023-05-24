@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { WorkerHandlers, WorkerLogin } from './WorkerHandlers';
+import { WorkerHandlers } from './WorkerHandlers';
 import { classNames } from '@/utils';
 
 export function WebServer({ className, ...rest }: HTMLAttributes<HTMLElement>) {
@@ -7,7 +7,7 @@ export function WebServer({ className, ...rest }: HTMLAttributes<HTMLElement>) {
         <div className={classNames("space-y-2", className)} {...rest}>
             <div className="">Worker</div>
             <WorkerHandlers />
-            <WorkerLogin />
+            {/* <WorkerLogin /> */}
         </div>
     );
 }
