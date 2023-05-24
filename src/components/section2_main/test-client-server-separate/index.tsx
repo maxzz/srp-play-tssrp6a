@@ -43,8 +43,10 @@ function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElemen
 
 function RowPopupMenu({ menuState }: { menuState: MenuState; }) {
     return (
-        <div className="">
-            <RowButton>Login</RowButton>
+        <div className="ml-2 space-x-0.5">
+            <RowButton>Sign up</RowButton>
+            {/* <RowButton>Log in</RowButton> */}
+            <RowButton>Log out</RowButton>
         </div>
     );
 }
