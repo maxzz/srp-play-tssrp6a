@@ -38,8 +38,8 @@ export function deserializeServerUsers(serverUsers: ServerUsersInStore): (readon
 // Initialize in InStore format
 
 export const initialServerUsersDb = (): ServerUsersInStore => ({
-    "Foo": {
-        salt: '123123',
-        verifier: '123',
-    }
+    // "Foo": {
+    //     salt: '123123',
+    //     verifier: '123',
+    // }
 });

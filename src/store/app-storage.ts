@@ -114,12 +114,12 @@ subscribe(appUi.dataState, () => {
 
 console.log('server', snapshot(appUi.dataState.server.db));
 
-appUi.dataState.server.db.set("Bar", {
-    salt: BigInt('456456'),
-    verifier: BigInt('456'),
-});
+// appUi.dataState.server.db.set("Bar", {
+//     salt: BigInt('456456'),
+//     verifier: BigInt('456'),
+// });
 
-appUi.dataState.server.db.set("Zoo", {
-    salt: BigInt('789789'),
-    verifier: BigInt('789'),
-});
+// appUi.dataState.server.db.set("Zoo", {
+//     salt: BigInt('789789'),
+//     verifier: BigInt('789'),
+// });
