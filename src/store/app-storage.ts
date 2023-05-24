@@ -1,4 +1,4 @@
-import { proxy, subscribe } from 'valtio';
+import { proxy, snapshot, subscribe } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 import { setUiInitialState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
@@ -85,8 +85,9 @@ subscribe(appUi.uiState, () => {
 subscribe(appUi.dataState, () => {
     console.log('store data', appUi.dataState);
 
-    const toStore = { ...appUi.dataState };
-    toStore.server.db = Object.fromEntries(toStore.server.db.entries()) as any;
+    const toStore = { ...snapshot(appUi.dataState) };
+    const entries = toStore.server.db.entries();
+    toStore.server.db = Object.fromEntries([...entries].map(([k,v]) => [k,v])) as any;
 
     localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: appUi.dataState }));
 });
