@@ -38,15 +38,13 @@ const rowButtonClasses = [
 
 function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
     return (
-        <button className={classNames("px-3 py-[7px] text-xs", rowButtonClasses, inputFocusClasses, className)} {...rest} />
+        <button className={classNames("px-3 py-[7px] min-w-[70px] text-xs", rowButtonClasses, inputFocusClasses, className)} {...rest} />
     );
 }
 
 function RowButtonSignUp({ item, ...rest }: { item: ClientUser; } & ButtonHTMLAttributes<HTMLButtonElement>) {
     const snap = useSnapshot(item);
     const serverDb = useSnapshot(appUi.dataState.server.db);
-    console.log('serverDb', serverDb);
-
 
     const doSignUp = useSetAtom(doSignUpAtom);
     const doSignOut = useSetAtom(doSignOutAtom);

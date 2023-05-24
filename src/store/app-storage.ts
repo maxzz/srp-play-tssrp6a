@@ -1,6 +1,6 @@
 import { proxy, snapshot, subscribe } from 'valtio';
 import { proxyMap } from 'valtio/utils';
-import { setUiInitialState } from './app-initial-state';
+import { initializeUiState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
 import { ClientUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, deserializeServerUsers, serializeServerUsers } from './srp';
 
@@ -45,13 +45,11 @@ const initialAppUi: AppUi<ServerUsersInStore> = {
 
 export const appUi = proxy<AppUi>(loadUiInitialState());
 
-setUiInitialState(appUi.uiState);
+initializeUiState(appUi.uiState);
 
 // Local storage
 
 function loadUiInitialState(): AppUi {
-    const storeState = {} as AppUi<ServerUsersInStore>;
-
     let storageUi;
     let storageUiStr = localStorage.getItem(STORAGE_UI_KEY);
     if (storageUiStr) {
@@ -117,7 +115,7 @@ subscribe(appUi.dataState, () => {
 
 // test
 
-console.log('server', snapshot(appUi.dataState.server.db));
+// console.log('server', snapshot(appUi.dataState.server.db));
 
 // appUi.dataState.server.db.set("Bar", {
 //     salt: BigInt('456456'),
