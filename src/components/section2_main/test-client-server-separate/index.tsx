@@ -42,10 +42,12 @@ function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElemen
     );
 }
 
-function RowButtonSignUp({ item, ...rest }: {item: ClientUser} & ButtonHTMLAttributes<HTMLButtonElement>) {
+function RowButtonSignUp({ item, ...rest }: { item: ClientUser; } & ButtonHTMLAttributes<HTMLButtonElement>) {
     const snap = useSnapshot(item);
     const serverDb = useSnapshot(appUi.dataState.server.db);
-    
+    console.log('serverDb', serverDb);
+
+
     const doSignUp = useSetAtom(doSignUpAtom);
     const doSignOut = useSetAtom(doSignOutAtom);
 
@@ -60,7 +62,7 @@ function RowButtonSignUp({ item, ...rest }: {item: ClientUser} & ButtonHTMLAttri
     }
 
     return (
-        <RowButton onClick={isSignedIn ? onSignOutClick: onSignUpClick} {...rest}>{isSignedIn ? 'Sign out': 'Sign up'}</RowButton>
+        <RowButton onClick={isSignedIn ? onSignOutClick : onSignUpClick} {...rest}>{isSignedIn ? 'Sign out' : 'Sign up'}</RowButton>
     );
 }
 

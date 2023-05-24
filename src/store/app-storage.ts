@@ -58,20 +58,25 @@ function loadUiInitialState(): AppUi {
         try {
             storageUi = JSON.parse(storageUiStr)?.[STORAGE_UI_VER];
         } catch (error) {
+            console.error('storageUi bad format');
         }
     }
 
-    let storageData;
+    let storageData: DataState<ServerUsersInStore> | undefined;
     let storageDataStr = localStorage.getItem(STORAGE_DATA_KEY);
     if (storageDataStr) {
         try {
-            storageData = JSON.parse(storageDataStr)?.[STORAGE_DATA_VER];
+            storageData = JSON.parse(storageDataStr)?.[STORAGE_DATA_VER] as DataState<ServerUsersInStore>;
         } catch (error) {
+            console.error('storageData bad format');
         }
     }
 
     const readyUiState = mergeDefaultAndLoaded({ defaults: initialAppUi.uiState, loaded: storageUi });
-    const readyStorageData = mergeDefaultAndLoaded({ defaults: initialAppUi.dataState, loaded: storageData });
+    const readyStorageData = {
+        client: mergeDefaultAndLoaded({ defaults: initialAppUi.dataState.client, loaded: storageData?.client }),
+        server: mergeDefaultAndLoaded({ defaults: initialAppUi.dataState.server, loaded: storageData?.server }),
+    }
 
     initUserState(readyStorageData.client.db);
 
