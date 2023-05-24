@@ -44,7 +44,7 @@ export function deserializeServerUsers(serverUsers: ServerUsersInStore): ServerU
 
 export const initialServerUsersDb = (): ServerUsersInStore => ({
     "Foo": {
-        salt: '11123',
-        verifier: '654',
+        salt: '123123',
+        verifier: '123',
     }
 });

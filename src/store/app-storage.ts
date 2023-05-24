@@ -61,10 +61,11 @@ function loadUiInitialState(): AppUi {
         }
     }
 
-    let storageData = localStorage.getItem(STORAGE_DATA_KEY);
-    if (storageData) {
+    let storageData;
+    let storageDataStr = localStorage.getItem(STORAGE_DATA_KEY);
+    if (storageDataStr) {
         try {
-            storageData = JSON.parse(storageData)?.[STORAGE_DATA_VER];
+            storageData = JSON.parse(storageDataStr)?.[STORAGE_DATA_VER];
         } catch (error) {
         }
     }
@@ -73,8 +74,6 @@ function loadUiInitialState(): AppUi {
     const readyStorageData = mergeDefaultAndLoaded({ defaults: initialAppUi.dataState, loaded: storageData });
 
     initUserState(readyStorageData.client.db);
-
-    //const ready = mergeDefaultAndLoaded(storeState, initialAppUi);
 
     const ready: AppUi = {
         uiState: readyUiState,
@@ -88,8 +87,6 @@ function loadUiInitialState(): AppUi {
         }
     }
 
-    console.log('initialize state', ready);
-
     return ready;
 }
 
@@ -100,31 +97,29 @@ subscribe(appUi.uiState, () => {
 });
 
 subscribe(appUi.dataState, () => {
-    console.log('store data', appUi.dataState);
+    //console.log('store data', appUi.dataState);
 
     const snap = snapshot(appUi.dataState);
-
-    const a = [...snap.server.db.entries()];
-
-
-    const toStore2 = {
+    const toStore = {
         client: snap.client,
         server: {
             db: serializeServerUsers(snap.server.db),
         }
     };
 
-    // const toStore = { ...snapshot(appUi.dataState) };
-    // const entries = toStore.server.db.entries();
-    // toStore.server.db = Object.fromEntries([...entries].map(([k,v]) => [k,v])) as any;
-
-    localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: toStore2 }));
-    // localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: appUi.dataState }));
+    localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: toStore }));
 });
+
+// test
 
 console.log('server', snapshot(appUi.dataState.server.db));
 
 appUi.dataState.server.db.set("Bar", {
-    salt: BigInt('11123'),
-    verifier: BigInt('654'),
+    salt: BigInt('456456'),
+    verifier: BigInt('456'),
+});
+
+appUi.dataState.server.db.set("Zoo", {
+    salt: BigInt('789789'),
+    verifier: BigInt('789'),
 });
