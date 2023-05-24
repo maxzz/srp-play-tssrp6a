@@ -2,7 +2,7 @@ import { proxy, subscribe } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 import { setUiInitialState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
-import { ClientUser, ServerUser, ServerUsers, initUserState, initialClientUsersDb } from './srp';
+import { ClientUser, ServerUser, ServerUsers, initUserState, initialClientUsersDb, initialServerUsersDb } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
 const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
@@ -36,7 +36,8 @@ const initialAppUi: AppUi = {
             db: initialClientUsersDb(),
         },
         server: {
-            db: proxyMap<string, ServerUser>(),
+            // db: proxyMap<string, ServerUser>(),
+            db: proxyMap(Object.entries(initialServerUsersDb())),
         },
     }
 };
@@ -70,6 +71,8 @@ function loadUiInitialState(): AppUi {
 
     initUserState(ready.dataState.client.db);
 
+    ready.dataState.server.db = proxyMap(Object.entries(ready.dataState.server.db));
+
     return ready;
 }
 
@@ -80,7 +83,12 @@ subscribe(appUi.uiState, () => {
 });
 
 subscribe(appUi.dataState, () => {
-    //console.log('store data', appUi.dataState);
+    console.log('store data', appUi.dataState);
 
     localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: appUi.dataState }));
+});
+
+appUi.dataState.server.db.set("Bar", {
+    salt: BigInt('11123'),
+    verifier: BigInt('654'),
 });
