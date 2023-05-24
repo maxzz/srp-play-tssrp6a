@@ -1,26 +1,22 @@
 import { atom } from "jotai";
-import { ServerUsersInStore, UserCreds, appUi, srp6aRoutines } from "../store";
-import { createVerifierAndSalt } from "tssrp6a";
+import { snapshot } from "valtio";
 import { C2W } from "./messages";
+import { UserCreds, appUi, serializeServerUsers, srp6aRoutines } from "../store";
+import { createVerifierAndSalt } from "tssrp6a";
 
-const worker = new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' });
-export const workerAtom = atom(worker);
+export const workerAtom = atom(new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' }));
 
-// export const doCallWorkerAtom = atom(
-//     null,
-//     (get, set, value: C2W.MsgSignIn | C2W.CallType) => {
-//         const worker = get(workerAtom);
-//         worker.postMessage(value);
-//     }
-// );
-
-export function syncDb(db: ServerUsersInStore) {
-    const msg: C2W.MsgSyncClientToServerDb = {
-        type: 'syncdb',
-        db,
+export const doSyncDbAtom = atom(
+    null,
+    (get, set,) => {
+        const db = snapshot(appUi.dataState.server.db);
+        const msg: C2W.MsgSyncClientToServerDb = {
+            type: 'syncdb',
+            db: serializeServerUsers(db),
+        };
+        get(workerAtom).postMessage(msg);
     }
-    worker.postMessage(msg);
-}
+);
 
 export const doSignUpAtom = atom(
     null,
@@ -42,13 +38,13 @@ export const doSignUpAtom = atom(
 
 export const doSignOutAtom = atom(
     null,
-    async (get, set, value: {username: string}) => {
+    async (get, set, value: { username: string; }) => {
         appUi.dataState.server.db.delete(value.username);
 
         const msg: C2W.MsgSignOut = {
             type: 'signout',
             username: value.username,
-        }
+        };
 
         get(workerAtom).postMessage(msg);
     }
