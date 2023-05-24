@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { doCallWorkerAtom, workerAtom } from "@/store";
+import { doSigninAtom, workerAtom } from "@/store";
 import { buttonClasses } from "..";
 
 export function WorkerHandlers() {
@@ -26,13 +26,13 @@ export function WorkerHandlers() {
 }
 
 export function WorkerLogin() {
-    const doCallWorker = useSetAtom(doCallWorkerAtom);
-    
+    const doCallWorker = useSetAtom(doSigninAtom);
+
     function onWorkerClick() {
-        doCallWorker({type: 'call-login', username: 'max', password: 'now'});
+        doCallWorker({ username: 'max', password: 'now' });
     }
-    
+
     return (
         <button className={buttonClasses} onClick={onWorkerClick}>Login</button>
-    )
+    );
 }
