@@ -2,7 +2,7 @@ import { ClientUser, appUi, doSignUpAtom, doSignOutAtom } from "@/store";
 import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
-import { useSnapshot } from "valtio";
+import { INTERNAL_Snapshot, useSnapshot } from "valtio";
 import { inputFocusClasses } from "./Rows";
 
 export type MenuState = {
@@ -19,14 +19,10 @@ function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElemen
     );
 }
 
-function RowButtonSignUp({ item, ...rest }: { item: ClientUser; } & ButtonHTMLAttributes<HTMLButtonElement>) {
-    const snap = useSnapshot(item);
-    const serverDb = useSnapshot(appUi.dataState.server.db);
+function RowButtonSignUp({ snap, isSignedIn, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; isSignedIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
 
     const doSignUp = useSetAtom(doSignUpAtom);
     const doSignOut = useSetAtom(doSignOutAtom);
-
-    const isSignedIn = !!serverDb.get(snap.username);
 
     function onSignUpClick() {
         doSignUp({ username: snap.username, password: snap.password });
@@ -42,9 +38,13 @@ function RowButtonSignUp({ item, ...rest }: { item: ClientUser; } & ButtonHTMLAt
 }
 
 export function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState: MenuState; }) {
+    const snap = useSnapshot(item);
+    const serverDb = useSnapshot(appUi.dataState.server.db);
+    const isSignedIn = !!serverDb.get(snap.username);
+
     return (
         <div className="ml-4 space-x-1">
-            <RowButtonSignUp item={item} />
+            <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} />
             {/* <RowButton>Log in</RowButton> */}
             <RowButton>Log out</RowButton>
         </div>
