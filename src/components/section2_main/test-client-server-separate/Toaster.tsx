@@ -4,37 +4,35 @@ import { rowButtonClasses } from './RowButtons';
 import { inputFocusClasses } from './Rows';
 import { classNames } from '@/utils';
 
+// export const rowButtonClasses = [
+//     "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97] disabled:opacity-20",
+// ].join(' ');
+
+// export const inputFocusClasses = "focus:ring-primary-600 dark:focus:ring-primary-400 focus:ring-offset-primary-200 dark:focus:ring-offset-primary-800 focus:ring-1 focus:ring-offset-1 focus:outline-none";
+
 const rootClasses = [
-    "bg-white rounded-md p-[15px]",
+    "px-4 py-2 bg-red-500 rounded",
+
     "data-[state=open]:animate-slideIn",
     "data-[state=closed]:animate-hide",
     "data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]",
     "data-[swipe=cancel]:translate-x-0",
     "data-[swipe=cancel]:transition-[transform_200ms_ease-out]",
     "data-[swipe=end]:animate-swipeOut",
-    "grid [grid-template-areas:_'title_action'_'description_action'] grid-cols-[auto_max-content] items-center gap-x-[15px]",
-    "shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px]",
+
+    "grid [grid-template-areas:_'title_action'_'description_action']",
+    "grid-cols-[auto_max-content] items-center gap-x-4",
 ].join(' ');
 
-const titleClasses = ["[grid-area:_title] mb-[5px] font-medium text-slate12 text-[15px]"].join(' ');
+const titleClasses = ["[grid-area:title] mb-2 font-medium text-primary-800 dark:text-primary-200 text-[15px]"].join(' ');
 
-const descriptionClasses = ["[grid-area:_description] m-0 text-slate11 text-[13px] leading-[1.3]"].join(' ');
+const descriptionClasses = ["[grid-area:description] m-0 text-slate11 text-[13px] leading-[1.3]"].join(' ');
 
-const actionClasses = [
-    "px-[10px] h-[25px] leading-[25px] font-medium text-xs",
-    "inline-flex items-center justify-center rounded",
-    "text-green11 bg-green2",
-    "focus:shadow-[0_0_0_2px] focus:shadow-green8",
-    "shadow-green7 hover:shadow-green8 shadow-[inset_0_0_0_1px] hover:shadow-[inset_0_0_0_1px]",
-].join(' ');
+const actionClasses = ["px-3 py-2 text-xs", rowButtonClasses, inputFocusClasses].join(' ');
 
-const viewportClasses = [
-    "fixed bottom-0 right-0 w-[390px] max-w-[100vw] m-0",
-    "[--viewport-padding:_25px] p-[var(--viewport-padding)]",
-    "flex flex-col gap-[10px] list-none outline-none z-[2147483647]",
-].join(' ');
+const viewportClasses = "fixed bottom-8 right-4 w-96 max-w-[80vw] z-50";
 
-const ToastDemo = () => {
+export const ToastDemo = () => {
     const [open, setOpen] = React.useState(false);
     const eventDateRef = React.useRef(new Date());
     const timerRef = React.useRef(0);
@@ -43,46 +41,37 @@ const ToastDemo = () => {
         return () => clearTimeout(timerRef.current);
     }, []);
 
+    function onShowClick() {
+        setOpen(false);
+        clearTimeout(timerRef.current);
+        timerRef.current = window.setTimeout(() => {
+            eventDateRef.current = oneWeekAway();
+            setOpen(true);
+        }, 100);
+    }
+
     return (
-        <Toast.Provider swipeDirection="right">
-            <button
-                className={classNames("px-3 py-2 text-xs", rowButtonClasses, inputFocusClasses)}
-                onClick={() => {
-                    setOpen(false);
-                    clearTimeout(timerRef.current);
-                    timerRef.current = window.setTimeout(() => {
-                        eventDateRef.current = oneWeekAway();
-                        setOpen(true);
-                    }, 100);
-                }}
-            >
+        <Toast.Provider swipeDirection="right" duration={20000}>
+            <button className={classNames("px-3 py-2 text-xs", rowButtonClasses, inputFocusClasses)} onClick={onShowClick}>
                 Show toaster
             </button>
 
-            <Toast.Root
-                className={rootClasses}
-                open={open}
-                onOpenChange={setOpen}
-            >
+            <Toast.Root className={rootClasses} open={open} onOpenChange={setOpen}>
                 <Toast.Title className={titleClasses}>
                     Scheduled: Catch up
                 </Toast.Title>
 
                 <Toast.Description asChild>
-                    <time
-                        className={descriptionClasses}
-                        dateTime={eventDateRef.current.toISOString()}
-                    >
+                    <time className={descriptionClasses} dateTime={eventDateRef.current.toISOString()}>
                         {prettyDate(eventDateRef.current)}
                     </time>
                 </Toast.Description>
 
-                <Toast.Action className="[grid-area:_action]" asChild altText="Goto schedule to undo">
+                <Toast.Action className="[grid-area:action]" asChild altText="Goto schedule to undo">
                     <button className={actionClasses}>
                         Undo
                     </button>
                 </Toast.Action>
-
             </Toast.Root>
 
             <Toast.Viewport className={viewportClasses} />
@@ -100,5 +89,3 @@ function oneWeekAway() {
 function prettyDate(date: Date) {
     return new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(date);
 }
-
-export default ToastDemo;
