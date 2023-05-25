@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
-import { C2W } from "./messages";
+import { C2W, W2C } from "./messages";
 import { UserCreds, appUi, serializeServerUsers, srp6aRoutines } from "../store";
 import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
 
@@ -9,8 +9,31 @@ export const workerAtom = atom(globalWorker);
 
 globalWorker.addEventListener('message', handleServerMessages);
 
-function handleServerMessages({ data }: MessageEvent<any>) {
-    console.log('FROM SERVER DATA');
+function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
+    switch (data.type) {
+        case 'login-step1': {
+            const { idFromClient, serverB, error } = data;
+            const query = c2wQueries.get(idFromClient);
+            
+            if (!query) {
+                console.error('no query ID', idFromClient);
+                return;
+            }
+
+            if (error) {
+                query.reject(error);
+                return;
+            }
+
+            if (!serverB) {
+                query.reject('no serverB');
+            }
+            
+            query.resolve(serverB);
+            break;
+        }
+    }
+    console.log('FROM SERVER DATA', data);
 }
 
 export const doSyncDbAtom = atom(
