@@ -3,7 +3,6 @@ import { WebServer } from "./WebServer";
 import { classNames } from "@/utils";
 import { buttonClasses } from "..";
 import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
-import { ToastDemo } from "./Toaster";
 import { toastWarning } from "@/components/ui/UIToaster";
 
 function AddRowButton() {
@@ -33,10 +32,7 @@ export function ClientServerSeparate() {
                     toast
                 </button>
             </div>
-
-            <div className="">
-                <ToastDemo />
-            </div>
+            
         </div>
     );
 }
