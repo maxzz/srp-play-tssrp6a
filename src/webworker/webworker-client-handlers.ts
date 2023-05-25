@@ -50,13 +50,13 @@ export const doSignOutAtom = atom(
     }
 );
 
-export const doSignInAtom = atom(
+export const doLogInAtom = atom(
     null,
     async (get, set, value: UserCreds) => {
         const { s: salt, v: verifier } = await createVerifierAndSalt(srp6aRoutines, value.username, value.password);
 
-        const msg: C2W.MsgSignIn = {
-            type: 'signin',
+        const msg: C2W.MsgLogIn = {
+            type: 'login',
             username: value.username,
             salt: salt.toString(),
             verifier: verifier.toString(),

@@ -2,7 +2,7 @@ import { ServerUsersInStore } from "@/store/srp/db-server";
 
 export namespace C2W { // Client to Worker
 
-    export type CallTypes = 'signup' | 'signin' | 'step2';
+    export type CallTypes = 'signup' | 'login' | 'step2';
 
     export type CallType = {
         type: CallTypes;
@@ -27,12 +27,12 @@ export namespace C2W { // Client to Worker
         username: string;
     };
 
-    export type MsgSignIn = {
-        type: 'signin',
+    export type MsgLogIn = {
+        type: 'login',
         username: string;
         salt: string;
         verifier: string;
     };
 
-    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgSignIn;
+    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgLogIn;
 }

@@ -1,8 +1,7 @@
-import { proxyMap } from "valtio/utils";
 import { C2W } from "./messages";
 import { ServerUser, deserializeServerUser } from "@/store/srp/db-server";
 
-const serverDb = proxyMap<string, ServerUser>();
+const serverDb = new Map<string, ServerUser>();
 
 export function onServerMessages({ data }: MessageEvent<C2W.ClientMessages>) {
     // console.log('worker: message from client', data);
@@ -27,7 +26,7 @@ export function onServerMessages({ data }: MessageEvent<C2W.ClientMessages>) {
             serverDb.delete(username);
             break;
         }
-        case 'signin': {
+        case 'login': {
             const { username, salt: saltStr, verifier: verifierStr, } = data;
             serverDb.set(username, {
                 salt: BigInt(saltStr),

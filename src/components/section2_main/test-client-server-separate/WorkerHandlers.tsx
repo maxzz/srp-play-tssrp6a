@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { doSignInAtom, doSignUpAtom, workerAtom } from "@/store";
+import { doLogInAtom, doSignUpAtom, workerAtom } from "@/store";
 import { buttonClasses } from "..";
 //import { RowButton } from ".";
 

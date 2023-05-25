@@ -1,4 +1,4 @@
-import { ClientUser, appUi, doSignUpAtom, doSignOutAtom, doSignInAtom } from "@/store";
+import { ClientUser, appUi, doSignUpAtom, doSignOutAtom, doLogInAtom } from "@/store";
 import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
@@ -39,7 +39,7 @@ function RowButtonSignUp({ snap, isSignedIn, ...rest }: { snap: INTERNAL_Snapsho
 
 function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; isLoggeddIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
 
-    const doLogIn = useSetAtom(doSignInAtom);
+    const doLogIn = useSetAtom(doLogInAtom);
 
     function onLogInClick() {
         doLogIn({ username: snap.username, password: snap.password });
@@ -56,7 +56,6 @@ export function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState:
     const isSignedIn = !!serverDb.get(snap.username);
     const isDisabled = !snap.username.trim() || !snap.password.trim();
     const isLoggeddIn = false;
-
     return (
         <div className="ml-4 space-x-1">
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
