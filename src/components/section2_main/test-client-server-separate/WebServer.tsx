@@ -12,6 +12,10 @@ export function WebServer({ className, ...rest }: HTMLAttributes<HTMLElement>) {
             <div className="">Worker</div>
             <WorkerHandlers />
             {/* <WorkerLogin /> */}
+
+            {/* {steps.map((step) => (
+                <div className={`${step.className}`}>{step.text}</div>
+            ))} */}
         </div>
     );
 }

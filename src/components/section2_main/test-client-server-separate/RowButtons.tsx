@@ -3,7 +3,7 @@ import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
 import { useSnapshot } from "valtio";
-import { inputFocusClasses } from ".";
+import { inputFocusClasses } from "./Rows";
 
 export type MenuState = {
 
@@ -51,3 +51,4 @@ export function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState:
     );
 }
 
+//TODO: validate on empty (and other rules min length, special symbols, and so on) name, password, and show UI hint.
