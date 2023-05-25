@@ -9,7 +9,7 @@ export function WorkerHandlers() {
 
     useEffect(() => {
         const handleMessages = (e: MessageEvent<string>) => {
-            console.log('client: message from worker', e);
+            console.log('CLIENT: MESSAGE FROM WORKER, react', e);
         };
 
         if (worker) {

@@ -2,18 +2,27 @@ import { atom } from "jotai";
 import { snapshot } from "valtio";
 import { C2W } from "./messages";
 import { UserCreds, appUi, serializeServerUsers, srp6aRoutines } from "../store";
-import { createVerifierAndSalt } from "tssrp6a";
+import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
 
-export const workerAtom = atom(new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' }));
+const globalWorker = new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' });
+export const workerAtom = atom(globalWorker);
+
+globalWorker.addEventListener('message', handleServerMessages);
+
+function handleServerMessages({ data }: MessageEvent<any>) {
+    console.log('FROM SERVER DATA');
+}
 
 export const doSyncDbAtom = atom(
     null,
     (get, set,) => {
         const db = snapshot(appUi.dataState.server.db);
+
         const msg: C2W.MsgSyncClientToServerDb = {
             type: 'syncdb',
             db: serializeServerUsers(db),
         };
+
         get(workerAtom).postMessage(msg);
     }
 );
@@ -50,18 +59,38 @@ export const doSignOutAtom = atom(
     }
 );
 
+type C2WQuery = {
+    resolve: Function;
+    reject: Function;
+};
+
+let lastQueryId = 0;
+const c2wQueries = new Map<number, C2WQuery>();
+
 export const doLogInAtom = atom(
     null,
     async (get, set, value: UserCreds) => {
-        const { s: salt, v: verifier } = await createVerifierAndSalt(srp6aRoutines, value.username, value.password);
+        const worker = get(workerAtom);
+
+        const result = new Promise((resolve, reject) => {
+            c2wQueries.set(++lastQueryId, {
+                resolve,
+                reject,
+            });
+        });
 
         const msg: C2W.MsgLogIn = {
             type: 'login',
+            idOnClient: lastQueryId,
             username: value.username,
-            salt: salt.toString(),
-            verifier: verifier.toString(),
         };
 
-        get(workerAtom).postMessage(msg);
+        worker.postMessage(msg);
+
+        const res = await result;
+        console.log('got it');
+
+        // const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
+
     }
 );
