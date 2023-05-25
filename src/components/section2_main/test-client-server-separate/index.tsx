@@ -3,6 +3,7 @@ import { WebServer } from "./WebServer";
 import { classNames } from "@/utils";
 import { buttonClasses } from "..";
 import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
+import ToastDemo from "./Toaster";
 
 function AddRowButton() {
     return (
@@ -25,6 +26,10 @@ export function ClientServerSeparate() {
             <GridRows />
 
             <WebServer className="pt-4" />
+
+            <div className="">
+                <ToastDemo />
+            </div>
         </div>
     );
 }

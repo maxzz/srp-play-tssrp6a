@@ -9,8 +9,8 @@ export type MenuState = {
 
 };
 
-const rowButtonClasses = [
-    "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97]",
+export const rowButtonClasses = [
+    "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97] disabled:opacity-20",
 ].join(' ');
 
 function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
@@ -41,10 +41,11 @@ export function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState:
     const snap = useSnapshot(item);
     const serverDb = useSnapshot(appUi.dataState.server.db);
     const isSignedIn = !!serverDb.get(snap.username);
+    const isDisabled = !snap.username.trim() || !snap.password.trim();
 
     return (
         <div className="ml-4 space-x-1">
-            <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} />
+            <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
             {/* <RowButton>Log in</RowButton> */}
             <RowButton>Log out</RowButton>
         </div>
