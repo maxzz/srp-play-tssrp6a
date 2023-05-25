@@ -3,7 +3,7 @@ import { WebServer } from "./WebServer";
 import { classNames } from "@/utils";
 import { buttonClasses } from "..";
 import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
-import { toastWarning } from "@/components/ui/UIToaster";
+import { toastTw, toastWarning } from "@/components/ui/UIToaster";
 
 function AddRowButton() {
     return (
@@ -28,11 +28,11 @@ export function ClientServerSeparate() {
             <WebServer className="pt-4" />
 
             <div className="">
-                <button className={classNames("px-1.5 py-1", buttonClasses)} onClick={() => {toastWarning('ready')}}>
+                <button className={classNames("px-1.5 py-1", buttonClasses)} onClick={() => {toastTw('ready')}}>
                     toast
                 </button>
             </div>
-            
+
         </div>
     );
 }
