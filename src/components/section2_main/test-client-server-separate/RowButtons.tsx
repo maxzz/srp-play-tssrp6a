@@ -42,6 +42,8 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
     const doLogIn = useSetAtom(doLogInAtom);
 
     function onLogInClick() {
+        console.log('onLogInClick clicked');
+        
         doLogIn({ username: snap.username, password: snap.password });
     }
 

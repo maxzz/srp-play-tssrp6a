@@ -103,7 +103,7 @@ export const doLogInAtom = atom(
             M1: srp6aClient_step2.M1,
         };
 
-        worker.postMessage(msg);
+        worker.postMessage(msg2);
 
         const serverM2 = await result2;
 
@@ -114,6 +114,8 @@ export const doLogInAtom = atom(
 );
 
 function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
+    console.log('%cclient got from server', 'color: orange', data);
+
     switch (data.type) {
         case 'login-step1-reply': {
             const { idFromClient, serverB, error } = data;
@@ -160,5 +162,4 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
             break;
         }
     }
-    console.log('FROM SERVER DATA', data);
 }
