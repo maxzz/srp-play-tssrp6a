@@ -33,65 +33,44 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
             break;
         }
         case 'login-step1': {
-            const { username, idOnClient } = data;
-
             console.log('server: "login-step1" begin"');
 
+            const { idOnClient, username } = data;
+            const msg: W2C.MsgLogInStep1Reply = { type: 'login-step1-reply', idFromClient: idOnClient, };
+
             const user = serverDb.get(username);
-
-            const msg: W2C.MsgLogInStep1Reply = {
-                type: 'login-step1-reply',
-                idFromClient: idOnClient,
-            };
-
-            if (!user) {
-                msg.error = 'no-user';
-                globalThis.postMessage(msg);
-                return;
+            if (user) {
+                user.server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
+                msg.serverB = user.server.B;
+            } else {
+                msg.error = `step1: not registered user: ${username}`;
             }
-
-            const server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
-            user.server = server;
-            
-            msg.serverB = server.B;
-
-            console.log('server: "login-step1" done');
-
             globalThis.postMessage(msg);
 
+            console.log('server: "login-step1" done');
             break;
         }
         case 'login-step2': {
-            const { idOnClient, username, A, M1 } = data;
-
             console.log('server: "login-step2" begin"', data);
 
+            const { idOnClient, username, A, M1 } = data;
+            const msg: W2C.MsgLogInStep2Reply = { type: 'login-step2-reply', idFromClient: idOnClient, };
+
             const user = serverDb.get(username);
-
-            const msg: W2C.MsgLogInStep2Reply = {
-                type: 'login-step2-reply',
-                idFromClient: idOnClient,
-            };
-
-            if (!user || !user.server) {
-                msg.error = 'no-user or server';
-                globalThis.postMessage(msg);
-                return;
+            if (user?.server) {
+                try {
+                    const serverM2 = await user.server.step2(A, M1);
+                    msg.serverM2 = serverM2;
+                } catch (error) {
+                    msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
+                    user.server = undefined;
+                }
+            } else {
+                msg.error = `step2: not registered user: ${username} or no server from step1`;
             }
-
-            try {
-                const serverM2 = await user.server.step2(A, M1);
-                msg.serverM2 = serverM2;
-            } catch (error) {
-                msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
-                
-                user.server = undefined;
-            }
-
-            console.log('server: "login-step2" done');
-
             globalThis.postMessage(msg);
 
+            console.log('server: "login-step2" done');
             break;
         }
         default: {
@@ -99,5 +78,3 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
         }
     }
 }
-//Module "crypto" has been externalized for browser compatibility. Cannot access "crypto.webcrypto" in client code.
-//vitejs Module "crypto" has been externalized for browser compatibility. Cannot access "crypto.webcrypto" in client code.
