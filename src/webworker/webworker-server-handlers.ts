@@ -32,16 +32,15 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
             serverDb.delete(username);
             break;
         }
-        case 'login': {
+        case 'login-step1': {
             const { username, idOnClient } = data;
 
-            //debugger
-            console.log('server1 "login"');
+            console.log('server: "login-step1" begin"');
 
             const user = serverDb.get(username);
 
             const msg: W2C.MsgLogInStep1Reply = {
-                type: 'login-step1',
+                type: 'login-step1-reply',
                 idFromClient: idOnClient,
             };
 
@@ -52,11 +51,38 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
             }
 
             const server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
-
             user.server = server;
+            
             msg.serverB = server.B;
 
-            console.log('server1 "login" replied OK');
+            console.log('server: "login-step1" done');
+
+            globalThis.postMessage(msg);
+
+            break;
+        }
+        case 'login-step2': {
+            const { idOnClient, username, A, M1 } = data;
+
+            console.log('server: "login-step2" begin"');
+
+            const user = serverDb.get(username);
+
+            const msg: W2C.MsgLogInStep2Reply = {
+                type: 'login-step2-reply',
+                idFromClient: idOnClient,
+            };
+
+            if (!user || !user.server) {
+                msg.error = 'no-user or server';
+                globalThis.postMessage(msg);
+                return;
+            }
+
+            const serverM2 = await user.server.step2(A, M1);
+            msg.serverM2 = serverM2;
+
+            console.log('server: "login-step2" done');
 
             globalThis.postMessage(msg);
 

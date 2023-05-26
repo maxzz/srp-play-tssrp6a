@@ -2,14 +2,6 @@ import { ServerUsersInStore } from "@/store/srp/db-server";
 
 export namespace C2W { // Client to Worker
 
-    export type CallTypes = 'signup' | 'login' | 'step2' | 'login-step1';
-
-    export type CallType = {
-        type: CallTypes;
-    };
-
-    export type Step2 = CallType;
-
     export type MsgSyncClientToServerDb = {
         type: 'syncdb',
         db: ServerUsersInStore;
@@ -27,28 +19,38 @@ export namespace C2W { // Client to Worker
         username: string;
     };
 
-    export type MsgLogIn = {
-        type: 'login',
+    export type MsgLogInStep1 = {
+        type: 'login-step1',
         idOnClient: number;
         username: string;
     };
 
-    export type MsgLogInStep1 = {
-        type: 'login-step1',
-        id: number;
-
+    export type MsgLogInStep2 = {
+        type: 'login-step2',
+        idOnClient: number;
+        username: string;
+        A: bigint;
+        M1: bigint;
     };
 
-    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgLogIn | MsgLogInStep1;
+    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgLogInStep1 | MsgLogInStep2;
 }
 
 export namespace W2C { // Worker to Client
+
     export type MsgLogInStep1Reply = {
-        type: 'login-step1',
+        type: 'login-step1-reply',
         idFromClient: number;
-        serverB?: bigint;
         error?: string;
+        serverB?: bigint;
     };
 
-    export type WorkerMessages = MsgLogInStep1Reply;
+    export type MsgLogInStep2Reply = {
+        type: 'login-step2-reply',
+        idFromClient: number;
+        error?: string;
+        serverM2?: bigint;
+    };
+
+    export type WorkerMessages = MsgLogInStep1Reply | MsgLogInStep2Reply;
 }
