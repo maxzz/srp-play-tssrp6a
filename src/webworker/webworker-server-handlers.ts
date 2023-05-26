@@ -64,7 +64,7 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
         case 'login-step2': {
             const { idOnClient, username, A, M1 } = data;
 
-            console.log('server: "login-step2" begin"');
+            console.log('server: "login-step2" begin"', data);
 
             const user = serverDb.get(username);
 
@@ -79,8 +79,13 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
                 return;
             }
 
-            const serverM2 = await user.server.step2(A, M1);
-            msg.serverM2 = serverM2;
+            try {
+                const serverM2 = await user.server.step2(A, M1);
+                msg.serverM2 = serverM2;
+            } catch (error) {
+                console.log('error', error);
+                msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
+            }
 
             console.log('server: "login-step2" done');
 
