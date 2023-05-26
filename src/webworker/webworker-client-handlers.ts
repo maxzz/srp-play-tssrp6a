@@ -80,7 +80,7 @@ export const doLogInAtom = atom(
 
         worker.postMessage(msg);
 
-        let step1Result: { salt: bigint, serverB: bigint; };
+        let step1Result: Awaited<typeof step1Promise>;
         try {
             step1Result = await step1Promise;
         } catch (error) {
@@ -92,9 +92,7 @@ export const doLogInAtom = atom(
 
         // 2.
 
-        //const { s: salt, v: verifier } = await createVerifierAndSalt(srp6aRoutines, value.username, value.password);
         const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
-
         const srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
 
         const step2Promise = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
