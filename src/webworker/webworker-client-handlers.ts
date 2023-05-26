@@ -139,15 +139,13 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
 
     function getQuery(data: W2C.WorkerMessages): C2WQuery | undefined {
         const { idFromClient, error } = data;
-
         const query = c2wQueries.get(idFromClient);
-        if (!query) {
+        if (query) {
+            c2wQueries.delete(idFromClient);
+            error && query.reject(error);
+            return !error ? query : undefined;
+        } else {
             console.error(`No query ID: ${idFromClient}`);
-            return;
         }
-
-        c2wQueries.delete(idFromClient);
-        error && query.reject(error);
-        return !error ? query : undefined;
     }
 }
