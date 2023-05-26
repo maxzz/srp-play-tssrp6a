@@ -42,6 +42,7 @@ export namespace W2C { // Worker to Client
         type: 'login-step1-reply',
         idFromClient: number;
         error?: string;
+        salt?: bigint;
         serverB?: bigint;
     };
 

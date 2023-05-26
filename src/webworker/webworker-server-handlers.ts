@@ -38,6 +38,7 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
             const user = serverDb.get(username);
             if (user) {
                 user.server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
+                msg.salt = user.salt;
                 msg.serverB = user.server.B;
             } else {
                 msg.error = `step1: not registered user: ${username}`;

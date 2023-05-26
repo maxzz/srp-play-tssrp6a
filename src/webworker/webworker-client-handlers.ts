@@ -70,7 +70,7 @@ export const doLogInAtom = atom(
 
         // 1.
 
-        const step1Result = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
+        const step1Promise = new Promise<{ salt: bigint, serverB: bigint; }>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
 
         const msg: C2W.MsgLogInStep1 = {
             type: 'login-step1',
@@ -80,24 +80,24 @@ export const doLogInAtom = atom(
 
         worker.postMessage(msg);
 
-        let serverB: bigint;
+        let step1Result: { salt: bigint, serverB: bigint; };
         try {
-            serverB = await step1Result;
+            step1Result = await step1Promise;
         } catch (error) {
             console.error(`step 1 error: ${error}`);
             return;
         }
 
-        console.log('client: step 1 done', serverB, c2wQueries);
+        console.log('client: step 1 done', step1Result, c2wQueries);
 
         // 2.
 
-        const { s: salt, v: verifier } = await createVerifierAndSalt(srp6aRoutines, value.username, value.password);
+        //const { s: salt, v: verifier } = await createVerifierAndSalt(srp6aRoutines, value.username, value.password);
         const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
 
-        const srp6aClient_step2 = await srp6aClient.step2(salt, serverB);
+        const srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
 
-        const step2Result = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
+        const step2Promise = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
 
         const msg2: C2W.MsgLogInStep2 = {
             type: 'login-step2',
@@ -111,7 +111,7 @@ export const doLogInAtom = atom(
 
         let serverM2: bigint;
         try {
-            serverM2 = await step2Result;
+            serverM2 = await step2Promise;
         } catch (error) {
             console.error(`step 2 error: ${error}`);
             return;
@@ -126,8 +126,8 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
 
     switch (data.type) {
         case 'login-step1-reply': {
-            const { serverB } = data;
-            getQuery(data)?.resolve(serverB);
+            const { salt, serverB } = data;
+            getQuery(data)?.resolve({ salt, serverB });
             break;
         }
         case 'login-step2-reply': {
