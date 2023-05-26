@@ -70,7 +70,7 @@ export const doLogInAtom = atom(
 
         // 1.
 
-        const result = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
+        const step1Result = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
 
         const msg: C2W.MsgLogInStep1 = {
             type: 'login-step1',
@@ -80,11 +80,15 @@ export const doLogInAtom = atom(
 
         worker.postMessage(msg);
 
-        const serverB = await result;
-        
-        console.log('got it 1', serverB, c2wQueries);
-        c2wQueries.delete(lastQueryId);
+        let serverB: bigint;
+        try {
+            serverB = await step1Result;
+        } catch (error) {
+            console.log('step 1 error', error);
+            return;
+        }
 
+        console.log('client step 1 done', serverB, c2wQueries);
 
         // 2.
 
@@ -93,7 +97,7 @@ export const doLogInAtom = atom(
 
         const srp6aClient_step2 = await srp6aClient.step2(salt, serverB);
 
-        const result2 = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
+        const step2Result = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
 
         const msg2: C2W.MsgLogInStep2 = {
             type: 'login-step2',
@@ -105,11 +109,15 @@ export const doLogInAtom = atom(
 
         worker.postMessage(msg2);
 
-        const serverM2 = await result2;
+        let serverM2: bigint;
+        try {
+            serverM2 = await step2Result;
+        } catch (error) {
+            console.log('step 2 error', error);
+            return;
+        }
 
-        c2wQueries.delete(lastQueryId);
-
-        console.log('got it 2', serverM2);
+        console.log('client step 2 done', serverM2, c2wQueries);
     }
 );
 
@@ -126,13 +134,10 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
                 return;
             }
 
+            c2wQueries.delete(idFromClient);
+
             if (error) {
                 query.reject(error);
-                return;
-            }
-
-            if (!serverB) {
-                query.reject('no serverB');
                 return;
             }
 
@@ -140,7 +145,7 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
             break;
         }
         case 'login-step2-reply': {
-            const { idFromClient, error } = data;
+            const { idFromClient, error, serverM2 } = data;
             const query = c2wQueries.get(idFromClient);
 
             if (!query) {
@@ -148,17 +153,14 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
                 return;
             }
 
+            c2wQueries.delete(idFromClient);
+
             if (error) {
                 query.reject(error);
                 return;
             }
 
-            // if (!serverB) {
-            //     query.reject('no serverB');
-            //     return;
-            // }
-
-            // query.resolve(serverB);
+            query.resolve(serverM2);
             break;
         }
     }

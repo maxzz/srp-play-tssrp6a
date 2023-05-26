@@ -83,8 +83,9 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
                 const serverM2 = await user.server.step2(A, M1);
                 msg.serverM2 = serverM2;
             } catch (error) {
-                console.log('error', error);
                 msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
+                
+                user.server = undefined;
             }
 
             console.log('server: "login-step2" done');

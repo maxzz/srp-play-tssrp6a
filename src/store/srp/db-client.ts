@@ -41,4 +41,3 @@ export function createNewLoginRow({ username, password }: UserCreds): ClientUser
         uuid: uuid.asRelativeNumber(),
     };
 }
-
