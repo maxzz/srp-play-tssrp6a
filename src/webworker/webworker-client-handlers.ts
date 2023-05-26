@@ -84,11 +84,11 @@ export const doLogInAtom = atom(
         try {
             serverB = await step1Result;
         } catch (error) {
-            console.log('step 1 error', error);
+            console.error(`step 1 error: ${error}`);
             return;
         }
 
-        console.log('client step 1 done', serverB, c2wQueries);
+        console.log('client: step 1 done', serverB, c2wQueries);
 
         // 2.
 
@@ -113,11 +113,11 @@ export const doLogInAtom = atom(
         try {
             serverM2 = await step2Result;
         } catch (error) {
-            console.log('step 2 error', error);
+            console.error(`step 2 error: ${error}`);
             return;
         }
 
-        console.log('client step 2 done', serverM2, c2wQueries);
+        console.log('client: step 2 done', serverM2, c2wQueries);
     }
 );
 
@@ -126,42 +126,28 @@ function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
 
     switch (data.type) {
         case 'login-step1-reply': {
-            const { idFromClient, serverB, error } = data;
-            const query = c2wQueries.get(idFromClient);
-
-            if (!query) {
-                console.error('no query ID', idFromClient);
-                return;
-            }
-
-            c2wQueries.delete(idFromClient);
-
-            if (error) {
-                query.reject(error);
-                return;
-            }
-
-            query.resolve(serverB);
+            const { serverB } = data;
+            getQuery(data)?.resolve(serverB);
             break;
         }
         case 'login-step2-reply': {
-            const { idFromClient, error, serverM2 } = data;
-            const query = c2wQueries.get(idFromClient);
-
-            if (!query) {
-                console.error('no query ID', idFromClient);
-                return;
-            }
-
-            c2wQueries.delete(idFromClient);
-
-            if (error) {
-                query.reject(error);
-                return;
-            }
-
-            query.resolve(serverM2);
+            const { serverM2 } = data;
+            getQuery(data)?.resolve(serverM2);
             break;
         }
+    }
+
+    function getQuery(data: W2C.WorkerMessages): C2WQuery | undefined {
+        const { idFromClient, error } = data;
+
+        const query = c2wQueries.get(idFromClient);
+        if (!query) {
+            console.error(`No query ID: ${idFromClient}`);
+            return;
+        }
+
+        c2wQueries.delete(idFromClient);
+        error && query.reject(error);
+        return !error ? query : undefined;
     }
 }
