@@ -1,4 +1,5 @@
 import { uuid } from "@/utils";
+import { INTERNAL_Snapshot } from "valtio";
 
 export type UserCreds = {
     username: string;
@@ -26,6 +27,12 @@ export const initialClientUsersDb = (): ClientUser[] => [
         uuid: 0,
     },
 ];
+
+export namespace IOClient {
+    export function serializeServerUser(clientUsers: INTERNAL_Snapshot<ClientUser[]>): UserCreds[] {
+        return clientUsers.map(({ username, password }) => ({ username, password }));
+    }
+}
 
 export function initUserState(clients: ClientUser[]) {
     clients.forEach((item) => {

@@ -17,7 +17,7 @@ export type ServerUsersInStore = {
 
 // Serialize / Deserialize
 
-export namespace IO {
+export namespace IOServer {
     export function serializeServerUser(serverUser: ServerUser): ServerUserInStore {
         return Object.fromEntries(Object.entries(serverUser).map(([k, v]) => [k, typeof v === 'bigint' ? v.toString() : v])) as ServerUserInStore;
     }

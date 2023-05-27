@@ -2,7 +2,7 @@ import { proxy, snapshot, subscribe } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 import { initializeUiState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
-import { ClientUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, IO } from './srp';
+import { ClientUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, IOServer, IOClient } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
 const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
@@ -85,7 +85,7 @@ function loadUiInitialState(): AppUi {
                 db: readyStorageData.client.db,
             },
             server: {
-                db: proxyMap(IO.deserializeServerUsers(readyStorageData.server.db))
+                db: proxyMap(IOServer.deserializeServerUsers(readyStorageData.server.db))
             },
         }
     }
@@ -104,9 +104,11 @@ subscribe(appUi.dataState, () => {
 
     const snap = snapshot(appUi.dataState);
     const toStore = {
-        client: snap.client,
+        client: {
+            db: IOClient.serializeServerUser(snap.client.db),
+        },
         server: {
-            db: IO.serializeServerUsers(snap.server.db),
+            db: IOServer.serializeServerUsers(snap.server.db),
         }
     };
 
