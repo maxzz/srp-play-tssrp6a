@@ -1,12 +1,13 @@
 import { GridRows } from "./Rows";
 import { classNames } from "@/utils";
 import { buttonClasses } from "..";
-import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
+import { IconAdd, IconAddUser, IconLoggedIn, IconLoggedOut } from "@/components/ui";
 
 function AddRowButton() {
     return (
-        <button className={classNames("px-1.5 py-1", buttonClasses)}>
-            <IconAdd className="w-3 h-3" />
+        <button className={classNames("px-1 py-1.5", buttonClasses)}>
+            <IconAddUser className="w-4 h-4" />
+            {/* <IconAdd className="w-3 h-3" /> */}
         </button>
     );
 }
