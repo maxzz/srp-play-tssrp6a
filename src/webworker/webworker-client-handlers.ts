@@ -88,8 +88,6 @@ export const doLogInAtom = atom(
             return;
         }
 
-        console.log('client: step 1 done', step1Result, c2wQueries);
-
         // 2.
 
         const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
@@ -120,7 +118,7 @@ export const doLogInAtom = atom(
 );
 
 function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
-    console.log('%cclient got from server', 'color: orange', data);
+    //console.log('%cclient got from server', 'color: orange', data);
 
     switch (data.type) {
         case 'login-step1-reply': {

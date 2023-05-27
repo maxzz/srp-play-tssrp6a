@@ -30,8 +30,6 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
             break;
         }
         case 'login-step1': {
-            console.log('server: "login-step1" begin"');
-
             const { idOnClient, username } = data;
             const msg: W2C.MsgLogInStep1Reply = { type: 'login-step1-reply', idFromClient: idOnClient, };
 
@@ -41,16 +39,13 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
                 msg.salt = user.salt;
                 msg.serverB = user.server.B;
             } else {
-                msg.error = `step1: not registered user: ${username}`;
+                msg.error = `not registered user: ${username}`;
             }
-            globalThis.postMessage(msg);
 
-            console.log('server: "login-step1" done');
+            globalThis.postMessage(msg);
             break;
         }
         case 'login-step2': {
-            console.log('server: "login-step2" begin"', data);
-
             const { idOnClient, username, A, M1 } = data;
             const msg: W2C.MsgLogInStep2Reply = { type: 'login-step2-reply', idFromClient: idOnClient, };
 
@@ -64,11 +59,10 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
                     user.server = undefined;
                 }
             } else {
-                msg.error = `step2: not registered user: ${username} or no server from step1`;
+                msg.error = `user: ${username} wo/ step1`;
             }
-            globalThis.postMessage(msg);
 
-            console.log('server: "login-step2" done');
+            globalThis.postMessage(msg);
             break;
         }
         default: {
