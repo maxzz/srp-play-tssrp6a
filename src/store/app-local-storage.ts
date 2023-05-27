@@ -2,7 +2,7 @@ import { proxy, snapshot, subscribe } from 'valtio';
 import { proxyMap } from 'valtio/utils';
 import { initializeUiState } from './app-initial-state';
 import { mergeDefaultAndLoaded } from '../utils';
-import { ClientUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, deserializeServerUsers, serializeServerUsers } from './srp';
+import { ClientUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, IO } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
 const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
@@ -85,7 +85,7 @@ function loadUiInitialState(): AppUi {
                 db: readyStorageData.client.db,
             },
             server: {
-                db: proxyMap(deserializeServerUsers(readyStorageData.server.db))
+                db: proxyMap(IO.deserializeServerUsers(readyStorageData.server.db))
             },
         }
     }
@@ -106,23 +106,9 @@ subscribe(appUi.dataState, () => {
     const toStore = {
         client: snap.client,
         server: {
-            db: serializeServerUsers(snap.server.db),
+            db: IO.serializeServerUsers(snap.server.db),
         }
     };
 
     localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: toStore }));
 });
-
-// test
-
-// console.log('server', snapshot(appUi.dataState.server.db));
-
-// appUi.dataState.server.db.set("Bar", {
-//     salt: BigInt('456456'),
-//     verifier: BigInt('456'),
-// });
-
-// appUi.dataState.server.db.set("Zoo", {
-//     salt: BigInt('789789'),
-//     verifier: BigInt('789'),
-// });

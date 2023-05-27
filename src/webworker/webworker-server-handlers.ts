@@ -1,5 +1,5 @@
 import { C2W, W2C } from "./messages";
-import { ServerUser, deserializeServerUser } from "@/store/srp/db-server";
+import { ServerUser, IO } from "@/store/srp/db-server";
 import { srp6aRoutines } from "@/store/srp/srp-protocol-init";
 import { SRPServerSession, SRPServerSessionStep1 } from "tssrp6a";
 
@@ -13,7 +13,7 @@ export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages
     switch (data.type) {
         case 'syncdb': {
             const { db } = data;
-            [...Object.entries(db)].forEach(([k, v]) => serverDb.set(k, deserializeServerUser(v)));
+            [...Object.entries(db)].forEach(([k, v]) => serverDb.set(k, IO.deserializeServerUser(v)));
             break;
         }
         case 'signup': {

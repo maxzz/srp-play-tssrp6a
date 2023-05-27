@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
 import { C2W, W2C } from "./messages";
-import { UserCreds, appUi, serializeServerUsers, srp6aRoutines } from "../store";
+import { UserCreds, appUi, IO, srp6aRoutines } from "../store";
 import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
 
 const globalWorker = new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' });
@@ -16,7 +16,7 @@ export const doSyncDbAtom = atom(
 
         const msg: C2W.MsgSyncClientToServerDb = {
             type: 'syncdb',
-            db: serializeServerUsers(db),
+            db: IO.serializeServerUsers(db),
         };
 
         get(workerAtom).postMessage(msg);
