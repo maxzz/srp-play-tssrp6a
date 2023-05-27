@@ -1,9 +1,7 @@
 import { GridRows } from "./Rows";
-import { WebServer } from "./WebServer";
 import { classNames } from "@/utils";
 import { buttonClasses } from "..";
 import { IconAdd, IconLoggedIn, IconLoggedOut } from "@/components/ui";
-import { toastTw, toastWarning } from "@/components/ui/UIToaster";
 
 function AddRowButton() {
     return (
@@ -24,15 +22,6 @@ export function ClientServerSeparate() {
 
             <div className="flex items-center space-x-2"><span>Clients</span> <AddRowButton /></div>
             <GridRows />
-
-            <WebServer className="pt-4" />
-
-            <div className="">
-                <button className={classNames("px-1.5 py-1", buttonClasses)} onClick={() => {toastTw('ready')}}>
-                    toast
-                </button>
-            </div>
-
         </div>
     );
 }
