@@ -100,15 +100,20 @@ export const doLogInAtom = atom(
 
         worker.postMessage(msg2);
 
+        const snapClientDb = appUi.dataState.client.db;
+        const user = snapClientDb.find((user) => user.username === value.username);
+
         let serverM2: bigint;
         try {
             serverM2 = await step2Promise;
+            user && (user.logged = true);
         } catch (error) {
+            user && (user.logged = false);
             console.error(`step 2 error: ${error}`);
             return;
         }
 
-        console.log('client: step 2 done', serverM2, c2wQueries);
+        console.log('client: step 2 done', serverM2, c2wQueries, user);
     }
 );
 
