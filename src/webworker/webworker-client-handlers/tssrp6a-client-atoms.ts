@@ -1,13 +1,8 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
-import { C2W, W2C } from "./messages";
-import { UserCreds, appUi, IOServer, srp6aRoutines } from "../store";
+import { C2W, W2C } from "../messages";
+import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom } from "../../store";
 import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
-
-const globalWorker = new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' });
-export const workerAtom = atom(globalWorker);
-
-globalWorker.addEventListener('message', handleServerMessages);
 
 export const doSyncDbAtom = atom(
     null,
@@ -117,7 +112,7 @@ export const doLogInAtom = atom(
     }
 );
 
-function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
+export function handleServerMessages({ data }: MessageEvent<W2C.WorkerMessages>) {
     //console.log('%cclient got from server', 'color: orange', data);
 
     switch (data.type) {
