@@ -1,8 +1,8 @@
 import { atom } from "jotai";
-import { handleServerMessages } from "./tssrp6a-client-atoms";
+import { handleMessagesFromServer } from "./tssrp6a-client-atoms";
 export * from './tssrp6a-client-atoms';
 
-const globalWorker = new Worker(new URL('../webworker/index.ts', import.meta.url), { type: 'module' });
+const globalWorker = new Worker(new URL('../webworker-server-handlers/index.ts', import.meta.url), { type: 'module' });
 export const workerAtom = atom(globalWorker);
 
-globalWorker.addEventListener('message', handleServerMessages);
+globalWorker.addEventListener('message', handleMessagesFromServer);

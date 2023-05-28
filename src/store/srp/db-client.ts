@@ -29,7 +29,7 @@ export const initialClientUsersDb = (): ClientUser[] => [
 ];
 
 export namespace IOClient {
-    export function serializeServerUser(clientUsers: INTERNAL_Snapshot<ClientUser[]>): UserCreds[] {
+    export function serializeForLoaclstoreServerUser(clientUsers: INTERNAL_Snapshot<ClientUser[]>): UserCreds[] {
         return clientUsers.map(({ username, password }) => ({ username, password }));
     }
 }

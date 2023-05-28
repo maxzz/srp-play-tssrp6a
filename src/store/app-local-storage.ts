@@ -105,7 +105,7 @@ subscribe(appUi.dataState, () => {
     const snap = snapshot(appUi.dataState);
     const toStore = {
         client: {
-            db: IOClient.serializeServerUser(snap.client.db),
+            db: IOClient.serializeForLoaclstoreServerUser(snap.client.db),
         },
         server: {
             db: IOServer.serializeServerUsers(snap.server.db),

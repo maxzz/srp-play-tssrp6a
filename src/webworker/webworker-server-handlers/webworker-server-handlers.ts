@@ -1,4 +1,4 @@
-import { C2W, W2C } from "./messages";
+import { C2W, W2C } from "../messages";
 import { ServerUser, IOServer } from "@/store/srp/db-server";
 import { srp6aRoutines } from "@/store/srp/srp-protocol-init";
 import { SRPServerSession, SRPServerSessionStep1 } from "tssrp6a";
