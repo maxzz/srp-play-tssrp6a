@@ -74,7 +74,7 @@ function loadUiInitialState(): AppUi {
     const readyStorageData = {
         client: mergeDefaultAndLoaded({ defaults: initialAppUi.dataState.client, loaded: storageData?.client }),
         server: mergeDefaultAndLoaded({ defaults: initialAppUi.dataState.server, loaded: storageData?.server }),
-    }
+    };
 
     initUserState(readyStorageData.client.db);
 
@@ -88,7 +88,7 @@ function loadUiInitialState(): AppUi {
                 db: proxyMap(IOServer.deserializeServerUsers(readyStorageData.server.db))
             },
         }
-    }
+    };
 
     return ready;
 }
@@ -132,4 +132,9 @@ export function getUsers(username: string): ClientUser[] {
 export function setUserLogged(username: string, logged: boolean) {
     const user = getUser(username);
     user && (user.logged = logged);
+}
+
+export function setUsersLogged(username: string, logged: boolean) {
+    const users = getUsers(username);
+    users.forEach((user) => user.logged = logged);
 }

@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
 import { C2W, W2C } from "../messages";
-import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, getUser, setUserLogged } from "../../store";
+import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, getUser, setUserLogged, setUsersLogged } from "../../store";
 import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
 
 export const doSyncDbAtom = atom(
@@ -118,7 +118,7 @@ export const doLogInAtom = atom(
             resultError = error;
         }
 
-        setUserLogged(value.username, !resultError);
+        setUsersLogged(value.username, !resultError);
 
         resultError ? console.error(`step 2 error: ${resultError}`) : console.log('client: step 2 done', serverM2, c2wQueries);
     }
