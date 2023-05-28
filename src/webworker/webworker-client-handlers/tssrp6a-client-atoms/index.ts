@@ -15,7 +15,6 @@ export const doSyncDbAtom = atom(
             type: 'syncdb',
             db: IOServer.serializeServerUsers(db),
         };
-
         get(workerAtom).postMessage(msg);
     }
 );
@@ -31,10 +30,9 @@ export const doSignUpAtom = atom(
             salt: salt.toString(),
             verifier: verifier.toString(),
         };
+        get(workerAtom).postMessage(msg);
 
         appUi.dataState.server.db.set(msg.username, { salt, verifier });
-
-        get(workerAtom).postMessage(msg);
     }
 );
 
@@ -47,7 +45,6 @@ export const doSignOutAtom = atom(
             type: 'signout',
             username: value.username,
         };
-
         get(workerAtom).postMessage(msg);
     }
 );

@@ -29,10 +29,16 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: keyof U
 const gridRowClasses = "grid grid-cols-[auto,1fr,1fr,auto] gap-x-1 items-center select-none";
 
 function RowIcon({ item }: { item: ClientUser; }) {
-    const { logged } = useSnapshot(item);
+    const snap = useSnapshot(item);
+    const serverDb = useSnapshot(appUi.dataState.server.db);
+    const isSignedIn = !!serverDb.get(snap.username);
+    const isLoggeddIn = item.logged;
+    console.log('RowIcon item = ', item);
     return (<>
-        {logged
-            ? <IconLoggedIn className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
+        {isSignedIn
+            ? isLoggeddIn
+                ? <IconLoggedIn className="mr-1 w-6 h-6 text-green-500 stroke-1" />
+                : <IconLoggedIn className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
             : <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
         }
     </>);
@@ -52,6 +58,8 @@ function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuStat
 export function GridRows() {
     const items = appUi.dataState.client.db;
     const snap = useSnapshot(items);
+    console.log('------------------');
+    
     return (
         <div className="grid gap-y-1">
             {snap.map((item, idx) => {

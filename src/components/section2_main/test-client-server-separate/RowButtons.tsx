@@ -71,6 +71,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
     const isSignedIn = !!serverDb.get(snap.username);
     const isDisabled = !snap.username.trim() || !snap.password.trim();
     const isLoggeddIn = false;
+    console.log('RowButtons item = ', item);
     return (
         <div className="ml-4 flex items-center space-x-1">
             <RowButtonRemoveUser snap={snap} disabled={isDisabled} />
