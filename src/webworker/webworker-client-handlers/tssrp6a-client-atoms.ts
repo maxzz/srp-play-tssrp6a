@@ -53,7 +53,10 @@ export const doSignOutAtom = atom(
 export const doRemoveUserCredsAtom = atom(
     null,
     (get, set, value: { uuid: number; }) => {
-        appUi.dataState.client.db = appUi.dataState.client.db.filter((user) => user.uuid !== value.uuid);
+        const idx = appUi.dataState.client.db.findIndex((user) => user.uuid === value.uuid);
+        if (idx !== -1) {
+            appUi.dataState.client.db.splice(idx, 1);
+        }
     }
 );
 
