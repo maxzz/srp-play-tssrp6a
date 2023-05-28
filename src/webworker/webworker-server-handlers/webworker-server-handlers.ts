@@ -9,7 +9,7 @@ type InternalServerUser = ServerUser & {
 
 const serverDb = new Map<string, InternalServerUser>();
 
-export async function onServerMessages({ data }: MessageEvent<C2W.ClientMessages>) {
+export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMessages>) {
     switch (data.type) {
         case 'syncdb': {
             const { db } = data;

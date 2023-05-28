@@ -1,3 +1,3 @@
-import { onServerMessages } from './webworker-server-handlers';
+import { onMessagesFromClient } from './webworker-server-handlers';
 
-self.addEventListener('message', onServerMessages);
+self.addEventListener('message', onMessagesFromClient);
