@@ -112,7 +112,7 @@ export const doLogInAtom = atom(
     }
 );
 
-export function onMessagesFromServer({ data }: MessageEvent<W2C.WorkerMessages>) {
+export function onMessagesFromTsSrp6aServer({ data }: MessageEvent<W2C.WorkerMessages>) {
     //console.log('%cclient got from server', 'color: orange', data);
 
     switch (data.type) {
