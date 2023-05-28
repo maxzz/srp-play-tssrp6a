@@ -81,3 +81,37 @@ export const toastTw: typeof toast.custom = (message, options) => {
     ));
 }
 */
+
+/*
+    theme: {
+        extend: {
+            colors: {
+                primary: colors.slate,
+                // ui: {
+                //     bg: colors.slate[100],
+                //     text: '#5a3543',
+                // },
+            },
+
+            keyframes: {
+                hide: {
+                    from: { opacity: 1 },
+                    to: { opacity: 0 },
+                },
+                slideIn: {
+                    from: { transform: 'translateX(100%)' }, //12px for --viewport-padding
+                    to: { transform: 'translateX(0)' },
+                },
+                swipeOut: {
+                    from: { transform: 'translateX(var(12px))' }, //12px for --radix-toast-swipe-end-x
+                    to: { transform: 'translateX(calc(100% + var(12px)))' }, //12px for --viewport-padding
+                },
+            },
+            animation: {
+                hide: 'hide 100ms ease-in',
+                slideIn: 'slideIn 1150ms cubic-bezier(0.16, 1, 0.3, 1)',
+                swipeOut: 'swipeOut 1100ms ease-out',
+            },
+        },
+    },
+*/
