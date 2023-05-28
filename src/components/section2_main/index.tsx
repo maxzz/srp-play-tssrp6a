@@ -19,7 +19,7 @@ export function Section2_Main() {
             </div>
 
             <div className="p-4">
-                <WebServer className="pt-4" />
+                <WebServer />
             </div>
 
             <div className="p-4">
@@ -28,7 +28,7 @@ export function Section2_Main() {
                 </button>
             </div>
 
-            <div className=""></div>
+            <div />
         </div>
     );
 }

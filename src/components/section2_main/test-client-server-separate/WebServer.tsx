@@ -1,15 +1,30 @@
 import { HTMLAttributes, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { doSyncDbAtom } from '@/store';
+import { appUi, doSyncDbAtom } from '@/store';
 import { WorkerHandlers } from './WorkerHandlers';
 import { classNames } from '@/utils';
+import { useSnapshot } from 'valtio';
+
+function ServerUsers() {
+    const snap = useSnapshot(appUi.dataState.server.db);
+    return (
+        <div className="">
+            {[...snap.keys()].map((username, idx) => (
+                <div className="" key={idx}>{username}</div>
+            ))}
+        </div>
+    );
+}
 
 export function WebServer({ className, ...rest }: HTMLAttributes<HTMLElement>) {
     const doSyncDb = useSetAtom(doSyncDbAtom);
     useEffect(() => { doSyncDb(); }, []);
     return (
         <div className={classNames("space-y-2", className)} {...rest}>
-            <div className="">Worker</div>
+            <div className="">Server records</div>
+
+            <ServerUsers />
+
             {/* <WorkerHandlers /> */}
 
             {/* <WorkerLogin /> */}
