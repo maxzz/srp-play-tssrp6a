@@ -122,3 +122,14 @@ export function getUser(username: string): ClientUser | undefined {
     const user = snapClientDb.find((user) => user.username === username);
     return user;
 }
+
+export function getUsers(username: string): ClientUser[] {
+    const snapClientDb = appUi.dataState.client.db;
+    const users = snapClientDb.filter((user) => user.username === username);
+    return users;
+}
+
+export function setUserLogged(username: string, logged: boolean) {
+    const user = getUser(username);
+    user && (user.logged = logged);
+}
