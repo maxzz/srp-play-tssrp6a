@@ -114,3 +114,11 @@ subscribe(appUi.dataState, () => {
 
     localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify({ [STORAGE_DATA_VER]: toStore }));
 });
+
+//
+
+export function getUser(username: string): ClientUser | undefined {
+    const snapClientDb = appUi.dataState.client.db;
+    const user = snapClientDb.find((user) => user.username === username);
+    return user;
+}

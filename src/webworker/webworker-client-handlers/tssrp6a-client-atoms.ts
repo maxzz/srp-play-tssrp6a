@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
 import { C2W, W2C } from "../messages";
-import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom } from "../../store";
+import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, ClientUser, getUser } from "../../store";
 import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
 
 export const doSyncDbAtom = atom(
@@ -100,8 +100,7 @@ export const doLogInAtom = atom(
 
         worker.postMessage(msg2);
 
-        const snapClientDb = appUi.dataState.client.db;
-        const user = snapClientDb.find((user) => user.username === value.username);
+        const user = getUser(value.username);
 
         let serverM2: bigint;
         try {
