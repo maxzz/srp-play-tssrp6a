@@ -38,7 +38,7 @@ export const doSignUpAtom = atom(
 
 export const doSignOutAtom = atom(
     null,
-    async (get, set, value: { username: string; }) => {
+    (get, set, value: { username: string; }) => {
         appUi.dataState.server.db.delete(value.username);
 
         const msg: C2W.MsgSignOut = {
@@ -47,6 +47,13 @@ export const doSignOutAtom = atom(
         };
 
         get(workerAtom).postMessage(msg);
+    }
+);
+
+export const doRemoveUserCredsAtom = atom(
+    null,
+    (get, set, value: { uuid: number; }) => {
+        appUi.dataState.client.db = appUi.dataState.client.db.filter((user) => user.uuid !== value.uuid);
     }
 );
 

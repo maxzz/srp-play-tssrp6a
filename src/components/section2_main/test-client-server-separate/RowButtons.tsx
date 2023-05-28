@@ -1,4 +1,4 @@
-import { ClientUser, appUi, doSignUpAtom, doSignOutAtom, doLogInAtom } from "@/store";
+import { ClientUser, appUi, doSignUpAtom, doSignOutAtom, doLogInAtom, doRemoveUserCredsAtom } from "@/store";
 import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
@@ -52,8 +52,10 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
 }
 
 function RowButtonRemoveUser({ snap, className, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+    const doRemoveUserCreds = useSetAtom(doRemoveUserCredsAtom);
 
     function onLogInClick() {
+        doRemoveUserCreds({ uuid: snap.uuid });
     }
 
     return (
