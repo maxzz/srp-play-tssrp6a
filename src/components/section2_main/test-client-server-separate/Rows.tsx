@@ -1,4 +1,4 @@
-import { IconLoggedOut } from "@/components/ui";
+import { IconLoggedIn, IconLoggedOut } from "@/components/ui";
 import { ClientUser, UserCreds, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { InputHTMLAttributes, Fragment } from "react";
@@ -28,10 +28,21 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: keyof U
 
 const gridRowClasses = "grid grid-cols-[auto,1fr,1fr,auto] gap-x-1 items-center select-none";
 
+function RowIcon({ item }: { item: ClientUser; }) {
+    console.log('item.logged', item);
+
+    return (<>
+        {item.logged
+            ? <IconLoggedIn className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
+            : <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
+        }
+    </>);
+}
+
 function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuState: MenuState; }) {
     return (
         <div className={gridRowClasses}>
-            <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
+            <RowIcon item={item} />
             <RowItemInput item={item} name="username" />
             <RowItemInput item={item} name="password" />
             <RowPopupMenu item={item} menuState={menuState} />
@@ -44,8 +55,6 @@ export function GridRows() {
     const snap = useSnapshot(items);
     return (
         <div className="grid gap-y-1">
-            {/* <TableHeader /> */}
-
             {snap.map((item, idx) => {
                 const menuState: MenuState = {
                 };
