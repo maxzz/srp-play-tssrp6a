@@ -75,7 +75,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
         <div className="ml-4 flex items-center space-x-1">
             <RowButtonRemoveUser snap={snap} disabled={isDisabled} />
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
-            <RowButtonLogIn snap={snap} isLoggeddIn={isLoggeddIn} disabled={isDisabled}>Log in</RowButtonLogIn>
+            <RowButtonLogIn snap={snap} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Log in</RowButtonLogIn>
         </div>
     );
 }
