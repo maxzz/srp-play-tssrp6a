@@ -4,6 +4,7 @@ import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
 import { INTERNAL_Snapshot, useSnapshot } from "valtio";
 import { inputFocusClasses } from "./Rows";
+import { IconRemoveUser } from "@/components/ui";
 
 export type MenuState = {
 
@@ -50,16 +51,29 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
     );
 }
 
-export function RowPopupMenu({ item, menuState }: { item: ClientUser; menuState: MenuState; }) {
+function RowButtonRemoveUser({ snap, className, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+
+    function onLogInClick() {
+    }
+
+    return (
+        <button className={classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, inputFocusClasses, className)} {...rest} onClick={onLogInClick}>
+            <IconRemoveUser className="w-4 h-4" />
+        </button>
+    );
+}
+
+export function RowButtons({ item, menuState }: { item: ClientUser; menuState: MenuState; }) {
     const snap = useSnapshot(item);
     const serverDb = useSnapshot(appUi.dataState.server.db);
     const isSignedIn = !!serverDb.get(snap.username);
     const isDisabled = !snap.username.trim() || !snap.password.trim();
     const isLoggeddIn = false;
     return (
-        <div className="ml-4 space-x-1">
+        <div className="ml-4 flex items-center space-x-1">
+            <RowButtonRemoveUser snap={snap} disabled={isDisabled} />
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
-            <RowButtonLogIn snap={snap} isLoggeddIn={isLoggeddIn}>Log in</RowButtonLogIn>
+            <RowButtonLogIn snap={snap} isLoggeddIn={isLoggeddIn} disabled={isDisabled}>Log in</RowButtonLogIn>
         </div>
     );
 }

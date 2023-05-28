@@ -3,7 +3,7 @@ import { ClientUser, UserCreds, appUi } from "@/store";
 import { classNames, turnOffAutoComplete } from "@/utils";
 import { InputHTMLAttributes, Fragment } from "react";
 import { useSnapshot } from "valtio";
-import { MenuState, RowPopupMenu } from "./RowButtons";
+import { MenuState, RowButtons } from "./RowButtons";
 
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
@@ -44,7 +44,7 @@ function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuStat
             <RowIcon item={item} />
             <RowItemInput item={item} name="username" />
             <RowItemInput item={item} name="password" />
-            <RowPopupMenu item={item} menuState={menuState} />
+            <RowButtons item={item} menuState={menuState} />
         </div>
     );
 }
