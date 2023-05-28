@@ -16,7 +16,7 @@ function AddRowButton() {
 
 export function ClientServerSeparate() {
     return (
-        <div className="max-w-[64ch] p-4 text-sm space-y-4">
+        <div className="p-4 text-sm space-y-4">
             <div className="flex items-center justify-between">
                 <span>Clients</span>
                 <AddRowButton />

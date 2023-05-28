@@ -15,11 +15,15 @@ export function Section2_Main() {
             </div>
 
             <div className="">
-                <ClientServerSeparate />
+                <div className="max-w-[84ch]">
+                    <ClientServerSeparate />
+                </div>
             </div>
 
             <div className="p-4">
-                <WebServer />
+                <div className="max-w-[84ch]">
+                    <WebServer />
+                </div>
             </div>
 
             <div className="p-4">
