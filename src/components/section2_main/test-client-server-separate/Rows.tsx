@@ -29,10 +29,9 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: keyof U
 const gridRowClasses = "grid grid-cols-[auto,1fr,1fr,auto] gap-x-1 items-center select-none";
 
 function RowIcon({ item }: { item: ClientUser; }) {
-    console.log('item.logged', item);
-
+    const { logged } = useSnapshot(item);
     return (<>
-        {item.logged
+        {logged
             ? <IconLoggedIn className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
             : <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
         }
@@ -67,3 +66,6 @@ export function GridRows() {
         </div>
     );
 }
+
+//TODO: find all users with the same name
+//TODO: check for username duplicates

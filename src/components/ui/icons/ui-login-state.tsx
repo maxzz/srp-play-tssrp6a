@@ -27,3 +27,12 @@ export function IconAddUser({ className, title, ...rest }: HTMLAttributes<SVGSVG
         </svg>
     );
 }
+
+export function IconRemoveUser({ className, title, ...rest }: HTMLAttributes<SVGSVGElement>) {
+    return (
+        <svg className={classNames("fill-none stroke-current stroke-[1.5]", className)} viewBox="0 0 24 24" {...rest}>
+            {title && <title>{title}</title>}
+            <path strokeLinecap="round" strokeLinejoin="round" d="M22 10.5h-6m-2.25-4.13a3.38 3.38 0 1 1-6.75 0 3.38 3.38 0 0 1 6.75 0zM4 19.23v-.1a6.38 6.38 0 0 1 12.75 0v.1A12.32 12.32 0 0 1 10.37 21c-2.33 0-4.5-.65-6.37-1.77z" />
+        </svg>
+    );
+}

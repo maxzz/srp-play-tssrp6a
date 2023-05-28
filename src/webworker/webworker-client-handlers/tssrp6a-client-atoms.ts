@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
 import { C2W, W2C } from "../messages";
-import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, ClientUser, getUser } from "../../store";
+import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, getUser } from "../../store";
 import { SRPClientSession, createVerifierAndSalt } from "tssrp6a";
 
 export const doSyncDbAtom = atom(
