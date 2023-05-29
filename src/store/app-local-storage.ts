@@ -123,18 +123,18 @@ export function getUser(username: string): ClientUser | undefined {
     return user;
 }
 
-export function getUsers(username: string): ClientUser[] {
-    const snapClientDb = appUi.dataState.client.db;
-    const usersIdxs = snapshot(snapClientDb).map((user, idx) => user.username === username ? idx : -1);
-    const users = usersIdxs.map((userIdx) => userIdx === -1 ? undefined : snapClientDb[userIdx]).filter(Boolean);
-    return users;
-}
-
 // export function getUsers(username: string): ClientUser[] {
 //     const snapClientDb = appUi.dataState.client.db;
-//     const users = snapClientDb.filter((user) => user.username === username);
+//     const usersIdxs = snapshot(snapClientDb).map((user, idx) => user.username === username ? idx : -1);
+//     const users = usersIdxs.map((userIdx) => userIdx === -1 ? undefined : snapClientDb[userIdx]).filter(Boolean);
 //     return users;
 // }
+
+export function getUsers(username: string): ClientUser[] {
+    const snapClientDb = appUi.dataState.client.db;
+    const users = snapClientDb.filter((user) => user.username === username);
+    return users;
+}
 
 export function setUserLogged(username: string, logged: boolean) {
     const user = getUser(username);
@@ -145,5 +145,10 @@ export function setUsersLogged(username: string, logged: boolean) {
     const users = getUsers(username);
     console.log('------------ users db', appUi.dataState.client);
     //console.log('------------ users db', logged, [...users]);
-    users.forEach((user) => user.logged = logged);
+    // users.forEach((user) => user.logged = logged);
+    users.forEach((user) => {
+        console.log('+++ user', user, 'set', logged);
+        user.logged = logged;
+        console.log('+++ user now', user, 'set', logged);
+    });
 }

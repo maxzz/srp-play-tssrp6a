@@ -32,7 +32,7 @@ function RowIcon({ item }: { item: ClientUser; }) {
     const snap = useSnapshot(item);
     const serverDb = useSnapshot(appUi.dataState.server.db);
     const isSignedIn = !!serverDb.get(snap.username);
-    const isLoggeddIn = item.logged;
+    const isLoggeddIn = snap.logged;
     console.log('RowIcon item = ', item);
     return (<>
         {isSignedIn
