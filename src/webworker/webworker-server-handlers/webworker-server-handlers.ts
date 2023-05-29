@@ -56,7 +56,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
                     msg.serverM2 = serverM2;
 
                     const serverSessionKey = await user.server.sessionKey(A);
-                    console.log('%cclient verified, Server shared session key = %s', 'color: green', serverSessionKey);
+                    console.log('%cServer: client verified, server shared session key = %c%s', 'color: springgreen', 'color: gray', serverSessionKey);
                 } catch (error) {
                     msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
                     user.server = undefined;

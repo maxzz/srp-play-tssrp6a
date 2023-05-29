@@ -72,17 +72,17 @@ export const doLogInAtom = atom(
         let step3Error;
         try {
             await srp6aClient_step2.step3(serverM2);
-            console.log('%cserver verified, Client M1 = %s', 'color: green', srp6aClient_step2.M1);
-            console.log('%cserver verified, Client shared session key "S" = %s', 'color: green', srp6aClient_step2.S);
         } catch (error) {
             step3Error = error;
-            console.error('server not verified');
         }
 
         if (step3Error) {
             console.error(`step 3 error (server not verified): ${step2Error}`);
             return;
         }
+
+        console.log('%cCleint: server verified, client shared session key "S" = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
+        console.log('%cCleint: server verified, client M1 (as iv) = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.M1);
 
         setUsersLogged(value.username, !step3Error);
     }
