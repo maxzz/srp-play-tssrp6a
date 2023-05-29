@@ -37,8 +37,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
             if (user) {
                 try {
                     user.server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
-                    msg.salt = 0n;
-                    // msg.salt = user.salt;
+                    msg.salt = user.salt;
                     msg.serverB = user.server.B;
                 } catch (error) {
                     msg.error = `step1: bad salt or verifier for ${username}: ${error}`;

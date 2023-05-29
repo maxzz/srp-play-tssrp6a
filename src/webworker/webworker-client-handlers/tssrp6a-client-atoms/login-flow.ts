@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { C2W, W2C } from "@/webworker/messages";
 import { UserCreds, srp6aRoutines, setUsersLogged } from "@/store";
-import { SRPClientSession } from "tssrp6a";
+import { SRPClientSession, SRPClientSessionStep2 } from "tssrp6a";
 import { workerAtom } from "..";
 
 type C2WQuery = {
@@ -39,8 +39,14 @@ export const doLogInAtom = atom(
 
         // 2.
 
-        const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
-        const srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
+        let srp6aClient_step2: SRPClientSessionStep2;
+        try {
+            const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
+            srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
+        } catch (error) {
+            console.error(`step 2: ${error}`);
+            return;
+        }
 
         const step2Promise = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
 
