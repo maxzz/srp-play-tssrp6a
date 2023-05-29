@@ -7,8 +7,10 @@ export type UserCreds = {
 };
 
 export type UserState = {
-    uuid: number; // local data for React UI only. initialized afted merge with localStorage data.
+    uuid: number;   // local data for React UI only. initialized afted merge with localStorage data.
     logged?: boolean;
+    iv?: bigint;    // M1 as iv vector for encrypt/decrypt
+    sk?: bigint;    // session key
 };
 
 export type ClientUser = UserCreds & UserState;
