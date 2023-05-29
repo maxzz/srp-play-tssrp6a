@@ -56,7 +56,7 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
     );
 }
 
-function RowButtonRemoveUser({ snap, className, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+function ButtonRemoveClientUser({ snap, className, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; } & ButtonHTMLAttributes<HTMLButtonElement>) {
     const doRemoveUserCreds = useSetAtom(doRemoveUserCredsAtom);
 
     function onLogInClick() {
@@ -78,7 +78,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
     const isLoggeddIn = !!snap.logged;
     return (
         <div className="ml-4 flex items-center space-x-1">
-            <RowButtonRemoveUser snap={snap} disabled={isDisabled} />
+            <ButtonRemoveClientUser snap={snap} disabled={isDisabled} />
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
             <RowButtonLogIn snap={snap} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Log in</RowButtonLogIn>
         </div>

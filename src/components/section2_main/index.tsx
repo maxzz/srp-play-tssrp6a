@@ -19,7 +19,7 @@ export function Section2_Main() {
                 </div>
             </div>
 
-            <div className="p-4">
+            <div className="">
                 <div className="max-w-[84ch]">
                     <WebServer />
                 </div>
