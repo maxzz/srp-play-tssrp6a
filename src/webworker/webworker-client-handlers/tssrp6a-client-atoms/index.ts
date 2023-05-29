@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
-import { C2W } from "../../messages";
-import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom } from "../../../store";
+import { C2W } from "@/webworker/messages";
+import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, setUsersLogged } from "@/store";
 import { createVerifierAndSalt } from "tssrp6a";
 
 export * from './login-flow';
@@ -62,7 +62,6 @@ export const doRemoveUserCredsAtom = atom(
 export const doLogOutUserAtom = atom(
     null,
     (get, set, value: { username: string; }) => {
-        const user = appUi.dataState.client.db.find((user) => user.username === value.username);
-        user && (user.logged = false);
+        setUsersLogged(value.username, false)
     }
 );
