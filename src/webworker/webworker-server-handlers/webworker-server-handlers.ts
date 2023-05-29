@@ -5,6 +5,8 @@ import { SRPServerSession, SRPServerSessionStep1 } from "tssrp6a";
 
 type InternalServerUser = ServerUser & {
     server?: SRPServerSessionStep1;
+    iv?: bigint;    // M1 as iv vector for encrypt/decrypt
+    sk?: bigint;    // session key
 };
 
 const serverDb = new Map<string, InternalServerUser>();
@@ -36,6 +38,8 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
             const user = serverDb.get(username);
             if (user) {
                 try {
+                    user.iv = 0n;
+                    user.sk = 0n;
                     user.server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
                     msg.salt = user.salt;
                     msg.serverB = user.server.B;
@@ -58,6 +62,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
                 try {
                     const serverM2 = await user.server.step2(A, M1);
                     msg.serverM2 = serverM2;
+                    user.iv = M1;
                 } catch (error) {
                     msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
                     user.server = undefined;
@@ -65,10 +70,10 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
             } else {
                 msg.error = `user: ${username} wo/ step1`;
             }
-
+            
             if (!msg.error && user?.server) {
-                const serverSessionKey = await user.server.sessionKey(A);
-                console.log('%cServer: client verified, server session key = %c%s', 'color: springgreen', 'color: gray', serverSessionKey);
+                user.sk = await user.server.sessionKey(A);
+                console.log('%cServer: client verified, server session key = %c%s', 'color: springgreen', 'color: gray', user.sk);
             }
 
             globalThis.postMessage(msg);
