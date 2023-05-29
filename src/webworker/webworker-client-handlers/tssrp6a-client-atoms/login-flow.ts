@@ -17,7 +17,7 @@ export const doLogInAtom = atom(
     async (get, set, value: UserCreds) => {
         const worker = get(workerAtom);
 
-        // 1.
+        // 1. Step 1. get server salt and B from server
 
         const step1Promise = new Promise<{ salt: bigint, serverB: bigint; }>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
 
@@ -37,14 +37,14 @@ export const doLogInAtom = atom(
             return;
         }
 
-        // 2.
+        // 2. Step 2. send to server client's M1 and A
 
         let srp6aClient_step2: SRPClientSessionStep2;
         try {
             const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
             srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
         } catch (error) {
-            console.error(`step 2: ${error}`);
+            console.error(`step 21: ${error}`);
             return;
         }
 
@@ -69,11 +69,11 @@ export const doLogInAtom = atom(
         }
 
         if (step2Error) {
-            console.error(`step 2 error: ${step2Error}`);
+            console.error(`step 22: ${step2Error}`);
             return;
         }
 
-        // 3. verify server
+        // 3. Step3. verify server by checking M2
 
         let step3Error;
         try {
@@ -87,8 +87,8 @@ export const doLogInAtom = atom(
             return;
         }
 
-        console.log('%cCleint: server verified, client shared session key "S" = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
-        console.log('%cCleint: server verified, client M1 (as iv) = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.M1);
+        console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
+        console.log('%cClient: server verified, client M1 (as iv) = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.M1);
 
         setUsersLogged(value.username, !step3Error);
     }

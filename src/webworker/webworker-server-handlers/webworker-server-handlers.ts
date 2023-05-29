@@ -40,7 +40,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
                     msg.salt = user.salt;
                     msg.serverB = user.server.B;
                 } catch (error) {
-                    msg.error = `step1: bad salt or verifier for ${username}: ${error}`;
+                    msg.error = `step1: bad serverDB salt or verifier for ${username}: ${error}`;
                 }
             } else {
                 msg.error = `not registered user: ${username}`;
@@ -68,7 +68,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
 
             if (!msg.error && user?.server) {
                 const serverSessionKey = await user.server.sessionKey(A);
-                console.log('%cServer: client verified, server shared session key = %c%s', 'color: springgreen', 'color: gray', serverSessionKey);
+                console.log('%cServer: client verified, server session key = %c%s', 'color: springgreen', 'color: gray', serverSessionKey);
             }
 
             globalThis.postMessage(msg);
