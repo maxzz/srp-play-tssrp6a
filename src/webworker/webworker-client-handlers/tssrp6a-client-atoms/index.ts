@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { snapshot } from "valtio";
 import { C2W } from "@/webworker/messages";
-import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, setUsersLogged } from "@/store";
+import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, setUsersLoggedOut } from "@/store";
 import { createVerifierAndSalt } from "tssrp6a";
 
 export * from './login-flow';
@@ -47,7 +47,7 @@ export const doSignOutAtom = atom(
         };
         get(workerAtom).postMessage(msg);
 
-        setUsersLogged(value.username, false);
+        setUsersLoggedOut(value.username);
     }
 );
 
@@ -66,6 +66,6 @@ export const doRemoveUserCredsAtom = atom(
 export const doLogOutUserAtom = atom(
     null,
     (get, set, value: { username: string; }) => {
-        setUsersLogged(value.username, false);
+        setUsersLoggedOut(value.username);
     }
 );

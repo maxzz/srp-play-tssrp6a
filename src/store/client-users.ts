@@ -17,9 +17,9 @@ export function getUsers(username: string): ClientUser[] {
 //     user && (user.logged = logged);
 // }
 
-export function setUsersLogged(username: string, logged: boolean) {
+export function setUsersLoggedOut(username: string) {
     const users = getUsers(username);
-    users.forEach((user) => user.logged = logged);
+    users.forEach((user) => user.logged = false);
 }
 
 export function setUsersSessionKeys(userCreds: UserCreds, sk?: { iv: bigint; sk: bigint; } | false) {
