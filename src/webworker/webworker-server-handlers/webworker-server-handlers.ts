@@ -35,9 +35,14 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
 
             const user = serverDb.get(username);
             if (user) {
-                user.server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
-                msg.salt = user.salt;
-                msg.serverB = user.server.B;
+                try {
+                    user.server = await new SRPServerSession(srp6aRoutines).step1(username, user.salt, user.verifier);
+                    msg.salt = 0n;
+                    // msg.salt = user.salt;
+                    msg.serverB = user.server.B;
+                } catch (error) {
+                    msg.error = `step1: bad salt or verifier for ${username}: ${error}`;
+                }
             } else {
                 msg.error = `not registered user: ${username}`;
             }
@@ -54,9 +59,6 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
                 try {
                     const serverM2 = await user.server.step2(A, M1);
                     msg.serverM2 = serverM2;
-
-                    const serverSessionKey = await user.server.sessionKey(A);
-                    console.log('%cServer: client verified, server shared session key = %c%s', 'color: springgreen', 'color: gray', serverSessionKey);
                 } catch (error) {
                     msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
                     user.server = undefined;
@@ -65,8 +67,12 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
                 msg.error = `user: ${username} wo/ step1`;
             }
 
-            globalThis.postMessage(msg);
+            if (!msg.error && user?.server) {
+                const serverSessionKey = await user.server.sessionKey(A);
+                console.log('%cServer: client verified, server shared session key = %c%s', 'color: springgreen', 'color: gray', serverSessionKey);
+            }
 
+            globalThis.postMessage(msg);
             break;
         }
         default: {
