@@ -3,6 +3,7 @@ import { C2W, W2C } from "@/webworker/messages";
 import { UserCreds, srp6aRoutines, setUsersSessionKeys } from "@/store";
 import { SRPClientSession, SRPClientSessionStep2 } from "tssrp6a";
 import { workerAtom } from "..";
+import { toastTw, toastWarning } from "@/components/ui/UIToaster";
 
 type C2WQuery = {
     resolve: Function;
@@ -90,8 +91,10 @@ export const doLogInAtom = atom(
         console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
         console.log('%cClient: server verified, client M1 (as iv) = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.M1);
 
-        //setUsersLogged(value.username, !step3Error);
         setUsersSessionKeys(value, !step3Error && { iv: srp6aClient_step2.M1, sk: srp6aClient_step2.S });
+
+        // toastWarning('Established a secure session with the server')
+        toastTw('Established a secure session with the server')
     }
 );
 
