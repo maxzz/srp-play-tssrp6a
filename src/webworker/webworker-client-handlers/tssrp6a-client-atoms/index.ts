@@ -46,6 +46,8 @@ export const doSignOutAtom = atom(
             username: value.username,
         };
         get(workerAtom).postMessage(msg);
+
+        setUsersLogged(value.username, false);
     }
 );
 
@@ -62,6 +64,6 @@ export const doRemoveUserCredsAtom = atom(
 export const doLogOutUserAtom = atom(
     null,
     (get, set, value: { username: string; }) => {
-        setUsersLogged(value.username, false)
+        setUsersLogged(value.username, false);
     }
 );
