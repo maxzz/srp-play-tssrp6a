@@ -33,7 +33,6 @@ function RowIcon({ item }: { item: ClientUser; }) {
     const serverDb = useSnapshot(appUi.dataState.server.db);
     const isSignedIn = !!serverDb.get(snap.username);
     const isLoggeddIn = snap.logged;
-    console.log('RowIcon item = ', item);
     return (<>
         {isSignedIn
             ? isLoggeddIn
@@ -58,8 +57,6 @@ function Row({ item, idx, menuState }: { item: ClientUser; idx: number; menuStat
 export function GridRows() {
     const items = appUi.dataState.client.db;
     const snap = useSnapshot(items);
-    console.log('------------------');
-    
     return (
         <div className="grid gap-y-1">
             {snap.map((item, idx) => {
