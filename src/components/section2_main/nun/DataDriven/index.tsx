@@ -45,13 +45,17 @@ export function DataDriven() {
 }
 
 /*
-const toastRootClasses = "max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5";
-const toastBtnClasses = "w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500";
+const toastRootClasses = "w-full max-w-md bg-white dark:bg-primary-300 ring-1 ring-black ring-opacity-5 shadow rounded pointer-events-auto flex";
+const toastBtnClasses = [
+    "p-4 w-full text-sm font-medium flex items-center justify-center",
+    "border border-transparent rounded-none rounded-r",
+    "text-primary-600 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500",
+].join(' ');
 
-export const toastTw: typeof toast.custom = (message, options) => {
-    return toast.custom((thisToast) => (
-        <div className={`${thisToast.visible ? 'animate-enter' : 'animate-leave'} ${toastRootClasses}`}>
-    
+export const toastTw0: ToastHandler = (message, options): string => {
+    return toast.custom((thisToast: Toast) => (
+        <div className={`${thisToast.visible ? 'slideIn' : 'slideOut'} ${toastRootClasses}`}>
+
             <div className="flex-1 w-0 p-4">
                 <div className="flex items-start">
                     <div className="flex-shrink-0 pt-0.5">
@@ -71,15 +75,15 @@ export const toastTw: typeof toast.custom = (message, options) => {
                     </div>
                 </div>
             </div>
-    
+
             <div className="flex border-l border-gray-200">
                 <button className={toastBtnClasses} onClick={() => toast.dismiss(thisToast.id)}>
                     Close
                 </button>
             </div>
         </div>
-    ));
-}
+    ), { duration: 14000, ...options });
+};
 */
 
 /*

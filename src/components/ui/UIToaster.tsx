@@ -32,7 +32,9 @@ export function UIToaster() {
     );
 }
 
-export const toastWarning: typeof toast.custom = (message, options) => {
+type ToastHandler = typeof toast.custom;
+
+export const toastWarning: ToastHandler = (message, options) => {
     return toast(message, {
         ...{ style: { backgroundColor: 'tomato' } },
         ...options,
@@ -46,9 +48,9 @@ const toastBtnClasses = [
     "text-primary-600 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500",
 ].join(' ');
 
-export const toastTw0: typeof toast.custom = (message, options) => {
+export const toastTw0: ToastHandler = (message, options): string => {
     return toast.custom((thisToast: Toast) => (
-        <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
+        <div className={`${thisToast.visible ? 'slide-in' : 'fade-out'} ${toastRootClasses}`}>
 
             <div className="flex-1 w-0 p-4">
                 <div className="flex items-start">
@@ -79,19 +81,22 @@ export const toastTw0: typeof toast.custom = (message, options) => {
     ), { duration: 14000, ...options });
 };
 
-export const toastTw: typeof toast.custom = (message, options) => {
-    return toast.custom((thisToast: Toast) => (
-        <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
+export const toastTw: ToastHandler = (message, options): string => {
+    return toast.custom(
+        (thisToast: Toast) => (
+            <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
 
-            <div className="flex-1 p-4 slide-in">
-                111
-            </div>
+                <div className="flex-1 p-4 slide-in">
+                    message
+                </div>
 
-            <div className="flex border-l border-gray-200">
-                <button className={toastBtnClasses} onClick={() => toast.dismiss(thisToast.id)}>
-                    Close
-                </button>
+                <div className="flex border-l border-gray-200">
+                    <button className={toastBtnClasses} onClick={() => toast.dismiss(thisToast.id)}>
+                        Close
+                    </button>
+                </div>
             </div>
-        </div>
-    ), { duration: 141000, ...options });
+        ),
+        { duration: 141000, ...options }
+    );
 };
