@@ -1,4 +1,4 @@
-import { ClientUser, appUi, doSignUpAtom, doSignOutAtom, doLogInAtom, doRemoveUserCredsAtom } from "@/store";
+import { ClientUser, appUi, doSignUpAtom, doSignOutAtom, doLogInAtom, doRemoveUserCredsAtom, doLogOutUserAtom } from "@/store";
 import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
@@ -41,13 +41,18 @@ function RowButtonSignUp({ snap, isSignedIn, ...rest }: { snap: INTERNAL_Snapsho
 function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; isLoggeddIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
 
     const doLogIn = useSetAtom(doLogInAtom);
+    const doLogOutUser = useSetAtom(doLogOutUserAtom);
 
     function onLogInClick() {
-        doLogIn({ username: snap.username, password: snap.password });
+        if (isLoggeddIn) {
+            doLogOutUser({ username: snap.username });
+        } else {
+            doLogIn({ username: snap.username, password: snap.password });
+        }
     }
 
     return (
-        <RowButton onClick={onLogInClick} {...rest}>{!isLoggeddIn ? 'Log in' : 'Log out'}</RowButton>
+        <RowButton onClick={onLogInClick} {...rest}>{isLoggeddIn ? 'Log out' : 'Log in'}</RowButton>
     );
 }
 
@@ -70,7 +75,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
     const serverDb = useSnapshot(appUi.dataState.server.db);
     const isSignedIn = !!serverDb.get(snap.username);
     const isDisabled = !snap.username.trim() || !snap.password.trim();
-    const isLoggeddIn = false;
+    const isLoggeddIn = !!snap.logged;
     return (
         <div className="ml-4 flex items-center space-x-1">
             <RowButtonRemoveUser snap={snap} disabled={isDisabled} />

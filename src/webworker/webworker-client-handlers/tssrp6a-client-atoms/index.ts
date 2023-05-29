@@ -58,3 +58,11 @@ export const doRemoveUserCredsAtom = atom(
         }
     }
 );
+
+export const doLogOutUserAtom = atom(
+    null,
+    (get, set, value: { username: string; }) => {
+        const user = appUi.dataState.client.db.find((user) => user.username === value.username);
+        user && (user.logged = false);
+    }
+);
