@@ -1,7 +1,7 @@
 import { HTMLAttributes, useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { appUi, doSyncDbAtom } from '@/store';
-import { WorkerHandlers } from './WorkerHandlers';
+import { WorkerHandlers } from '../../nun/WorkerHandlers';
 import { classNames } from '@/utils';
 import { useSnapshot } from 'valtio';
 

@@ -1,6 +1,5 @@
 import { ClientServerTogether } from "./test-client-server-togrther";
-import { ClientServerSeparate } from "./test-client-server-separate";
-import { WebServer } from "./test-client-server-separate/WebServer";
+import { ClientServerSeparate, WebServer } from "./test-client-server-separate";
 import { classNames } from "@/utils";
 import { toastTw } from "../ui/UIToaster";
 
