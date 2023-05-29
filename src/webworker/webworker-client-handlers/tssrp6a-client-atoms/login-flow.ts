@@ -57,7 +57,7 @@ export const doLogInAtom = atom(
         let serverM2: bigint = 0n;
         let resultError;
         try {
-            serverM2 = await step2Promise;
+            serverM2 = await step2Promise; // Server verified us
         } catch (error) {
             resultError = error;
         }
@@ -65,6 +65,16 @@ export const doLogInAtom = atom(
         setUsersLogged(value.username, !resultError);
 
         resultError ? console.error(`step 2 error: ${resultError}`) : console.log('client: step 2 done', serverM2, c2wQueries);
+
+        // 3. verify server
+
+        try {
+            srp6aClient_step2.step3(serverM2);
+            console.log('%cserver verified, Client M1 = %s', 'color: green', srp6aClient_step2.M1);
+            console.log('%cserver verified, Client shared session key "S" = %s', 'color: green', srp6aClient_step2.S);
+        } catch (error) {
+            console.error('server not verified');
+        }
     }
 );
 

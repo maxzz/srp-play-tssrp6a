@@ -54,6 +54,9 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
                 try {
                     const serverM2 = await user.server.step2(A, M1);
                     msg.serverM2 = serverM2;
+
+                    const serverSessionKey = await user.server.sessionKey(A);
+                    console.log('%cclient verified, Server shared session key = %s', 'color: green', serverSessionKey);
                 } catch (error) {
                     msg.error = error instanceof Error ? `<${error.message}>` : (error as any).toString();
                     user.server = undefined;
@@ -63,6 +66,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
             }
 
             globalThis.postMessage(msg);
+
             break;
         }
         default: {
