@@ -55,26 +55,36 @@ export const doLogInAtom = atom(
         worker.postMessage(msg2);
 
         let serverM2: bigint = 0n;
-        let resultError;
+        let step2Error;
         try {
             serverM2 = await step2Promise; // Server verified us
         } catch (error) {
-            resultError = error;
+            step2Error = error;
         }
 
-        setUsersLogged(value.username, !resultError);
-
-        resultError ? console.error(`step 2 error: ${resultError}`) : console.log('client: step 2 done', serverM2, c2wQueries);
+        if (step2Error) {
+            console.error(`step 2 error: ${step2Error}`);
+            return;
+        }
 
         // 3. verify server
 
+        let step3Error;
         try {
-            srp6aClient_step2.step3(serverM2);
+            await srp6aClient_step2.step3(serverM2);
             console.log('%cserver verified, Client M1 = %s', 'color: green', srp6aClient_step2.M1);
             console.log('%cserver verified, Client shared session key "S" = %s', 'color: green', srp6aClient_step2.S);
         } catch (error) {
+            step3Error = error;
             console.error('server not verified');
         }
+
+        if (step3Error) {
+            console.error(`step 3 error (server not verified): ${step2Error}`);
+            return;
+        }
+
+        setUsersLogged(value.username, !step3Error);
     }
 );
 
