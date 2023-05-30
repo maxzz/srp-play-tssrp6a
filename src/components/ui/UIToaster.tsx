@@ -7,26 +7,26 @@ export function UIToaster() {
             <ToasterComponent
                 position="bottom-right"
                 reverseOrder={false}
-                gutter={8}
-                //containerClassName=""
-                //containerStyle={{}}
-                toastOptions={{
-                    // Define default options
-                    //className: '',
-                    duration: 5000,
-                    // style: {
-                    //     background: '#363636',
-                    //     color: '#fff',
-                    // },
-                    // // Default options for specific types
-                    // success: {
-                    //     duration: 3000,
-                    //     iconTheme: {
-                    //         primary: 'green',
-                    //         secondary: 'black',
-                    //     },
-                    // },
-                }}
+                gutter={24}
+            //containerClassName=""
+            //containerStyle={{}}
+            // toastOptions={{
+            //     // Define default options
+            //     //className: '',
+            //     duration: 5000,
+            //     // style: {
+            //     //     background: '#363636',
+            //     //     color: '#fff',
+            //     // },
+            //     // // Default options for specific types
+            //     // success: {
+            //     //     duration: 3000,
+            //     //     iconTheme: {
+            //     //         primary: 'green',
+            //     //         secondary: 'black',
+            //     //     },
+            //     // },
+            // }}
             />
         </div>
     );
@@ -48,7 +48,17 @@ const toastBtnClasses = [
     "text-primary-600 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500",
 ].join(' ');
 
-function ToastBody({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast } & HTMLAttributes<HTMLElement>) {
+function ToastBody({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
+    return (
+        <div className={`${thisToast.visible ? 'animate-slide-in' : 'animate-slide-out'} ${toastRootClasses}`} {...rest}>
+            <div className={`p-4 w-full rounded animate-scale-in ${thisToast.visible ? 'animate-slide-in' : 'animate-slide-out'}`}>
+                {message}
+            </div>
+        </div>
+    );
+}
+
+function ToastBodyWithClose({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
     return (
         <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`} {...rest}>
             <div className="flex-1 p-4 slide-in">
@@ -66,7 +76,7 @@ function ToastBody({ message, thisToast, onClick, ...rest }: { message: ReactNod
 
 export const toastTw = (message: ReactNode, options?: ToastOptions): string => {
     return toast.custom(
-        (thisToast: Toast) => <ToastBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
+        (thisToast: Toast) => <ToastBodyWithClose message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
         { duration: 141000, ...options }
     );
 };
@@ -74,6 +84,6 @@ export const toastTw = (message: ReactNode, options?: ToastOptions): string => {
 export const toastTw2 = (message: ReactNode, options?: ToastOptions): string => {
     return toast.custom(
         (thisToast: Toast) => <ToastBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
-        { duration: 141000, ...options }
+        { duration: 2000, ...options }
     );
 };

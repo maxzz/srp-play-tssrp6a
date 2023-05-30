@@ -28,6 +28,9 @@ const customAdditionsPlugin = plugin(function ({ addComponents }) {
     });
 });
 
+const extraAnimations = require('./tailwind/tailwind-extra-animations').extraAnimations;
+//console.log('extraAnimations', extraAnimations);
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ['./index.html', './src/**/*.{tsx,ts}'],
@@ -41,7 +44,7 @@ export default {
                 //     text: '#5a3543',
                 // },
             },
-            ...require('./tailwind/tailwind-extra-animations').extraAnimations,
+            ...extraAnimations,
         },
     },
     plugins: [
