@@ -1,6 +1,7 @@
 import { classNames } from '@/utils';
 import { HTMLAttributes, ReactNode } from 'react';
 import toast, { Toast, ToastOptions, Toaster as ToasterComponent } from 'react-hot-toast';
+import { IconClose } from '.';
 
 export function UIToaster() {
     return (
@@ -43,27 +44,30 @@ export const toastWarning: ToastHandler = (message, options) => {
 };
 
 const toastNotificationClasses = "-m-2 w-full max-w-md pointer-events-auto shadow rounded overflow-hidden";
-const textClasses = "text-primary-300 dark:text-primary-600 bg-primary-600 dark:bg-primary-300";
+const textClasses = "text-primary-300 dark:text-primary-300 bg-primary-600 dark:bg-primary-700";
 
 // regular notification
 
-function NotificationBody({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
+function NotificationBody({ message, thisToast, showClose, ...rest }: { message: ReactNode; thisToast: Toast; showClose?: boolean; } & HTMLAttributes<HTMLElement>) {
     console.log('thisToast.visible', thisToast);
-
     return (
         <div className={`${toastNotificationClasses} ${textClasses}`} {...rest}>
-            {/* <div className={`p-4 w-full bg-green-400 rounded animate-enter-from-right duration-1000`}> */}
-            <div className={`p-4 w-full bg-green-400 rounded animate-[enter-from-right_.2s_ease-out]`}>
+            <div className={classNames("p-4 w-full rounded animate-[enter-from-right_.2s_ease-out]", "flex items-center justify-between")}>
                 {message}
+                {showClose &&
+                    <button className="p-1.5 hover:bg-primary-600 rounded active:scale-95" onClick={() => toast.dismiss(thisToast.id)}>
+                        <IconClose className="w-5 h-5" />
+                    </button>
+                }
             </div>
         </div>
     );
 }
 
-export const toastNotification = (message: ReactNode, options?: ToastOptions): string => {
+export const toastNotification = (message: ReactNode, options?: ToastOptions & { showClose: boolean; }): string => {
     return toast.custom(
-        (thisToast: Toast) => <NotificationBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
-        { duration: 2000, ...options }
+        (thisToast: Toast) => <NotificationBody message={message} thisToast={thisToast} showClose={options?.showClose} />,
+        { duration: 552000, ...options }
     );
 };
 
