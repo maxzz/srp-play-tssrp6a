@@ -42,16 +42,18 @@ export const toastWarning: ToastHandler = (message, options) => {
     });
 };
 
-const toastNotificationClasses = "-m-2 w-full max-w-md pointer-events-auto";
+const toastNotificationClasses = "-m-2 w-full max-w-md pointer-events-auto shadow rounded overflow-hidden";
+const textClasses = "text-primary-300 dark:text-primary-600 bg-primary-600 dark:bg-primary-300";
 
 // regular notification
 
 function NotificationBodyWorkingaBodyAnimation({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
-    console.log('thisToast.visible',thisToast.visible);
-    
+    console.log('thisToast.visible', thisToast);
+
     return (
-        <div className={`${toastRootClasses}`} {...rest}>
-            <div className={`p-4 w-full rounded animate-scale-in`}>
+        <div className={`${toastNotificationClasses} ${textClasses}`} {...rest}>
+            {/* <div className={`p-4 w-full bg-green-400 rounded animate-enter-from-right duration-1000`}> */}
+            <div className={`p-4 w-full bg-green-400 rounded animate-[enter-from-right_.2s_ease-out]`}>
                 {message}
             </div>
         </div>
@@ -59,8 +61,8 @@ function NotificationBodyWorkingaBodyAnimation({ message, thisToast, onClick, ..
 }
 
 function NotificationBodyNonWorkingaBodyAnimation({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
-    console.log('thisToast.visible',thisToast.visible);
-    
+    console.log('thisToast.visible', thisToast.visible);
+
     return (
         <div className={classNames(toastNotificationClasses, "")} {...rest}>
             <div className={classNames("p-4 w-full bg-white dark:bg-primary-300 rounded shadow animate-scale-in origin-right")}>

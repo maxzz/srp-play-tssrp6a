@@ -26,7 +26,7 @@ export function Section2_Main() {
             </div>
 
             <div className="p-4">
-                <button className={classNames("px-1.5 py-1", buttonClasses)} onClick={() => { toastNotification('ready'); }}>
+                <button className={classNames("px-1.5 py-1", buttonClasses)} onClick={() => { toastNotification('ready', {duration:2000}); }}>
                     show toast
                 </button>
             </div>
