@@ -50,8 +50,8 @@ function NotificationBodyWorkingaBodyAnimation({ message, thisToast, onClick, ..
     console.log('thisToast.visible',thisToast.visible);
     
     return (
-        <div className={`${thisToast.visible ? 'animate-slide-in' : 'animate-slide-out'} ${toastRootClasses}`} {...rest}>
-            <div className={`p-4 w-full rounded animate-scale-in ${thisToast.visible ? 'animate-slide-in' : 'animate-slide-out'}`}>
+        <div className={`${toastRootClasses}`} {...rest}>
+            <div className={`p-4 w-full rounded animate-scale-in`}>
                 {message}
             </div>
         </div>
