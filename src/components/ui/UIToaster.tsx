@@ -50,7 +50,7 @@ const toastBtnClasses = [
 
 function ToastBody({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast } & HTMLAttributes<HTMLElement>) {
     return (
-        <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
+        <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`} {...rest}>
             <div className="flex-1 p-4 slide-in">
                 {message}
             </div>
@@ -60,29 +60,20 @@ function ToastBody({ message, thisToast, onClick, ...rest }: { message: ReactNod
                     Close
                 </button>
             </div>
-
         </div>
     );
 }
 
-export const toastTw = (message: ReactNode, options: ToastOptions): string => {
+export const toastTw = (message: ReactNode, options?: ToastOptions): string => {
     return toast.custom(
-        (thisToast: Toast) => (
-            <ToastBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />
-            
-            // <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
+        (thisToast: Toast) => <ToastBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
+        { duration: 141000, ...options }
+    );
+};
 
-            //     <div className="flex-1 p-4 slide-in">
-            //         {message}
-            //     </div>
-
-            //     <div className="flex border-l border-gray-200">
-            //         <button className={toastBtnClasses} onClick={() => toast.dismiss(thisToast.id)}>
-            //             Close
-            //         </button>
-            //     </div>
-            // </div>
-        ),
+export const toastTw2 = (message: ReactNode, options?: ToastOptions): string => {
+    return toast.custom(
+        (thisToast: Toast) => <ToastBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
         { duration: 141000, ...options }
     );
 };
