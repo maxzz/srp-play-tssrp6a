@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import toast, { Toast, ToastOptions, Toaster as ToasterComponent } from 'react-hot-toast';
 
 export function UIToaster() {
@@ -48,21 +48,40 @@ const toastBtnClasses = [
     "text-primary-600 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500",
 ].join(' ');
 
+function ToastBody({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast } & HTMLAttributes<HTMLElement>) {
+    return (
+        <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
+            <div className="flex-1 p-4 slide-in">
+                {message}
+            </div>
+
+            <div className="flex border-l border-gray-200">
+                <button className={toastBtnClasses} onClick={onClick}>
+                    Close
+                </button>
+            </div>
+
+        </div>
+    );
+}
+
 export const toastTw = (message: ReactNode, options: ToastOptions): string => {
     return toast.custom(
         (thisToast: Toast) => (
-            <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
+            <ToastBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />
+            
+            // <div className={`${thisToast.visible ? 'slide-in2' : 'fade-out2'} ${toastRootClasses}`}>
 
-                <div className="flex-1 p-4 slide-in">
-                    {message}
-                </div>
+            //     <div className="flex-1 p-4 slide-in">
+            //         {message}
+            //     </div>
 
-                <div className="flex border-l border-gray-200">
-                    <button className={toastBtnClasses} onClick={() => toast.dismiss(thisToast.id)}>
-                        Close
-                    </button>
-                </div>
-            </div>
+            //     <div className="flex border-l border-gray-200">
+            //         <button className={toastBtnClasses} onClick={() => toast.dismiss(thisToast.id)}>
+            //             Close
+            //         </button>
+            //     </div>
+            // </div>
         ),
         { duration: 141000, ...options }
     );
