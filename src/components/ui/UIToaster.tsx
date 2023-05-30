@@ -47,7 +47,7 @@ const textClasses = "text-primary-300 dark:text-primary-600 bg-primary-600 dark:
 
 // regular notification
 
-function NotificationBodyWorkingaBodyAnimation({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
+function NotificationBody({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
     console.log('thisToast.visible', thisToast);
 
     return (
@@ -60,21 +60,9 @@ function NotificationBodyWorkingaBodyAnimation({ message, thisToast, onClick, ..
     );
 }
 
-function NotificationBodyNonWorkingaBodyAnimation({ message, thisToast, onClick, ...rest }: { message: ReactNode; thisToast: Toast; } & HTMLAttributes<HTMLElement>) {
-    console.log('thisToast.visible', thisToast.visible);
-
-    return (
-        <div className={classNames(toastNotificationClasses, "")} {...rest}>
-            <div className={classNames("p-4 w-full bg-white dark:bg-primary-300 rounded shadow animate-scale-in origin-right")}>
-                {message}
-            </div>
-        </div>
-    );
-}
-
 export const toastNotification = (message: ReactNode, options?: ToastOptions): string => {
     return toast.custom(
-        (thisToast: Toast) => <NotificationBodyWorkingaBodyAnimation message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
+        (thisToast: Toast) => <NotificationBody message={message} thisToast={thisToast} onClick={() => toast.dismiss(thisToast.id)} />,
         { duration: 2000, ...options }
     );
 };
@@ -82,7 +70,6 @@ export const toastNotification = (message: ReactNode, options?: ToastOptions): s
 // with close
 
 const toastRootClasses = "-m-2 w-full max-w-md bg-white dark:bg-primary-300 ring-1 ring-black ring-opacity-5 shadow rounded pointer-events-auto flex";
-
 const toastBtnClasses = [
     "p-4 w-full text-sm font-medium flex items-center justify-center",
     "border border-transparent rounded-none rounded-r",
