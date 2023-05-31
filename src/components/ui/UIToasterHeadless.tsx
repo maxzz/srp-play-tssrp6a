@@ -6,9 +6,14 @@ const Notifications = () => {
     return (
         <div
             style={{
-                position: "fixed",
-                top: 8,
-                left: 8
+                position: 'fixed',
+                // top: 8,
+                // left: 8
+                // position: 'absolute',
+                // top: 0,
+                // left: 0,
+                inset: 0,
+                zIndex: -1,
             }}
             onMouseEnter={startPause}
             onMouseLeave={endPause}
@@ -30,13 +35,14 @@ const Notifications = () => {
                     <div
                         key={toast.id}
                         ref={ref}
+                        className="absolute left-0 bottom-0 w-[200px] m-2 p-4 bg-green-400 z-50"
                         style={{
-                            position: "absolute",
-                            width: "200px",
-                            background: "papayawhip",
+                            //position: "absolute",
+                            //width: "200px",
+                            //background: "papayawhip",
                             transition: "all 0.5s ease-out",
                             opacity: toast.visible ? 1 : 0,
-                            transform: `translateY(${offset}px)`
+                            transform: `translateY(-${offset}px)`
                         }}
                         {...toast.ariaProps}
                     >
@@ -52,7 +58,7 @@ export function HeadlessToastTest() {
     return (
         <div className="">
             <Notifications />
-            <button onClick={() => toast("Hello World!", {duration: 442000})}>Add Toast</button>
+            <button className="m-4 px-2 py-1.5 bg-primary-700 hover:bg-primary-600 border-primary-500 border rounded" onClick={() => toast("Hello World!", {duration: 442000})}>Add Toast</button>
         </div>
     );
 }
