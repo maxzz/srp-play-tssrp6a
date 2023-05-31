@@ -2,6 +2,7 @@ import { ClientServerTogether } from "./test-client-server-togrther";
 import { ClientServerSeparate, WebServer } from "./test-client-server-separate";
 import { classNames } from "@/utils";
 import { toastNotification } from "../ui/UIToaster";
+import { HeadlessToastTest } from "../ui/UIToasterHeadless";
 
 export const buttonClasses = "px-3 py-1.5 bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-500 border rounded shadow active:scale-y-95";
 
@@ -24,6 +25,8 @@ export function Section2_Main() {
                     <WebServer />
                 </div>
             </div>
+
+            <HeadlessToastTest />
 
             <div className="p-4">
                 <button className={classNames("px-1.5 py-1", buttonClasses)} onClick={() => { toastNotification('ready', {showClose:true}); }}>
