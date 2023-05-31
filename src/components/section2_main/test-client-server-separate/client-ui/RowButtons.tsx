@@ -3,7 +3,7 @@ import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
 import { INTERNAL_Snapshot, useSnapshot } from "valtio";
-import { inputFocusClasses, rowButtonClasses } from "./tailwind-shared-classes";
+import { inputFocusClasses, rowButtonClasses } from "../tailwind-shared-classes";
 import { IconRemoveUser } from "@/components/ui";
 
 export type MenuState = {

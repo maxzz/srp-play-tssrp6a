@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, HTMLAttributes, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import { useSetAtom } from 'jotai';
 import { appUi, doSignOutAtom, doSyncDbAtom } from '@/store';
-import { inputFocusClasses, rowButtonClasses } from '../client-ui/tailwind-shared-classes';
+import { inputFocusClasses, rowButtonClasses } from '../tailwind-shared-classes';
 import { IconRemoveUser } from '@/components/ui';
 import { classNames } from '@/utils';
 

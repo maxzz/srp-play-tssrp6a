@@ -1,14 +1,18 @@
 import { GridRows } from "./Rows";
 import { classNames } from "@/utils";
-import { buttonClasses } from "../..";
+import { buttonClasses } from "..";
 import { IconAddUser } from "@/components/ui";
 import { appUi, createNewLoginRow } from "@/store";
 
 function AddRowButton() {
     return (
-        <button className={classNames("!px-2", buttonClasses)} title="Add user" onClick={() => {
-            appUi.dataState.client.db.push(createNewLoginRow({ username: 'new name', password: 'new password' }));
-        }}>
+        <button
+            className={classNames("!px-2", buttonClasses)}
+            title="Add user"
+            onClick={() => {
+                appUi.dataState.client.db.push(createNewLoginRow({ username: 'new name', password: 'new password' }));
+            }}
+        >
             <IconAddUser className="w-5 h-5" />
         </button>
     );

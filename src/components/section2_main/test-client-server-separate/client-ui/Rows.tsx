@@ -4,7 +4,7 @@ import { classNames, turnOffAutoComplete } from "@/utils";
 import { InputHTMLAttributes, Fragment } from "react";
 import { useSnapshot } from "valtio";
 import { MenuState, RowButtons } from "./RowButtons";
-import { inputClasses, inputFocusClasses } from "./tailwind-shared-classes";
+import { inputClasses, inputFocusClasses } from "../tailwind-shared-classes";
 
 export const dlgBottomButtonClasses = "hover:bg-primary-300 dark:hover:bg-primary-700 border-primary-500 active:scale-[.97] border rounded select-none disabled:opacity-25";
 

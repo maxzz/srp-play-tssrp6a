@@ -1,8 +1,6 @@
-import { ButtonHTMLAttributes, useEffect } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
-import { doLogInAtom, doSignUpAtom, workerAtom } from "@/store";
-import { buttonClasses } from "..";
-//import { RowButton } from ".";
+import { useEffect } from "react";
+import { useAtomValue } from "jotai";
+import { workerAtom } from "@/store";
 
 export function WorkerHandlers() {
     const worker = useAtomValue(workerAtom);

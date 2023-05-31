@@ -2,7 +2,7 @@ import { classNames } from '@/utils';
 import { HTMLAttributes, ReactNode } from 'react';
 import toast, { Toast, ToastOptions, Toaster as ToasterComponent } from 'react-hot-toast';
 import { IconClose } from '.';
-import { buttonClasses } from '../section2_main';
+import { buttonClasses } from '../section2_main/test-client-server-separate';
 
 export function UIToaster() {
     return (

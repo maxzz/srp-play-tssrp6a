@@ -1,5 +1,5 @@
 import React from 'react';
-import { buttonClasses } from '..';
+import { buttonClasses } from '../test-client-server-separate';
 import { testClientServerTogrther } from './test-client-server-togrther';
 
 export function ClientServerTogether() {
