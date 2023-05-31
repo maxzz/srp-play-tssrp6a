@@ -1,7 +1,7 @@
 export const inputClasses = [
     "px-2 py-1.5 w-full rounded",
     "text-primary-800 dark:text-primary-300 bg-primary-50 dark:bg-primary-700",
-    "border dark:bottom-0",
+    "border-primary-200 border dark:border-none",
 ].join(' ');
 
 export const inputFocusClasses = "focus:ring-primary-600 dark:focus:ring-primary-400 focus:ring-offset-primary-200 dark:focus:ring-offset-primary-800 focus:ring-1 focus:ring-offset-1 focus:outline-none";

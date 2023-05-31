@@ -20,7 +20,7 @@ function ColorModeSwitch() {
     }
 
     return (
-        <DarkLightSwitch className="absolute right-3 w-4 h-4 cursor-pointer" isDark={darkMode} onClick={changeMode} />
+        <DarkLightSwitch className="absolute right-3 w-4 h-4 cursor-pointer" isDark={darkMode} title="Light/Dark Mode Switch" onClick={changeMode} />
     );
 }
 
