@@ -18,6 +18,7 @@ function RowItemInput({ item, name, ...rest }: { item: ClientUser, name: keyof U
             {...rest}
             value={snap[name]}
             onChange={(e) => { item[name] = e.target.value; }}
+            disabled={snap.logged}
         />
     );
 }
