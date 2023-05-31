@@ -2,6 +2,7 @@ import { classNames } from '@/utils';
 import { HTMLAttributes, ReactNode } from 'react';
 import toast, { Toast, ToastOptions, Toaster as ToasterComponent } from 'react-hot-toast';
 import { IconClose } from '.';
+import { buttonClasses } from '../section2_main';
 
 export function UIToaster() {
     return (
@@ -102,3 +103,16 @@ export const toastTw = (message: ReactNode, options?: ToastOptions): string => {
         { duration: 141000, ...options }
     );
 };
+
+export function ToastWithUITest() {
+    return (
+        <div className="p-4">
+            <button
+                className={classNames("px-1.5 py-1", buttonClasses)}
+                onClick={() => { toastNotification('ready', { showClose: true }); }}
+            >
+                Add toast with standard UI
+            </button>
+        </div>
+    );
+}
