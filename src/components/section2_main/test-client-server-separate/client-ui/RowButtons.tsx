@@ -3,16 +3,12 @@ import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
 import { INTERNAL_Snapshot, useSnapshot } from "valtio";
-import { inputFocusClasses } from "./Rows";
+import { inputFocusClasses, rowButtonClasses } from "./tailwind-shared-classes";
 import { IconRemoveUser } from "@/components/ui";
 
 export type MenuState = {
 
 };
-
-export const rowButtonClasses = [
-    "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97] disabled:opacity-20",
-].join(' ');
 
 function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
     return (

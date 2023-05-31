@@ -31,7 +31,7 @@ type AppUi<T = ServerUsersMap> = {
 
 const initialAppUi: AppUi<ServerUsersInStore> = {
     uiState: {
-        darkMode: false,
+        darkMode: true,
     },
     dataState: {
         client: {
