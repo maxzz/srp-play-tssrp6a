@@ -5,7 +5,7 @@ import { testClientServerTogrther } from './test-client-server-togrther';
 export function ClientServerTogether() {
     return (
         <button className={buttonClasses} onClick={async () => { testClientServerTogrther(); }}>
-            Start
+            Run client/server in the same process test
         </button>
     );
 }

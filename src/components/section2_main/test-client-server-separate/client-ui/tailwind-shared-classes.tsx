@@ -7,5 +7,5 @@ export const inputClasses = [
 export const inputFocusClasses = "focus:ring-primary-600 dark:focus:ring-primary-400 focus:ring-offset-primary-200 dark:focus:ring-offset-primary-800 focus:ring-1 focus:ring-offset-1 focus:outline-none";
 
 export const rowButtonClasses = [
-    "bg-primary-100 dark:bg-primary-700 border-state-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97] disabled:opacity-20",
+    "bg-primary-100 dark:bg-primary-700 border-primary-300 dark:border-primary-600 border rounded shadow active:scale-y-[.97] disabled:opacity-20",
 ].join(' ');

@@ -8,9 +8,7 @@ export function Section2_Main() {
     return (
         <div className="text-sm text-primary-800 dark:text-primary-300 divide-y divide-dotted divide-primary-300">
 
-            <div className="p-4">
-                <ClientServerTogether />
-            </div>
+            <div className="pb-4" />
 
             <div className="">
                 <div className="max-w-[84ch]">
@@ -22,6 +20,10 @@ export function Section2_Main() {
                 <div className="max-w-[84ch]">
                     <WebServer />
                 </div>
+            </div>
+
+            <div className="p-4">
+                <ClientServerTogether />
             </div>
 
             <div className="">
