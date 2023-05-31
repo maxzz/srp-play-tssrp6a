@@ -13,7 +13,8 @@ const Notifications = () => {
                 // top: 0,
                 // left: 0,
                 inset: 0,
-                zIndex: -1,
+                zIndex: 9999,
+                pointerEvents: 'none',
             }}
             onMouseEnter={startPause}
             onMouseLeave={endPause}
@@ -29,13 +30,13 @@ const Notifications = () => {
                     }
                 };
 
-                console.log('thisToast.visible', toast);
+                console.log('Notifications', toast);
 
                 return (
                     <div
                         key={toast.id}
                         ref={ref}
-                        className="absolute left-0 bottom-0 w-[200px] m-2 p-4 bg-green-400 z-50"
+                        className="absolute right-0 bottom-0 w-[200px] m-2 p-4 text-green-950 bg-green-200 z-50"
                         style={{
                             //position: "absolute",
                             //width: "200px",
@@ -58,7 +59,12 @@ export function HeadlessToastTest() {
     return (
         <div className="">
             <Notifications />
-            <button className="m-4 px-2 py-1.5 bg-primary-700 hover:bg-primary-600 border-primary-500 border rounded" onClick={() => toast("Hello World!", {duration: 442000})}>Add Toast</button>
+            <button
+                className="m-4 px-2 py-1.5 bg-primary-700 hover:bg-primary-600 border-primary-500 border rounded"
+                onClick={() => toast(<div className="text-2xl font-semibold">"Hello World!"</div>, { duration: 2000 })}
+            >
+                Add Headless Toast
+            </button>
         </div>
     );
 }
