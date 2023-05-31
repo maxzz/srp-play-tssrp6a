@@ -6,19 +6,23 @@ export const buttonClasses = "px-3 py-1.5 bg-primary-100 dark:bg-primary-700 bor
 
 export function Section2_Main() {
     return (
-        <div className="text-sm text-primary-800 dark:text-primary-300 divide-y divide-dotted divide-primary-300">
+        <div className="mt-2 text-sm text-primary-800 dark:text-primary-300 divide-primary-400 dark:divide-primary-600 divide-y divide-dotted">
 
-            <div className="pb-4" />
+            <div className="p-4 relative">
+                <div className="absolute left-8 top-1 px-2 text-primary-400 dark:text-primary-600 bg-primary-100 dark:bg-primary-800">SRP</div>
 
-            <div className="">
-                <div className="max-w-[84ch]">
-                    <ClientServerSeparate />
-                </div>
-            </div>
+                <div className="max-w-[84ch] border-primary-300 dark:border-primary-700 divide-primary-300 dark:divide-primary-700 rounded-md border border-solid divide-y dark:divide-y">
+                    <div className="">
+                        <div className="">
+                            <ClientServerSeparate />
+                        </div>
+                    </div>
 
-            <div className="">
-                <div className="max-w-[84ch]">
-                    <WebServer />
+                    <div className="">
+                        <div className="">
+                            <WebServer />
+                        </div>
+                    </div>
                 </div>
             </div>
 
