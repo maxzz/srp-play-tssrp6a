@@ -39,11 +39,13 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
     const doLogIn = useSetAtom(doLogInAtom);
     const doLogOutUser = useSetAtom(doLogOutUserAtom);
 
-    function onLogInClick() {
+    async function onLogInClick() {
         if (isLoggeddIn) {
             doLogOutUser({ username: snap.username });
         } else {
-            doLogIn({ username: snap.username, password: snap.password });
+            const res = await doLogIn({ username: snap.username, password: snap.password });
+            console.log('444444', res);
+            
         }
     }
 

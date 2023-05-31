@@ -94,6 +94,8 @@ export const doLogInAtom = atom(
         setUsersSessionKeys(value, !step3Error && { iv: srp6aClient_step2.M1, sk: srp6aClient_step2.S });
 
         toastNotification('Established a secure session with the server', { duration: 1000 });
+
+        return 5;
     }
 );
 
