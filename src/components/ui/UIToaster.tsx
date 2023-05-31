@@ -27,7 +27,7 @@ const textClasses = "text-primary-300 dark:text-primary-300 bg-primary-600 dark:
 // regular notification
 
 function NotificationBody({ message, thisToast, showClose, ...rest }: { message: ReactNode; thisToast: Toast; showClose?: boolean; } & HTMLAttributes<HTMLElement>) {
-    console.log('thisToast.visible', thisToast);
+    //console.log('thisToast.visible', thisToast);
     return (
         <div className={`${toastNotificationClasses} ${textClasses}`} {...rest}>
             <div className={classNames("p-4 w-full rounded animate-[enter-from-right_.2s_ease-out]", "flex items-center justify-between")}>

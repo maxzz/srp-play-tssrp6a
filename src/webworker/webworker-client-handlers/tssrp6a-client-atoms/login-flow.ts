@@ -3,7 +3,7 @@ import { C2W, W2C } from "@/webworker/messages";
 import { UserCreds, srp6aRoutines, setUsersSessionKeys } from "@/store";
 import { SRPClientSession, SRPClientSessionStep2 } from "tssrp6a";
 import { workerAtom } from "..";
-import { toastNotification } from "@/components/ui/UIToaster";
+//import { toastNotification } from "@/components/ui/UIToaster";
 
 type C2WQuery = {
     resolve: Function;
@@ -12,6 +12,14 @@ type C2WQuery = {
 
 let lastQueryId = 0;
 const c2wQueries = new Map<number, C2WQuery>();
+
+function errorToString(error: unknown) {
+    if (error instanceof Error) {
+        return error.message;
+    } else {
+        return `${error}` || 'unknown error';
+    }
+}
 
 export const doLogInAtom = atom(
     null,
@@ -35,7 +43,7 @@ export const doLogInAtom = atom(
             step1Result = await step1Promise;
         } catch (error) {
             console.error(`step 1 error: ${error}`);
-            return;
+            return { error: (error as Error).message };
         }
 
         // 2. Step 2. send to server client's M1 and A
@@ -46,7 +54,7 @@ export const doLogInAtom = atom(
             srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
         } catch (error) {
             console.error(`step 21: ${error}`);
-            return;
+            return { error: (error as Error).message };
         }
 
         const step2Promise = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
@@ -71,7 +79,7 @@ export const doLogInAtom = atom(
 
         if (step2Error) {
             console.error(`step 22: ${step2Error}`);
-            return;
+            return { error: (step2Error as any).toString() || 'err' };
         }
 
         // 3. Step3. verify server by checking M2
@@ -84,8 +92,8 @@ export const doLogInAtom = atom(
         }
 
         if (step3Error) {
-            console.error(`step 3 error (server not verified): ${step2Error}`);
-            return;
+            console.error(`step 3 error (server not verified): ${step3Error}`);
+            return { error: (step3Error as Error).message };
         }
 
         console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
@@ -93,9 +101,9 @@ export const doLogInAtom = atom(
 
         setUsersSessionKeys(value, !step3Error && { iv: srp6aClient_step2.M1, sk: srp6aClient_step2.S });
 
-        toastNotification('Established a secure session with the server', { duration: 1000 });
+        //toastNotification('Established a secure session with the server', { duration: 1000 });
 
-        return 5;
+        return {};
     }
 );
 

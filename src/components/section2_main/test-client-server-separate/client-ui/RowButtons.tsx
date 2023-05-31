@@ -5,6 +5,7 @@ import { ButtonHTMLAttributes } from "react";
 import { INTERNAL_Snapshot, useSnapshot } from "valtio";
 import { focusClasses, rowButtonClasses } from "../../tailwind-shared-classes";
 import { IconRemoveUser } from "@/components/ui";
+import { toastNotification } from "@/components/ui/UIToaster";
 
 export type MenuState = {
 
@@ -44,7 +45,12 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
             doLogOutUser({ username: snap.username });
         } else {
             const res = await doLogIn({ username: snap.username, password: snap.password });
-            console.log('444444', res);
+            if (res.error) {
+                toastNotification(res.error, { duration: 3000 });
+            } else {
+                toastNotification('Established a secure session with the server', { duration: 1000 });
+            }
+            console.log('res', res);
             
         }
     }
