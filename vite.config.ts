@@ -15,16 +15,8 @@ export default defineConfig({
             output: {
                 manualChunks: {
                     "stdlib": ["node-stdlib-browser"],
-                    "ts.srp6a": ["tssrp6a"],
+                    "ts-srp6a": ["tssrp6a"],
                 },
-                // manualChunks: {
-                //     "stdlib": ["node-stdlib-browser"]
-                // },
-                // manualChunks: function (id) {
-                //     if (id.includes('stdlib')) {
-                //         return 'stdlib';
-                //     }
-                // },
             },
         },
     },
