@@ -2,11 +2,11 @@ import { ButtonHTMLAttributes, HTMLAttributes, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import { useSetAtom } from 'jotai';
 import { appUi, doSignOutAtom, doSyncDbAtom } from '@/store';
-import { inputFocusClasses, rowButtonClasses } from '../tailwind-shared-classes';
+import { focusClasses, rowButtonClasses } from '../../tailwind-shared-classes';
 import { IconRemoveUser } from '@/components/ui';
 import { classNames } from '@/utils';
 
-const buttonClasses = classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, inputFocusClasses);
+const buttonClasses = classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, focusClasses);
 
 function ButtonRemoveServerUser({ username, className, ...rest }: { username: string; } & ButtonHTMLAttributes<HTMLButtonElement>) {
     const doSignOut = useSetAtom(doSignOutAtom);
@@ -16,7 +16,7 @@ function ButtonRemoveServerUser({ username, className, ...rest }: { username: st
     }
 
     return (
-        <button className={classNames(buttonClasses, inputFocusClasses, className)} {...rest} onClick={onLogInClick}>
+        <button className={classNames(buttonClasses, focusClasses, className)} {...rest} onClick={onLogInClick}>
             <IconRemoveUser className="w-4 h-4" />
         </button>
     );

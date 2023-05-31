@@ -3,7 +3,7 @@ import { classNames } from "@/utils";
 import { useSetAtom } from "jotai";
 import { ButtonHTMLAttributes } from "react";
 import { INTERNAL_Snapshot, useSnapshot } from "valtio";
-import { inputFocusClasses, rowButtonClasses } from "../tailwind-shared-classes";
+import { focusClasses, rowButtonClasses } from "../../tailwind-shared-classes";
 import { IconRemoveUser } from "@/components/ui";
 
 export type MenuState = {
@@ -12,7 +12,7 @@ export type MenuState = {
 
 function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
     return (
-        <button className={classNames("px-3 py-[7px] min-w-[70px] text-xs", rowButtonClasses, inputFocusClasses, className)} {...rest} />
+        <button className={classNames("px-3 py-[7px] min-w-[70px] text-xs", rowButtonClasses, focusClasses, className)} {...rest} />
     );
 }
 
@@ -60,7 +60,7 @@ function ButtonRemoveClientUser({ snap, className, ...rest }: { snap: INTERNAL_S
     }
 
     return (
-        <button className={classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, inputFocusClasses, className)} {...rest} onClick={onLogInClick}>
+        <button className={classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, focusClasses, className)} {...rest} onClick={onLogInClick}>
             <IconRemoveUser className="w-4 h-4" />
         </button>
     );
