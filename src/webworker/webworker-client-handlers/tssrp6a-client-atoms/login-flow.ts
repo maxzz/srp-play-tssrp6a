@@ -43,7 +43,7 @@ export const doLogInAtom = atom(
             step1Result = await step1Promise;
         } catch (error) {
             console.error(`step 1 error: ${error}`);
-            return { error: (error as Error).message };
+            return {error: errorToString(error)};
         }
 
         // 2. Step 2. send to server client's M1 and A
@@ -54,7 +54,7 @@ export const doLogInAtom = atom(
             srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
         } catch (error) {
             console.error(`step 21: ${error}`);
-            return { error: (error as Error).message };
+            return {error: errorToString(error)};
         }
 
         const step2Promise = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
@@ -79,7 +79,7 @@ export const doLogInAtom = atom(
 
         if (step2Error) {
             console.error(`step 22: ${step2Error}`);
-            return { error: (step2Error as any).toString() || 'err' };
+            return {error: errorToString(step2Error)};
         }
 
         // 3. Step3. verify server by checking M2
@@ -93,7 +93,7 @@ export const doLogInAtom = atom(
 
         if (step3Error) {
             console.error(`step 3 error (server not verified): ${step3Error}`);
-            return { error: (step3Error as Error).message };
+            return {error: errorToString(step3Error)};
         }
 
         console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
