@@ -73,7 +73,7 @@ export async function onMessagesFromClient({ data }: MessageEvent<C2W.ClientMess
             
             if (!msg.error && user?.server) {
                 user.sk = await user.server.sessionKey(A);
-                console.log('%cServer: client verified, server session key = %c%s', 'color: springgreen', 'color: gray', user.sk);
+                // console.log('%cServer: client verified, server session key = %c%s', 'color: springgreen', 'color: gray', user.sk);
             }
 
             globalThis.postMessage(msg);

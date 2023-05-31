@@ -3,7 +3,6 @@ import { C2W, W2C } from "@/webworker/messages";
 import { UserCreds, srp6aRoutines, setUsersSessionKeys } from "@/store";
 import { SRPClientSession, SRPClientSessionStep2 } from "tssrp6a";
 import { workerAtom } from "..";
-//import { toastNotification } from "@/components/ui/UIToaster";
 
 type C2WQuery = {
     resolve: Function;
@@ -42,7 +41,7 @@ export const doLogInAtom = atom(
         try {
             step1Result = await step1Promise;
         } catch (error) {
-            console.error(`step 1 error: ${error}`);
+            //console.error(`step 1 error: ${error}`);
             return {error: errorToString(error)};
         }
 
@@ -53,7 +52,7 @@ export const doLogInAtom = atom(
             const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
             srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
         } catch (error) {
-            console.error(`step 21: ${error}`);
+            //console.error(`step 21: ${error}`);
             return {error: errorToString(error)};
         }
 
@@ -70,39 +69,26 @@ export const doLogInAtom = atom(
         worker.postMessage(msg2);
 
         let serverM2: bigint = 0n;
-        let step2Error;
         try {
             serverM2 = await step2Promise; // Server verified us
         } catch (error) {
-            step2Error = error;
-        }
-
-        if (step2Error) {
-            console.error(`step 22: ${step2Error}`);
-            return {error: errorToString(step2Error)};
+            //console.error(`step 22: ${error}`);
+            return {error: errorToString(error)};
         }
 
         // 3. Step3. verify server by checking M2
 
-        let step3Error;
         try {
             await srp6aClient_step2.step3(serverM2);
         } catch (error) {
-            step3Error = error;
+            //console.error(`step 3 error (server not verified): ${error}`);
+            return {error: errorToString(error)};
         }
 
-        if (step3Error) {
-            console.error(`step 3 error (server not verified): ${step3Error}`);
-            return {error: errorToString(step3Error)};
-        }
+        // console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
+        // console.log('%cClient: server verified, client M1 (as iv) = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.M1);
 
-        console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
-        console.log('%cClient: server verified, client M1 (as iv) = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.M1);
-
-        setUsersSessionKeys(value, !step3Error && { iv: srp6aClient_step2.M1, sk: srp6aClient_step2.S });
-
-        //toastNotification('Established a secure session with the server', { duration: 1000 });
-
+        setUsersSessionKeys(value, { iv: srp6aClient_step2.M1, sk: srp6aClient_step2.S });
         return {};
     }
 );
