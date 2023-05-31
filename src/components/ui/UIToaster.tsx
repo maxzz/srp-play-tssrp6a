@@ -6,7 +6,7 @@ import { IconClose } from '.';
 export function UIToaster() {
     return (
         <div className="toaser">
-            <ToasterComponent
+            {/* <ToasterComponent
                 position="bottom-right"
                 reverseOrder={false}
                 gutter={24}
@@ -29,7 +29,7 @@ export function UIToaster() {
             //     //     },
             //     // },
             // }}
-            />
+            /> */}
         </div>
     );
 }

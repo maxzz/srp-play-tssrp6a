@@ -24,6 +24,8 @@ const Notifications = () => {
                     }
                 };
 
+                console.log('thisToast.visible', toast);
+
                 return (
                     <div
                         key={toast.id}
@@ -36,6 +38,7 @@ const Notifications = () => {
                             opacity: toast.visible ? 1 : 0,
                             transform: `translateY(${offset}px)`
                         }}
+                        {...toast.ariaProps}
                     >
                         {resolveValue(toast.message, toast)}
                     </div>
@@ -49,7 +52,7 @@ export function HeadlessToastTest() {
     return (
         <div className="">
             <Notifications />
-            <button onClick={() => toast("Hello World!")}>Add Toast</button>
+            <button onClick={() => toast("Hello World!", {duration: 442000})}>Add Toast</button>
         </div>
     );
 }
