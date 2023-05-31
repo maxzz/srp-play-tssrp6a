@@ -36,7 +36,7 @@ const Notifications = () => {
                     <div
                         key={toast.id}
                         ref={ref}
-                        className="absolute right-0 bottom-0 w-[200px] m-2 p-4 text-green-950 bg-green-200 z-50"
+                        className="absolute left-0 bottom-0 w-[200px] m-2 p-4 text-green-950 bg-green-200 z-50"
                         style={{
                             //position: "absolute",
                             //width: "200px",
