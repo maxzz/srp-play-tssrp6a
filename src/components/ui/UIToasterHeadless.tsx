@@ -63,7 +63,7 @@ export function HeadlessToastTest() {
                 className="m-4 px-2 py-1.5 bg-primary-700 hover:bg-primary-600 border-primary-500 border rounded"
                 onClick={() => toast(<div className="text-2xl font-semibold">"Hello World!"</div>, { duration: 2000 })}
             >
-                Add Headless Toast
+                Add headless toast
             </button>
         </div>
     );
