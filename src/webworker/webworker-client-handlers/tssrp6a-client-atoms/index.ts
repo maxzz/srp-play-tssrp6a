@@ -66,6 +66,6 @@ export const doRemoveUserCredsAtom = atom(
 export const doLogOutUserAtom = atom(
     null,
     (get, set, value: { username: string; }) => {
-        setUsersLoggedOut(value.username);
+        return setUsersLoggedOut(value.username);
     }
 );

@@ -1,14 +1,14 @@
 import { ClientUser, UserCreds, appUi } from ".";
 
 export function getUser(username: string): ClientUser | undefined {
-    const snapClientDb = appUi.dataState.client.db;
-    const user = snapClientDb.find((user) => user.username === username);
+    const clientDb = appUi.dataState.client.db;
+    const user = clientDb.find((user) => user.username === username);
     return user;
 }
 
 export function getUsers(username: string): ClientUser[] {
-    const snapClientDb = appUi.dataState.client.db;
-    const users = snapClientDb.filter((user) => user.username === username);
+    const clientDb = appUi.dataState.client.db;
+    const users = clientDb.filter((user) => user.username === username);
     return users;
 }
 
@@ -17,9 +17,10 @@ export function getUsers(username: string): ClientUser[] {
 //     user && (user.logged = logged);
 // }
 
-export function setUsersLoggedOut(username: string) {
+export function setUsersLoggedOut(username: string): ClientUser[] {
     const users = getUsers(username);
     users.forEach((user) => user.logged = false);
+    return users;
 }
 
 export function setUsersSessionKeys(userCreds: UserCreds, sk?: { iv: bigint; sk: bigint; } | false) {

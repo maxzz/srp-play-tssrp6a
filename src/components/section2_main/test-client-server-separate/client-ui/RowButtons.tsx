@@ -42,16 +42,20 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
 
     async function onLogInClick() {
         if (isLoggeddIn) {
-            doLogOutUser({ username: snap.username });
+            const users = doLogOutUser({ username: snap.username }).map((user)=>user.username);
+            const plural = users.length > 1 ? 's' : '';
+            const names = users.join(users.length > 1 ? ', ' : '');
+            const msg = `Logged out ${names} user${plural}`;
+            toastNotification(msg, { duration: 3000 });
         } else {
             const res = await doLogIn({ username: snap.username, password: snap.password });
             if (res.error) {
-                toastNotification(res.error, { duration: 3000 });
+                toastNotification(<div className="text-white bg-red-500">{res.error}</div>, { duration: 3000 });
             } else {
                 toastNotification('Established a secure session with the server', { duration: 1000 });
             }
             console.log('res', res);
-            
+            //TODO: set red icon for 2s
         }
     }
 
