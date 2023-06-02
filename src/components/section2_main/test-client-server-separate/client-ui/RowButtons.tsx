@@ -47,12 +47,10 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
         } else {
             const res = await doLogIn({ username: snap.username, password: snap.password });
             if (res.error) {
-                toastNotification(<div className="text-white bg-red-500">{res.error}</div>, { duration: 3000 });
+                toastNotification(<div className="-m-4 p-4 w-full text-white bg-red-500">{res.error}</div>, { duration: 3000 });
             } else {
                 toastNotification('Established a secure session with the server', { duration: 1000 });
             }
-            console.log('res', res);
-            //TODO: set red icon for 2s
         }
     }
 
