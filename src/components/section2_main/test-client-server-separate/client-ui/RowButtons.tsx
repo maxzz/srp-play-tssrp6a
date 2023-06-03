@@ -49,6 +49,7 @@ function RowButtonLogIn({ item, isLoggeddIn, ...rest }: { item: ClientUser; isLo
             const res = await doLogIn({ username: snap.username, password: snap.password });
             if (res.error) {
                 item.loginFailed = true;
+                setTimeout(() => {item.loginFailed = false}, 3000);
                 toastNotification(<div className="-m-4 p-4 w-full text-white bg-red-500">{res.error}</div>, { duration: 3000 });
             } else {
                 item.loginFailed = false;
