@@ -35,7 +35,8 @@ function RowButtonSignUp({ snap, isSignedIn, ...rest }: { snap: INTERNAL_Snapsho
     );
 }
 
-function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; isLoggeddIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+function RowButtonLogIn({ item, isLoggeddIn, ...rest }: { item: ClientUser; isLoggeddIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+    const snap = useSnapshot(item);
 
     const doLogIn = useSetAtom(doLogInAtom);
     const doLogOutUser = useSetAtom(doLogOutUserAtom);
@@ -47,8 +48,10 @@ function RowButtonLogIn({ snap, isLoggeddIn, ...rest }: { snap: INTERNAL_Snapsho
         } else {
             const res = await doLogIn({ username: snap.username, password: snap.password });
             if (res.error) {
+                item.loginFailed = true;
                 toastNotification(<div className="-m-4 p-4 w-full text-white bg-red-500">{res.error}</div>, { duration: 3000 });
             } else {
+                item.loginFailed = false;
                 toastNotification('Established a secure session with the server', { duration: 1000 });
             }
         }
@@ -83,7 +86,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
         <div className="ml-4 flex items-center space-x-1">
             <ButtonRemoveClientUser snap={snap} disabled={isDisabled} />
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
-            <RowButtonLogIn snap={snap} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Log in</RowButtonLogIn>
+            <RowButtonLogIn item={item} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Log in</RowButtonLogIn>
         </div>
     );
 }
