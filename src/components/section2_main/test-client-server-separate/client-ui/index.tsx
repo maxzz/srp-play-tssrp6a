@@ -22,7 +22,7 @@ export function ClientServerSeparate() {
     return (
         <div className="p-4 text-sm space-y-4">
             <div className="flex items-center justify-between">
-                <span>Clients</span>
+                <span>Client users</span>
                 <AddRowButton />
             </div>
 
