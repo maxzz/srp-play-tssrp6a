@@ -8,7 +8,7 @@ export * from "../tailwind-shared-classes";
 export function ClientServerSeparateBody({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
     return (
         <div className={classNames("relative", className)} {...rest}>
-            <div className="absolute left-2 -top-2.5 px-2 text-primary-400 dark:text-primary-600 bg-primary-100 dark:bg-primary-800 z-10">
+            <div className="absolute left-2 -top-2.5 px-2 text-primary-400 dark:text-primary-600 bg-primary-100 dark:bg-primary-800 border-primary-300 dark:border-primary-700 border rounded drop-shadow z-10">
                 SRP
             </div>
 
