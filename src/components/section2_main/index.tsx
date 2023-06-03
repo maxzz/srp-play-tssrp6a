@@ -6,7 +6,7 @@ export function Section2_Main() {
     return (
         <div className="mt-2 text-sm text-primary-800 dark:text-primary-300 divide-primary-400 dark:divide-primary-600 divide-y divide-dotted">
 
-            <ClientServerSeparateBody />
+            <ClientServerSeparateBody className="p-4" />
 
             <div className="p-4">
                 <ClientServerTogether />
