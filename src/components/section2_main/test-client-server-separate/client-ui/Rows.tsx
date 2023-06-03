@@ -30,11 +30,14 @@ function RowIcon({ item }: { item: ClientUser; }) {
     const serverDb = useSnapshot(appUi.dataState.server.db);
     const isSignedIn = !!serverDb.get(snap.username);
     const isLoggeddIn = snap.logged;
+    const isLoginFailed = snap.loginFailed;
     return (<>
         {isSignedIn
-            ? isLoggeddIn
-                ? <IconLoggedIn className="mr-1 w-6 h-6 text-green-500 stroke-1" />
-                : <IconLoggedIn className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
+            ? isLoginFailed
+                ? < IconLoggedIn className="mr-1 w-6 h-6 text-red-500 stroke-1" />
+                : isLoggeddIn
+                    ? <IconLoggedIn className="mr-1 w-6 h-6 text-green-500 stroke-1" />
+                    : <IconLoggedIn className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
             : <IconLoggedOut className="mr-1 w-6 h-6 text-primary-500 stroke-1" />
         }
     </>);

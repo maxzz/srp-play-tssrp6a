@@ -9,6 +9,7 @@ export type UserCreds = {
 export type UserState = {
     uuid: number;   // local data for React UI only. initialized afted merge with localStorage data.
     logged?: boolean;
+    loginFailed?: boolean; // This will be set for 1s after login attempt failed.
     iv?: bigint;    // M1 as iv vector for encrypt/decrypt
     sk?: bigint;    // session key
 };
