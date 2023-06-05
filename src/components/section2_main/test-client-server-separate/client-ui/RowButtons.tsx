@@ -13,7 +13,19 @@ export type MenuState = {
 
 function RowButton({ className, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
     return (
-        <button className={classNames("px-3 py-[7px] min-w-[70px] text-xs", rowButtonClasses, focusClasses, className)} {...rest} />
+        <button className={classNames("px-2 py-[7px] min-w-[64px] text-xs", rowButtonClasses, focusClasses, className)} {...rest} />
+    );
+}
+
+function ButtonRemoveClientUser({ snap, className, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+    const doRemoveUserCreds = useSetAtom(doRemoveUserCredsAtom);
+    return (
+        <button
+            className={classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, focusClasses, className)}
+            {...rest} onClick={() => doRemoveUserCreds({ uuid: snap.uuid })}
+        >
+            <IconRemoveUser className="w-4 h-4" />
+        </button>
     );
 }
 
@@ -49,7 +61,7 @@ function RowButtonLogIn({ item, isLoggeddIn, ...rest }: { item: ClientUser; isLo
             const res = await doLogIn({ username: snap.username, password: snap.password });
             if (res.error) {
                 item.loginFailed = true;
-                setTimeout(() => {item.loginFailed = false}, 3000);
+                setTimeout(() => { item.loginFailed = false; }, 3000);
                 toastNotification(<div className="-m-4 p-4 w-full text-white bg-red-500">{res.error}</div>, { duration: 3000 });
             } else {
                 item.loginFailed = false;
@@ -60,20 +72,6 @@ function RowButtonLogIn({ item, isLoggeddIn, ...rest }: { item: ClientUser; isLo
 
     return (
         <RowButton onClick={onLogInClick} {...rest}>{isLoggeddIn ? 'Log out' : 'Log in'}</RowButton>
-    );
-}
-
-function ButtonRemoveClientUser({ snap, className, ...rest }: { snap: INTERNAL_Snapshot<ClientUser>; } & ButtonHTMLAttributes<HTMLButtonElement>) {
-    const doRemoveUserCreds = useSetAtom(doRemoveUserCredsAtom);
-
-    function onLogInClick() {
-        doRemoveUserCreds({ uuid: snap.uuid });
-    }
-
-    return (
-        <button className={classNames("h-8 aspect-square grid place-items-center text-primary-600 dark:text-primary-400", rowButtonClasses, focusClasses, className)} {...rest} onClick={onLogInClick}>
-            <IconRemoveUser className="w-4 h-4" />
-        </button>
     );
 }
 
