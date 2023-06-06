@@ -2,8 +2,10 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import nodePolyfills from 'vite-plugin-node-stdlib-browser';
-import visualizer from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 //import replace from '@rollup/plugin-replace';
+
+console.log('visualizer', visualizer);
 
 const buildAt = () => {
     const d = new Date();
