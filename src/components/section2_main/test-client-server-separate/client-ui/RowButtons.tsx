@@ -91,3 +91,4 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
 }
 
 //TODO: validate on empty (and other rules min length, special symbols, and so on) name, password, and show UI hint.
+//TODO: send message button

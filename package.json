@@ -20,6 +20,7 @@
         "valtio": "^1.10.5"
     },
     "devDependencies": {
+        "@rollup/plugin-replace": "^5.0.2",
         "@tailwindcss/container-queries": "^0.1.1",
         "@tailwindcss/forms": "^0.5.3",
         "@types/node": "20.2.5",
@@ -28,6 +29,7 @@
         "@vitejs/plugin-react": "^4.0.0",
         "autoprefixer": "^10.4.14",
         "postcss": "8.4.24",
+        "rollup-plugin-visualizer": "^5.9.0",
         "sass": "^1.62.1",
         "tailwindcss": "^3.3.2",
         "tailwindcss-radix": "^2.8.0",
