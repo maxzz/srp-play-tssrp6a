@@ -30,7 +30,7 @@ function ServerUsers() {
                 <div className="flex items-center space-x-2" key={idx}>
                     <ButtonRemoveServerUser username={username} />
                     <div className="flex-1" >{username}</div>
-                    <div className="justify-self-end">last message</div>
+                    <div className="text-xs opacity-50 justify-self-end">last message</div>
                 </div>
             ))}
         </div>
