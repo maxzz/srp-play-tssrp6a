@@ -47,6 +47,14 @@ function RowButtonSignUp({ snap, isSignedIn, ...rest }: { snap: INTERNAL_Snapsho
     );
 }
 
+function RowButtonMessage({ item, isLoggeddIn, ...rest }: { item: ClientUser; isLoggeddIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
+    async function onSendMessageClick() {
+    }
+    return (
+        <RowButton onClick={onSendMessageClick} {...rest} />
+    );
+}
+
 function RowButtonLogIn({ item, isLoggeddIn, ...rest }: { item: ClientUser; isLoggeddIn: boolean; } & ButtonHTMLAttributes<HTMLButtonElement>) {
     const snap = useSnapshot(item);
 
@@ -86,6 +94,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
             <ButtonRemoveClientUser snap={snap} disabled={isDisabled} />
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
             <RowButtonLogIn item={item} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Log in</RowButtonLogIn>
+            <RowButtonMessage item={item} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Send message</RowButtonMessage>
         </div>
     );
 }
