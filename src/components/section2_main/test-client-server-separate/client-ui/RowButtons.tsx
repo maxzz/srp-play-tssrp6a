@@ -94,7 +94,7 @@ export function RowButtons({ item, menuState }: { item: ClientUser; menuState: M
             <ButtonRemoveClientUser snap={snap} disabled={isDisabled} />
             <RowButtonSignUp snap={snap} isSignedIn={isSignedIn} disabled={isDisabled} />
             <RowButtonLogIn item={item} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Log in</RowButtonLogIn>
-            <RowButtonMessage item={item} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn}>Send message</RowButtonMessage>
+            <RowButtonMessage item={item} isLoggeddIn={isLoggeddIn} disabled={isDisabled || !isSignedIn || !isLoggeddIn}>Send message</RowButtonMessage>
         </div>
     );
 }
