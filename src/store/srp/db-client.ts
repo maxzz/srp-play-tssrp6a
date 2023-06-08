@@ -6,12 +6,14 @@ export type UserCreds = {
     password: string;
 };
 
-export type UserState = {
-    uuid: number;   // local data for React UI only. initialized afted merge with localStorage data.
+export type UserState = {       // Local data for React UI only. initialized afted merge with localStorage data.
+    uuid: number;
     logged?: boolean;
-    loginFailed?: boolean; // This will be set for 1s after login attempt failed.
-    iv?: bigint;    // M1 as iv vector for encrypt/decrypt
-    sk?: bigint;    // session key
+    loginFailed?: boolean;      // This will be set for 1 sec. after login attempt failed.
+    iv?: bigint;                // M1 as iv vector for encrypt/decrypt
+    sk?: bigint;                // Session key
+    msgClientToServer?: string; // Test message sent from server to client will be shown for 1 sec.
+    msgServerToClient?: string; // Test message sent from client to server will be shown for 1 sec.
 };
 
 export type ClientUser = UserCreds & UserState;
