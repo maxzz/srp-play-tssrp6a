@@ -4,7 +4,7 @@ import { C2W } from "@/webworker/messages";
 import { UserCreds, appUi, IOServer, srp6aRoutines, workerAtom, setUsersLoggedOut } from "@/store";
 import { createVerifierAndSalt } from "tssrp6a";
 
-export * from './login-flow';
+export * from './flow-login';
 
 export const doSyncDbAtom = atom(
     null,

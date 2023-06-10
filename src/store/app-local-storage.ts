@@ -5,8 +5,9 @@ import { mergeDefaultAndLoaded } from '../utils';
 import { ClientUser, ServerUsersMap, ServerUsersInStore, initUserState, initialClientUsersDb, initialServerUsersDb, IOServer, IOClient } from './srp';
 
 const STORAGE_UI_KEY = 'srp-play-tssrp6a:ui';
-const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
 const STORAGE_UI_VER = 'v1';
+
+const STORAGE_DATA_KEY = 'srp-play-tssrp6a:data';
 const STORAGE_DATA_VER = 'v1';
 
 export type UiState = {
