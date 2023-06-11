@@ -13,16 +13,12 @@ let lastQueryId = 0;
 const c2wQueries = new Map<number, C2WQuery>();
 
 function errorToString(error: unknown) {
-    if (error instanceof Error) {
-        return error.message;
-    } else {
-        return `${error}` || 'unknown error';
-    }
+    return (error instanceof Error ? error.message : `${error}`) || 'unknown error';
 }
 
 export const doLogInAtom = atom(
     null,
-    async (get, set, value: UserCreds) => {
+    async (get, set, value: UserCreds): Promise<{ error: string; } | { error?: undefined; }> => {
         const worker = get(workerAtom);
 
         // 1. Step 1. get server salt and B from server
@@ -41,8 +37,7 @@ export const doLogInAtom = atom(
         try {
             step1Result = await step1Promise;
         } catch (error) {
-            //console.error(`step 1 error: ${error}`);
-            return {error: errorToString(error)};
+            return { error: errorToString(error) };
         }
 
         // 2. Step 2. send to server client's M1 and A
@@ -52,8 +47,7 @@ export const doLogInAtom = atom(
             const srp6aClient = await new SRPClientSession(srp6aRoutines).step1(value.username, value.password);
             srp6aClient_step2 = await srp6aClient.step2(step1Result.salt, step1Result.serverB);
         } catch (error) {
-            //console.error(`step 21: ${error}`);
-            return {error: errorToString(error)};
+            return { error: errorToString(error) };
         }
 
         const step2Promise = new Promise<bigint>((resolve, reject) => c2wQueries.set(++lastQueryId, { resolve, reject, }));
@@ -72,8 +66,7 @@ export const doLogInAtom = atom(
         try {
             serverM2 = await step2Promise; // Server verified us
         } catch (error) {
-            //console.error(`step 22: ${error}`);
-            return {error: errorToString(error)};
+            return { error: errorToString(error) };
         }
 
         // 3. Step3. verify server by checking M2
@@ -81,8 +74,7 @@ export const doLogInAtom = atom(
         try {
             await srp6aClient_step2.step3(serverM2);
         } catch (error) {
-            //console.error(`step 3 error (server not verified): ${error}`);
-            return {error: errorToString(error)};
+            return { error: errorToString(error) };
         }
 
         // console.log('%cClient: server verified, client session key = %c%s', 'color: deepskyblue', 'color: gray', srp6aClient_step2.S);
