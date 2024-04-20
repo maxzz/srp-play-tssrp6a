@@ -1,6 +1,8 @@
 import { ClientServerTogether } from "./test-client-server-togrther";
 import { ClientServerSeparateBody } from "./test-client-server-separate";
 import { ToastWithUITest } from "../ui/UIToaster";
+// import { AccordionTest } from "./nun/GeneratedAccordion";
+// import { AccordionTest2 } from "./nun/GeneratedAccordion2";
 
 export function Section2_Main() {
     return (
@@ -11,6 +13,14 @@ export function Section2_Main() {
             <div className="p-4">
                 <ClientServerTogether />
             </div>
+
+            {/* <div className="p-4">
+                <AccordionTest />
+            </div> */}
+
+            {/* <div className="p-4">
+                <AccordionTest2 />
+            </div> */}
 
             <div className="">
                 <div className="max-w-[84ch] flex items-center">

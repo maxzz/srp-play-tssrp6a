@@ -33,7 +33,13 @@ export namespace C2W { // Client to Worker
         M1: bigint;
     };
 
-    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgLogInStep1 | MsgLogInStep2;
+    export type MsgSendStr = {
+        type: 'send-str',
+        idOnClient: number;
+        usernameAndPasswordAsUniqueId: string;
+    };
+
+    export type ClientMessages = MsgSyncClientToServerDb | MsgSignUp | MsgSignOut | MsgLogInStep1 | MsgLogInStep2 | MsgSendStr;
 }
 
 export namespace W2C { // Worker to Client
